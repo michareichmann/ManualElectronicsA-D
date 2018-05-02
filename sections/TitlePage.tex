@@ -1,13 +1,37 @@
-\begin{figure}
-	\begin{minipage}{0.5\linewidth}\flushleft
-		\includegraphics[width=5cm]{ethlogo_black-eps-converted-to.pdf}
-	\end{minipage}
-	\hspace{0.05cm}
-	\begin{minipage}{0.5\linewidth}\flushright
-		Manual number: 88 \hspace{2cm}\\[0.5cm]
-		\includegraphics[width=4cm]{VP-Logo-eps-converted-to.pdf}
-	\end{minipage}
-	\hrule height 1pt\hfill \\[3cm]
-\end{figure}
+\makeatletter
 
-\maketitle
+\newcommand*{\version}[1]{\gdef\@version{#1}}
+\newcommand*{\@version}{0.0.0}
+\newcommand*{\manualnr}[1]{\gdef\@manualnr{#1}}
+\newcommand*{\@manualnr}{1}
+
+\renewcommand*{\maketitle}{
+\begin{titlepage}
+
+	\begin{figure}
+	
+		\begin{minipage}{0.45\linewidth}\flushleft
+			\ETHlogo[5cm]
+		\end{minipage}
+		\hfill
+		\begin{minipage}{0.45\linewidth}\flushright
+			Version \@version\\
+			Manual number: \@manualnr\\[0.3cm]
+			\includegraphics[width=6cm]{VPLogo.pdf}
+		\end{minipage}
+		\hrule height 1pt\hfill \\[3cm]
+	\end{figure}
+	
+	\centering
+	Instruction Manual\\[.5cm]
+	{\huge\bfseries Advanced Physics Lab\unskip\strut\\[.3cm]}
+	{\huge\bfseries\@title\unskip\strut\\[.8cm]}
+	{\Large\itshape\@author\unskip\strut\\[1cm]}
+	ETH Z\"urich, Switzerland, \@date
+
+\end{titlepage}}
+
+
+
+
+
