@@ -1,0 +1,20 @@
+\newcommand{\li}{\left|}
+\newcommand{\re}{\right|}
+\newcommand{\const}{\text{const.}}
+\newcommand{\z}{\text}
+\newcommand{\terminal}[1]{\colorbox{black}{\textcolor{white}{{\fontfamily{phv}\selectfont \scriptsize{#1}}}}}
+\newcommand{\plugin}[1]{\textit{\flq#1\frq}}
+\newcommand{\ra}{$\rightarrow$ }
+\newcommand{\good}[1]{{\usebeamercolor[fg]{title}{\textbf{#1}}}}
+\newcommand{\bad}[1]{\textcolor{RedOrange}{\textbf{#1}}}
+\newcommand{\dead}[1]{\textcolor{NavyBlue}{\textbf{#1}}}
+\newcommand{\cmark}{\good{\ding{51}}}
+\newcommand{\xmark}{\bad{\ding{55}}}
+\newcommand{\itemfill}{\setlength{\itemsep}{\fill}}
+\newcommand{\orderof}[1]{$\mathcal{O}\left(#1\right)$}
+\newcommand{\missfig}[1][.5]{\begin{center} \missingfigure[figheight=#1\textheight,figwidth=#1\textheight, figcolor=white]{}\end{center}}
+\newcommand{\fig}[2]{\begin{figure}\centering\includegraphics[height={#2}]{#1}\end{figure}}
+\newcommand{\figc}[3]{\begin{figure}\centering\includegraphics[height={#2}\textheight]{#1}\caption{#3}\end{figure}}
+\newcommand{\figp}[2]{\begin{figure}\centering\includegraphics[width={#2}\textheight, angle=-90]{#1}\end{figure}}
+\newcommand{\figpc}[3]{\begin{figure}\centering\includegraphics[width={#2}\textheight, angle=-90]{#1}\caption{#3}\end{figure}}
+\newcommand{\wrapfig}[4][l]{\begin{wrapfigure}{#1}{#3}\includegraphics[width={#3}]{#2}\caption{#4}\end{wrapfigure}}
