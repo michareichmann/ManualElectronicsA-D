@@ -1,25 +1,30 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
+\usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
 
 \input{exrapackages}
 \input{settings}
-\include{TitlePage}
+\input{newcommands}
+\input{TitlePage}
 
-\title{Electronics D}
+\experiment{Electronics D}
+\title{Modern Aspect of Data Taking and Processing with a Microcontroller}
 \author{Pirmin Berger \& Michael Reichmann}
 % \date{}
 \manualnr{88}
-\version{0.0.1}
+\version{0.0.0}
 
 \begin{document}
 
 	\maketitle
-	\include{Abstract}
-	
+
 	\tableofcontents
+	\newpage
 	
-	\include{Introduction}
-	\include{Basics}
-	\include{Experiment}
-	\include{Analysis}
+	\input{Introduction}
+	\input{Basics}
+	\input{Experiment}
+	\input{Analysis}
+	
+	\input{acros}
 
 \end{document}

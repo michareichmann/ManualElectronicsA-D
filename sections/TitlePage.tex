@@ -4,29 +4,34 @@
 \newcommand*{\@version}{0.0.0}
 \newcommand*{\manualnr}[1]{\gdef\@manualnr{#1}}
 \newcommand*{\@manualnr}{1}
+\newcommand*{\experiment}[1]{\gdef\@experiment{#1}}
 
 \renewcommand*{\maketitle}{
 \begin{titlepage}
 
 	\begin{figure}
-	
 		\begin{minipage}{0.45\linewidth}\flushleft
 			\ETHlogo[5cm]
 		\end{minipage}
 		\hfill
 		\begin{minipage}{0.45\linewidth}\flushright
 			Version \@version\\
-			Manual number: \@manualnr\\[0.3cm]
+			Manual Number: \@manualnr\\[0.3cm]
 			\includegraphics[width=6cm]{VPLogo.pdf}
 		\end{minipage}
-		\hrule height 1pt\hfill \\[3cm]
-	\end{figure}
+		\hrule height 1pt
+	\end{figure}\vspace*{.5cm}
 	
 	\centering
-	Instruction Manual\\[.5cm]
-	{\huge\bfseries Advanced Physics Lab\unskip\strut\\[.3cm]}
-	{\huge\bfseries\@title\unskip\strut\\[.8cm]}
-	{\Large\itshape\@author\unskip\strut\\[1cm]}
+	{\Large\scshape Instruction Manual\strut\par}\vspace*{.5cm}
+	{\Huge\bfseries Advanced Physics Lab\unskip\strut\par}\vspace*{.3cm}
+	{\Huge\bfseries\@experiment\unskip\strut\par}\vspace*{1.5cm}
+	{\huge\itshape\@title\strut\par}\vspace*{1.5cm}
+	{\large\@author\unskip\strut\par}\vspace*{.5cm}
+	\input{Abstract}
+	\vfill
+	
+	\flushleft
 	ETH Z\"urich, Switzerland, \@date
 
 \end{titlepage}}
