@@ -6,4 +6,5 @@
 *.snm
 *.backup
 *.toc
-
+*.bbl
+*.blg
