@@ -2,7 +2,9 @@
 \section{Basics}
 This section will give you the basic information about the components we are using in this lab.
 
+%BEGIN Arduino Uno
 \subsection{Arduino Uno}
+
 \fig{1}{BoardAnatomy}
 \begin{itemize}
 	\item[1.] \textbf{Digital pins:} 			used with \code{digitalRead()}, \code{digitalWrite()}, and \code{analogWrite()} methods, \code{analogWrite()} only works on pins with the PWM symbol
@@ -16,7 +18,9 @@ This section will give you the basic information about the components we are usi
 	\item[9.] \textbf{USB port:} used 		for powering and communication with computer
 	\item[10.] \textbf{Reset button:}			resets the ATmega microcontroller
 \end{itemize}
+%END
 
+%BEGIN Grove Base Shield
 \subsection{Grove Base Shield}
 The so called shields are printed circuit expansion boards, which plug into the normally supplied Arduino pin headers. The Grove Base Shield is one example that simplifies projects that require a lot of sensors or LEDs. With the Grove connectors on the base board, one can add all the Grove modules to the Arduino Uno very conveniently.\par
 
@@ -38,9 +42,8 @@ There are 16 Grove connectors on the Base Shield which are shown in \ar{tab:1}. 
 	\label{tab:1}
 \end{table}
 
-Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\volt} is required.
-
-
+Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\volt} is required \cite{grove:1}.
+%END
 
 
 
