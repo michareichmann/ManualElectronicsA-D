@@ -1,16 +1,28 @@
 \section{Introduction}
 Arduino is a computer company, project and user community based on easy-to-use hardware and software, that designs and manufactures single-board microcontrollers and microcontroller kits for building digital devices and interactive objects that can sense and control objects in the physical and digital world. All products are distributed as open-source hardware and software, and it's licences permit the manufacture of Arduino boards and software distribution by anyone. The boards are commercially available in preassembled form, or as \ac{DIY} kits.\par
 
-The Arduino project started in 2003 as a program for students at the Interaction Design Institute in Ivrea (Italy), aiming to provide a low-cost and easy way for novices and professionals to create devices that interact with their environment using sensors and actuators. The actual name Arduino comes from a bar in Ivrea, where some of the founders of the project used to meet. The bar was named after Arduin of Ivrea, who was the margrave of the March of Ivrea and King of Italy from 1002 to 1014.\par
+The Arduino project started in 2003 as a program for students without a background in electronics and programming at the Interaction Design Institute in Ivrea (Italy). The aim was to provide a low-cost and easy way for novices and professionals to create devices that interact with their environment using sensors and actuators. The actual name Arduino comes from a bar in Ivrea, where some of the founders of the project used to meet. The bar was named after Arduin of Ivrea, who was the margrave of the March of Ivrea and King of Italy from 1002 to 1014 \cite{wiki:1}. \par
 
-In order to work with the Arduino Boards the Arduino programming language, which is based on Wiring, and the Arduino Software (\ac{IDE}), based on Processing are used.
+In order to work with the Arduino Boards the Arduino programming language, based on Wiring, and the Arduino Software (\ac{IDE}), based on the Processing are used \cite{arduino:1}. Both Wiring and Processing are programming languages using a simplified dialect of features from the programming languages C and C++.
 
 \subsection{Arduino Board}
-Arduino boards are able to read inputs - light on a sensor, a finger on a button, or a Twitter
-\wrapfig[r]{uno}{5cm}{Arduino Uno board.}
-message - and turn it into an output - activating a motor, turning on an LED, publishing something online. You can tell your board what to do by sending a set of instructions to the microcontroller on the board.
+The original boards were produced by the Italian company Smart Projects but as of 2018,
+\wrapfig[r]{.3}{uno}{Arduino Uno.}{fig:1}
+22 versions of the Arduino hardware have been commercially produced. The information and specifications of these boards can be found on this {\href{https://www.arduino.cc/en/Products/Compare}{website}}. During this Lab you will work the Arduino Uno shown in \ar{fig:1}. \par 
 
-\subsection{Grove Shield}
+The Arduino Boards use a variety of microprocessors and controllers and are equipped with sets of digital and analogue \ac{I/O} pins that may be interfaced to various expansion boards or Breadboards (shields) and other circuits. The boards feature serial communications interfaces, \ac{USB} on some models, which are also used for loading programs from personal computers.\par
+
+Arduino boards are able to read inputs - light on a sensor, a finger on a button, or a Twitter message - and turn it into an output - activating a motor, turning on an LED, publishing something online. You can tell the board what to do by sending a set of instructions to the microcontroller.
 
 \subsection{Transistor}
+
+The invention of the transistor was announced in 1948 by the American physicists, J. Bardeen and W. H. Brattain as a new type of amplifying device made fromsemiconducting crystals. At that time almost no one could have foreseen the revolutionary developments that were to follow, developments so important and far-reaching as to change the whole outlook of the science and technology of electronics. The physical principles of a transistor had been worked out in conjunction with their colleague, W. Shockley. In recognition of their work the three physicists were awarded jointly the Nobel Prize for Physics in 1956.\par
+
+\subfigs{.25}{trans1}{trans2}{Point-contact transistor}{Bardeen, Brattain and Shockley}
+
+The term ``transistor'' is a combination from the words \textit{trans}former and res\textit{istor}, since the device is made from resistor material and transformer action is involved in the operation. In the beginning only point-contact transistors existed, but due to their vulnerability to mechanical shock they were soon replaced by junction transistors which are firmly established now \cite{olsen}.\par
+
+The transistor is the key active component in practically all modern electronics. It is considered as one of the greatest inventions of the 20th century. Its importance in today's society rests on its ability to be mass-produced using a highly automated process that achieves astonishingly low per-transistor costs (\SI{10}{femto\$\per transistor)} \cite{trans:1}.\par
+
+Although billions of individually packaged (discrete) transistors are produced every year the vast majority of transistors are now produced in \acp{IC}. A logic gate consists of up to about twenty transistors whereas an advanced microprocessor, as of 2009, can use as many as 3 billion transistors. In 2014, about \SI{10}{billion} transistors were built for each single person on Earth \cite{trans:1}.
 
