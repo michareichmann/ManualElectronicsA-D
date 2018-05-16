@@ -45,13 +45,101 @@ There are 16 Grove connectors on the Base Shield which are shown in \ar{tab:1}. 
 Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\volt} is required \cite{grove:1}.
 %END
 
+%BEGIN Software
+\subsection{The Software}
 
+\subsubsection{Arduino \ac{IDE}}
+All you require to write programs and upload them to your board is the Arduino Software (\ac{IDE}). There are two options how to use it:\\[5pt]
+\href{https://create.arduino.cc}{\textbf{1. Online \ac{IDE}}}
+\begin{itemize}
+	\item no installation required
+	\begin{itemize}
+		\item needs plugin if you want to upload sketches from Linux
+	\end{itemize}
+	\item requires you to create account with e-mail verification
+	\item save sketches in cloud (available from all devices)
+	\item always most up-to-date version
+	\item instructions on the website
+\end{itemize}
+\href{https://www.arduino.cc/en/Main/Software#download}{\textbf{2. Desktop \ac{IDE}}}
+\begin{itemize}
+	\item if you want to work offline
+	\item installation usually very straightforward and in has general no dependencies
+	\item if you need help, follow installation instructions depending on your \ac{OS}
+	\begin{itemize}
+		\item \href{https://www.arduino.cc/en/Guide/Linux}{Linux}
+		\item \href{https://www.arduino.cc/en/Guide/MacOSX}{Mac OS X}
+		\item \href{https://www.arduino.cc/en/Guide/Windows}{Windows}
+	\end{itemize}
 
-\subsection{Installing the Software}
-\subsection{Temperature Sensor}
+\end{itemize}
+
+\subsubsection{Board Drivers}
+First the Arduino board has to be connected to the computer via the \ac{USB} cable which will power the board indicated by the green \ac{PWR} LED. The board drivers should then install automatically in Linux, Mac OS X and Windows. If the board was not properly recognised, follow these \href{https://www.arduino.cc/en/Guide/ArduinoUno}{instructions}.
+%END
+
+%BEGIN Programming
+\subsection{Programming}
+In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \textbf{\path{File > Examples}}\\
+A list of the most common methods is shown in \ar{tab:2}. For more information look at the \href{https://www.arduino.cc/reference/en/}{detailed description}.
+\begin{table}[ht!]\centering\setlength\extrarowheight{5pt}
+	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
+	\begin{tabularx}{\linewidth}{|llX|}
+		\rowcolor{PineGreen}\tline{.5}
+		\multicolumn{1}{c}{\fatwhite{Category}}	& \multicolumn{1}{c}{\fatwhite{Method Syntax}}	&	\multicolumn{1}{c}{\fatwhite{Description}}	\\\tline{1.3}
+																					&	\code{digitalRead(pin))}				&	reads the value from the digital pin (HIGH or LOW) \\
+																					&	\code{digitalWrite(pin, value)}	&	writes HIGH or LOW value to the digital pin\\
+% 		\cellcolor{YellowOrange!10}	
+		\multirow{-3}{*}{Digital \ac{I/O}}		&	\code{pinMode(pin, mode)}				&	configures the pin as INPUT or OUTPUT\\\tline{.4}
+		
+																					&	\code{analogRead(pin)}					&	reads the value (0-1023) from the pin\\
+																					&	\code{analogWrite(pin, value)}	&	writes an analogue value (PWM wave) to the pin \\
+		\multirow{-3}{*}{Analogue \ac{I/O}}		&	\code{analogReference(type)}		&	configures the reference voltage used for analogue input\\\tline{.4}
+																					&	\code{tone(pin, f, duration)}		&	generates a square wave of frequency f [Hz] for a duration [ms]\\
+		\multirow{-2}{*}{Advanced \ac{I/O}}		&	\code{pulseIn(pin, value)}			&	returns the time [ms] of a pulse,  if value is HIGH: waits until HIGH and stops when LOW\\\tline{.4}
+																					&	\code{delay(time)}							&	pauses the program for a time [ms]\\
+																					&	\code{micros()}									&	returns time since starting the program [\SI{}{\micro\second}] \\
+		\multirow{-3}{*}{Time}								&	\code{millis()}									&	returns time since starting the program [\SI{}{\milli\second}]\\\tline{.4}
+																					&	\code{constrain(x, a, b)}				&	constrains a number x to be in range [a, b]\\
+																					&	\code{map(x, a, b, c, d)}				&	re-maps x from range [a, b] to range [c, d]\\
+																					&	\code{random(a, b)}							&	returns pseudo-random number in range [a, b]\\
+																					&	\code{abs(value)}								&	return the absolute value\\
+		\multirow{-5}{*}{Math}								&	\multicolumn{1}{c}{\vdots}			&	further general math commands\\\tline{.4}
+																					&	\code{Serial.begin(speed)}			&	initialise serial communication at speed [\SI{}{bit\per\second}]\\
+																					&	\code{Serial.print(value)}			&	prints the value to the serial port\\
+																					&	\code{Serial.println(value)}		&	prints the value to the serial port with [\textbackslash r\textbackslash n]\\
+		\multirow{-4}{*}{Serial}							&	\code{Serial.read()}						&	reads incoming serial data\\\tline{.4}
+	
+	\end{tabularx}
+	\caption{Most common methods for controlling the Arduino board and performing computations.}
+	\label{tab:2}
+\end{table}
+%END
+
+\subsection{Project Management With Git}
+\fig{.4}{gitlogo}\noindent
+Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for source code management in software development, but it can be used to keep track of changes in any set of files \cite{wiki:2}.
+
+\subsection{Voltage Divider}
+Should be covered in AP next semester
+
+\subsection{Thermistor}
+If, for a given temperature, the current is directly proportional to the applied voltage the electrical component is said to obey Ohm's law. Such components are called linear resistors. If a component does not meet this requirement it is termed a non-linear resistor, which falls into two classes $-$ the temperature-sensitive type and the voltage-sensitive type. The temperature-sensitive types are often known as thermistors and change the resistance very reproducible. The word is a portmanteau of \textit{THERM}ally-sensitive and res\textit{ISTOR}.\par
+They consist of the sintered oxides of manganese and nickel with small amounts of copper, cobalt or iron added to vary the properties and the physical shape is usually a bead, rod or a disc. The electronic symbol is shown in \ar{fig:3a}. The resistance is given by
+\begin{equation}
+	R = R_{0}\cdot\z{e}^{-B\left(\frac{1}{T_{0}} - \frac{1}{T}\right)}
+\end{equation}
+where $R_{0}$ and $B$ are constants depending upon the composition and physical size, $T$ is the temperature in \deg K, and $T_{0}$ the absolute zero. Thermistors can be classified into two types, depending on the classification of $B$. If $B$ is positive, the resistance increases with increasing temperature, and the device is called a \ac{PTC} thermistor, or posistor. If $B$ is negative, the resistance decreases with increasing temperature, and the device is called a \ac{NTC} thermistor.
+
+\subfigs{\subfig[.3][.2]{.1}{Thermistor}[Electronic symbol.][fig:3a]}{\subfig[.61]{.3}{thermistor1}[\ac{NTC} resistance/temperature characteristic.][fig:3]}[Thermistor properties]
+
+Thermistors have very widespread applications as thermometers
+
+During this lab you will work with the \ac{NTC} \SI{100}{\kilo\ohm} \href{http://www.farnell.com/datasheets/91602.pdf}{B57164-K104-J} thermistor.
+
 \subsection{Common Collector}
 \subsection{Operational Amplifier}
-\subsection{Voltage Divider}
+Should be covered in AP next semester
 
 
 

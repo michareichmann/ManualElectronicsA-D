@@ -13,15 +13,22 @@
 \newcommand{\xmark}{\bad{\ding{55}}}
 \newcommand{\itemfill}{\setlength{\itemsep}{\fill}}
 \newcommand{\orderof}[1]{$\mathcal{O}\left(#1\right)$}
-\newcommand{\code}[1]{{\ubuntu #1}}
+\newcommand{\code}[1]{{\small\ubuntu #1}}
 \newcommand{\tline}[1]{\noalign{\hrule height #1pt}}
+\newcommand{\fatwhite}[1]{\textcolor{white}{\textbf{#1}}}
+\renewcommand{\deg}{$^{\circ}$}
 \newcommand{\missfig}[1][.5]{\begin{center} \missingfigure[figheight=#1\textheight,figwidth=#1\textheight, figcolor=white]{}\end{center}}
-\newcommand{\fig}[2]{\begin{figure}[h!]\centering\includegraphics[width={#1\linewidth}]{#2}\end{figure}}
+% \newcommand{\fig}[2][nocaption]{\begin{figure}[h!]\centering\includegraphics[width={#1\linewidth}]{#2}\end{figure}}
 \newcommand{\figc}[3]{\begin{figure}\centering\includegraphics[height={#2}\textheight]{#1}\caption{#3}\end{figure}}
 \newcommand{\figp}[2]{\begin{figure}\centering\includegraphics[width={#2}\textheight, angle=-90]{#1}\end{figure}}
 \newcommand{\figpc}[3]{\begin{figure}\centering\includegraphics[width={#2}\textheight, angle=-90]{#1}\caption{#3}\end{figure}}
 \newcommand{\wrapfig}[5][l]{\begin{wrapfigure}{#1}{#2\linewidth}\includegraphics[width={.95\linewidth}]{#3}\caption{#4}\label{#5}\end{wrapfigure}}
-\DeclareDocumentCommand{\subfigs}{O{.45} O{.45} m m m m m O{nocaption}}{\def\a{#3}\begin{figure}[ht!]\centering
-	\begin{subfigure}{#1\linewidth}\centering\includegraphics[height={#3\textheight}]{#4}\caption{#6}\end{subfigure}\hfill
-	\begin{subfigure}{#2\linewidth}\centering\includegraphics[height={#3\textheight}]{#5}\caption{#7}\end{subfigure}
-	\ifthenelse{\equal{#8}{nocaption}}{}{\caption{#8}}\end{figure}}
+\DeclareDocumentCommand{\subfig}{O{.45} O{0} m m O{nocaption} O{nolabel}}
+	{\begin{subfigure}{#1\linewidth}\vspace*{#2\textheight}\centering\includegraphics[height={#3\textheight}]{#4}
+	\ifthenelse{\equal{#5}{nocaption}}{}{\caption{#5}}\ifthenelse{\equal{#6}{nolabel}}{}{\label{#6}}\end{subfigure}}
+\DeclareDocumentCommand{\subfigs}{m m O{nocaption} O{nolabel}}{\begin{figure}[ht!]\centering#1\hfill#2
+	\ifthenelse{\equal{#3}{nocaption}}{}{\caption{#3}}\ifthenelse{\equal{#4}{nolabel}}{}{\label{#4}}\end{figure}}
+\renewcommand\tabularxcolumn[1]{m{#1}}
+\DeclareDocumentCommand{\fig}{m m O{nocaption} O{nolabel}}{\begin{figure}[h!]\centering\includegraphics[width={#1\linewidth}]{#2}
+																								\ifthenelse{\equal{#3}{nocaption}}{}{\caption{#3}}
+																								\ifthenelse{\equal{#4}{nolabel}}{}{\label{#4}}\end{figure}}
