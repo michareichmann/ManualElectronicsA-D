@@ -24,7 +24,8 @@ This section will give you the basic information about the components we are usi
 \subsection{Grove Base Shield}
 The so called shields are printed circuit expansion boards, which plug into the normally supplied Arduino pin headers. The Grove Base Shield is one example that simplifies projects that require a lot of sensors or LEDs. With the Grove connectors on the base board, one can add all the Grove modules to the Arduino Uno very conveniently.\par
 
-\subfigs[.41][.51]{.25}{grove}{grove1}{side view}{top view}[Grove shield.]
+\subfigs{\subfig[.41]{.25}{grove}[Side view.]}{\subfig[.51]{.25}{grove1}[Top view.]}[Grove shield.]
+% \subfigs[.41][.51]{.25}{grove}{grove1}{side view}{top view}[Grove shield.]
 
 There are 16 Grove connectors on the Base Shield which are shown in \ar{tab:1}. Apart from the connectors the board also consists of a \ac{RST} button, a green LED to indicating power status, a toggle switch and four rows of pinouts, which is equivalent to the pinout of the Arduino.\par
 \begin{table}[h!]\centering
@@ -86,7 +87,7 @@ A list of the most common methods is shown in \ar{tab:2}. For more information l
 	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
 	\begin{tabularx}{\linewidth}{|llX|}
 		\rowcolor{PineGreen}\tline{.5}
-		\multicolumn{1}{c}{\fatwhite{Category}}	& \multicolumn{1}{c}{\fatwhite{Method Syntax}}	&	\multicolumn{1}{c}{\fatwhite{Description}}	\\\tline{1.3}
+		\fatwhite{Category}										& \fatwhite{Method Syntax}				&	\fatwhite{Description}	\\\tline{1.3}
 																					&	\code{digitalRead(pin))}				&	reads the value from the digital pin (HIGH or LOW) \\
 																					&	\code{digitalWrite(pin, value)}	&	writes HIGH or LOW value to the digital pin\\
 % 		\cellcolor{YellowOrange!10}	
@@ -116,28 +117,70 @@ A list of the most common methods is shown in \ar{tab:2}. For more information l
 \end{table}
 %END
 
-\subsection{Project Management With Git}
-\fig{.4}{gitlogo}\noindent
-Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for source code management in software development, but it can be used to keep track of changes in any set of files \cite{wiki:2}.
+\newpage
+\subsection{Project Management With}
+\begin{figure}[h!]\vspace*{-1.43cm}\hspace*{6.7cm}\includegraphics[height=1cm]{gitlogo}\end{figure}\vspace*{-.4cm}\noindent
+Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for source code management in software development, but it can be used to keep track of changes in any set of files \cite{wiki:2}.\par
+\begin{huge}\textbf{More explanation?}\end{huge}
 
-\subsection{Voltage Divider}
-Should be covered in AP next semester
+%BEGIN Voltage Divider
+\subsection{Voltage Divider}\label{sec:vd}
+A voltage divider is a passive linear circuit that produces an output voltage $V_{\z{out}}$ that is a fraction of its input voltage $V_{\z{in}}$. Voltage division is the result of distributing the input voltage among the components of the divider. A simple example of a voltage divider is two resistors connected in series, with $V_{\z{in}}$ across the resistor pair and $V_{\z{out}}$ emerging from the connection between them as shown in \ar{fig:vd}.\par
+\fig{.2}{voltdivider}[Voltage divider.][fig:vd]
+Resistor voltage dividers are commonly used to create reference voltages, or to reduce the magnitude of a voltage so it can be measured. Using Ohm's law one can easily derive the formula for $V_{\z{out}}$:
+\begin{equation}
+	V_{\z{out}} = \frac{R_{2}}{R_{1} + R_{2}}\cdot V_{\z{in}}\label{eq:vd}
+\end{equation}
+%END
 
+%BEGIN Thermistor
 \subsection{Thermistor}
 If, for a given temperature, the current is directly proportional to the applied voltage the electrical component is said to obey Ohm's law. Such components are called linear resistors. If a component does not meet this requirement it is termed a non-linear resistor, which falls into two classes $-$ the temperature-sensitive type and the voltage-sensitive type. The temperature-sensitive types are often known as thermistors and change the resistance very reproducible. The word is a portmanteau of \textit{THERM}ally-sensitive and res\textit{ISTOR}.\par
 They consist of the sintered oxides of manganese and nickel with small amounts of copper, cobalt or iron added to vary the properties and the physical shape is usually a bead, rod or a disc. The electronic symbol is shown in \ar{fig:3a}. The resistance is given by
 \begin{equation}
-	R = R_{0}\cdot\z{e}^{-B\left(\frac{1}{T_{0}} - \frac{1}{T}\right)}
+	R = R_{0}\cdot\z{e}^{-B\left(\frac{1}{T_{0}} - \frac{1}{T}\right)}\label{eq:th}
 \end{equation}
 where $R_{0}$ and $B$ are constants depending upon the composition and physical size, $T$ is the temperature in \deg K, and $T_{0}$ the absolute zero. Thermistors can be classified into two types, depending on the classification of $B$. If $B$ is positive, the resistance increases with increasing temperature, and the device is called a \ac{PTC} thermistor, or posistor. If $B$ is negative, the resistance decreases with increasing temperature, and the device is called a \ac{NTC} thermistor.
 
 \subfigs{\subfig[.3][.2]{.1}{Thermistor}[Electronic symbol.][fig:3a]}{\subfig[.61]{.3}{thermistor1}[\ac{NTC} resistance/temperature characteristic.][fig:3]}[Thermistor properties]
+%END
 
-Thermistors have very widespread applications as thermometers
+%BEGIN Temperatur Sensor
+\subsection{Temperature Sensor}
+Thermistors have very widespread applications as thermometers. We know that a NTC thermistor varies its resistance as a function of the temperature, but resistance is not the easiest parameter to measure. In our case we want to  feed a signal into an \ac{ADC} to treat it numerically and compute the actual temperature. Now, the \ac{ADC} of the Arduino requires a voltage at it's input.\par
+An easy solution is to install the \ac{NTC} in a voltage divider as shown in \ar{sec:vd}. It requires only one additional fixed resistor $R_{0}$. $V_{\z{in}}$ is the reference voltage used of the \ac{ADC} and $V_{\z{out}}$ the measured voltage. So what you will measure in the end is just a digital \SI{10}{bit} value corresponding to the divided voltage where the maximum of $2^{10} - 1= 1023$ corresponds to $V_{\z{in}}$. In order to convert it into the resistance of the thermistor we have to use \ar{eq:vd}:
+\begin{equation}
+	R = \left(\frac{V_{\z{in}}}{V_{\z{out}}} - 1\right)\cdot R_{0} = \left(\frac{1023}{V_{\z{meas}}} - 1\right)\cdot R_{0}
+\end{equation}
+Now we need to convert the resistance into the temperature using \ar{eq:th}:
+\begin{equation}
+	\frac{1}{T} = \frac{\ln\left(\frac{R}{R_{0}}\right)}{B} + \frac{1}{T_{0}} 
+\end{equation}
+Note that this temperature will be in \deg K!
+%END
+	
+%BEGIN Transistor
+\subsection{Bipolar Junction Transistor}
+\Iac{BJT} is a type of transistor that uses both electron and hole charge carriers. For their operation, \acp{BJT} use two junctions between two semiconductor types, n-type and p-type and thus can be manufactured in two types, NPN and PNP. The basic function of a \ac{BJT} is to amplify current which allows it to be used as amplifiers or switches, giving them wide applicability in electronic equipment.
+\subfigs{\subfig[.2]{.07}{trans4}[NPN]}{\subfig[.2]{.07}{trans5}[PNP]}[Electronic symbols of the \ac{BJT}.]
 
-During this lab you will work with the \ac{NTC} \SI{100}{\kilo\ohm} \href{http://www.farnell.com/datasheets/91602.pdf}{B57164-K104-J} thermistor.
+\subsubsection{Working Principle}
+Since a transistor consists of two pn junctions within a single crystal, transistor action can be explained with \ar{fig:tw}. For diagrammatic purposes the base region is shown fairly thick, but in fact the pn junctions are very closely spaced and the active portion of the base is very thin.\par
+\fig{.8}{trans3}[Diagrammatic representation of the amplifying action of a transistor.][fig:tw]
+The charge flow in a \ac{BJT} is due to diffusion of charge carriers across a junction between two regions of different charge concentrations. The regions of a BJT are called emitter, collector, and base. Typically, the emitter region is heavily doped compared to the other two layers, whereas the majority charge carrier concentrations in base and collector layers are about the same.\par
+In the absence of any external applied voltages the collector and emitter depletion layers are about the same thickness, the widths depending upon the relative doping of the collector, emitter and base regions. During normal transistor operation the emitter-base junction is forward biased so that current flows easily in the input or signal circuit. The bias voltage $V_{BE}$ is about \SI{200}{\milli\volt} for germanium transistors and about \SI{400}{\milli\volt} for silicon devices. The collector-base junction is reverse-biased by the main supply voltage $V_{CB}$ typically with \SIlist{4.5;6;9}{\volt}. The collector junction is therefore heavily reversed-biased and the depletion layer there is quite thick.\par
+The injection of a hole into the base region by a signal source will now be considered. Once in the base, the hole attracts an electron from the emitter region. The recombination of the hole and electron is not likely to occur however, since the base region is lightly doped compared with the emitter region and so the lifetime of the electron in the base region is quite long. In addition the base is extremely thin so the electron, instead of combining with the signal hole or with a hole of the p-type base material, diffuses into the collector-base junction. The electron then comes under the influence of the strong field there and is swept into the collector and hence into the load circuit. In a good transistor many electrons pass into the collector region before eventually the signal hole is eliminated by combination with an electron. A small signal current can thus give rise to a large load current $i_{C}$, and so current amplification has taken place. In practical transistors for every hole injected into the base 50 to 250 electrons may be influenced to flow into the collector region. The current gain or amplification is therefore 50 to 250. It is usually given by the symbol $\upbeta$.\par
+An PNP transistor behaves in a similar fashion except that electrons are injected into the base and holes flow from the emitter into the collector. To maintain the correct bias conditions the polarity of the external voltages must be reversed.\par
+\ar{fig:aa} shows the three basic transistor arrangements. The common emitter mode is the most commonly used arrangement for voltage amplification because very little current is required from the signal source.\par
+The common base mode of operation is also capable of voltage amplification. This is achieved by the use of high values of load resistor. The transistor is able to maintain the current through the load because the device is a good constant current generator \cite{olsen}.
+\subfigs[\subfig[.3]{.2}{commonemitter}[Common emitter.]]{\subfig[.3]{.2}{commonbase}[Common base.]}{\subfig[.3]{.2}{commoncollector}[Common collector.][fig:cc]}[The three basic amplifier arrangements.][fig:aa]
 
-\subsection{Common Collector}
+\subsubsection{Common Collector}
+The common collector circuit shown in \ar{fig:cc} has a voltage gain of a little less than unity and so is useless as a voltage amplifier. However this circuit has very important impedance matching properties and is typically used as a voltage buffer. In this circuit the base serves as the input, the emitter is the output, and the collector is common to both.\par
+The voltage gain is just a little less than one since the emitter voltage is constrained at the voltage drop over the diode of about \SI{0.6}{\volt} (for silicon) below the base. The transistor continuously monitors $V_{D}$ and adjusts its emitter voltage almost equal (less $V_{\z{BEO}}$) to the input voltage by passing the according collector current through the emitter resistor $R_{E}$. As a result, the output voltage follows the input voltage variations from $V_{\z{BEO}}$ up to $V_{+}$; hence also the name, emitter follower.
+This circuit is useful because it has a large input impedance, so it will not load down the previous circuit and a small output impedance, so it can drive low-resistance loads
+%END
+
 \subsection{Operational Amplifier}
 Should be covered in AP next semester
 
