@@ -11,7 +11,7 @@
 \author{Pirmin Berger \& Michael Reichmann}
 % \date{}
 \manualnr{88}
-\version{0.1.1}
+\version{1.0.0}
 
 
 \makeindex
@@ -20,14 +20,20 @@
 % ========== TITLE PAGE WITH ABSTRACT ===========
 	\maketitle
 
-	\tableofcontents
-	\newpage
+	\thispagestyle{empty}
+	\cleardoublepage\tableofcontents
+	\setcounter{page}{0}
 	
+	\cleardoublepage
 	\input{Introduction}
 	\input{Basics}
 	\input{Experiment}
 	\input{Analysis}
 	
+	\newpage
+	\pagenumbering{Roman}
+	\listoffigures
+	\listoftables
 	\input{acros}
 	
 % ========== BIBLIOGRAPHY =======================
