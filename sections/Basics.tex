@@ -5,7 +5,7 @@ This section will give you the basic information about the components we are usi
 %BEGIN Arduino Uno
 \subsection{Arduino Uno}
 
-\fig{1}{BoardAnatomy}
+\fig{.9}{BoardAnatomy}
 \begin{itemize}
 	\item[1.] \textbf{Digital pins:} 			used with \code{digitalRead()}, \code{digitalWrite()}, and \code{analogWrite()} methods, \code{analogWrite()} only works on pins with the PWM symbol
 	\item[2.] \textbf{Pin 13 LED:} 				only built-in actuator
@@ -136,13 +136,14 @@ Resistor voltage dividers are commonly used to create reference voltages, or to 
 %BEGIN Thermistor
 \subsection{Thermistor}
 If, for a given temperature, the current is directly proportional to the applied voltage the electrical component is said to obey Ohm's law. Such components are called linear resistors. If a component does not meet this requirement it is termed a non-linear resistor, which falls into two classes $-$ the temperature-sensitive type and the voltage-sensitive type. The temperature-sensitive types are often known as thermistors and change the resistance very reproducible. The word is a portmanteau of \textit{THERM}ally-sensitive and res\textit{ISTOR}.\par
-They consist of the sintered oxides of manganese and nickel with small amounts of copper, cobalt or iron added to vary the properties and the physical shape is usually a bead, rod or a disc. The electronic symbol is shown in \ar{fig:3a}. The resistance is given by
+\fig{.15}{therm2}[Electronic symbol of the thermistor][fig:tc]
+They consist of the sintered oxides of manganese and nickel with small amounts of copper, cobalt or iron added to vary the properties and the physical shape is usually a bead, rod or a disc. The electronic symbol is shown in \ar{fig:tc}. The resistance is given by
 \begin{equation}
 	R = R_{0}\cdot\z{e}^{-B\left(\frac{1}{T_{0}} - \frac{1}{T}\right)}\label{eq:th}
 \end{equation}
-where $R_{0}$ and $B$ are constants depending upon the composition and physical size, $T$ is the temperature in \deg K, and $T_{0}$ the absolute zero. Thermistors can be classified into two types, depending on the classification of $B$. If $B$ is positive, the resistance increases with increasing temperature, and the device is called a \ac{PTC} thermistor, or posistor. If $B$ is negative, the resistance decreases with increasing temperature, and the device is called a \ac{NTC} thermistor.
+where $B$ is a constant depending upon the composition and physical size, $T$ is the temperature in \deg K, and $R_{0}$ the resistance at ambient room temperature $T_{0}$ (\SI{25}{\degreeCelsius} = \SI{298.15}{\kelvin}). Thermistors can be classified into two types, depending on the classification of $B$. If $B$ is positive, the resistance increases with increasing temperature, and the device is called a \ac{PTC} thermistor, or posistor. If $B$ is negative, the resistance decreases with increasing temperature, and the device is called a \ac{NTC} thermistor.
 
-\subfigs{\subfig[.3][.2]{.1}{Thermistor}[Electronic symbol.][fig:3a]}{\subfig[.61]{.3}{thermistor1}[\ac{NTC} resistance/temperature characteristic.][fig:3]}[Thermistor properties]
+\fig[r]{.8}{therm1}[Resistance/temperature characteristic of a \ac{NTC} thermistor.]
 %END
 
 %BEGIN Temperatur Sensor
@@ -156,7 +157,7 @@ Now we need to convert the resistance into the temperature using \ar{eq:th}:
 \begin{equation}
 	\frac{1}{T} = \frac{\ln\left(\frac{R}{R_{0}}\right)}{B} + \frac{1}{T_{0}} 
 \end{equation}
-Note that this temperature will be in \deg K!
+Note that this temperature will be in Kelvin!
 %END
 	
 %BEGIN Transistor
