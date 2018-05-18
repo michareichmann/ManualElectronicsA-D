@@ -7,7 +7,7 @@ This section will give you the basic information about the components we are usi
 
 \fig{.9}{BoardAnatomy}
 \begin{itemize}
-	\item[1.] \textbf{Digital pins:} 			used with \code{digitalRead()}, \code{digitalWrite()}, and \code{analogWrite()} methods, \code{analogWrite()} only works on pins with the PWM symbol
+	\item[1.] \textbf{Digital pins:} 			used with \code{digitalRead()}, \code{digitalWrite()}, and \code{analogWrite()} methods, \code{analogWrite()} only works on pins with the \ac{PWM} symbol
 	\item[2.] \textbf{Pin 13 LED:} 				only built-in actuator
 	\item[3.] \textbf{Power LED}
 	\item[4.] \textbf{ATmega microcontroller}
@@ -81,14 +81,16 @@ First the Arduino board has to be connected to the computer via the \ac{USB} cab
 
 \subsection{Programming}\label{sec:prog}
 %BEGIN Programming
-In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \textbf{\path{File > Examples}}\\
+In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \fpath{File > Examples}\\
 A list of the most common methods is shown in \ar{tab:2}. For more information look at the \href{https://www.arduino.cc/reference/en/}{detailed description}.
 \begin{table}[ht!]\centering\setlength\extrarowheight{5pt}
 	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
 	\begin{tabularx}{\linewidth}{|llX|}
 		\rowcolor{PineGreen}\tline{.5}
 		\fatwhite{Category}										& \fatwhite{Method Syntax}				&	\fatwhite{Description}	\\\tline{1.3}
-																					&	\code{digitalRead(pin))}				&	reads the value from the digital pin (HIGH or LOW) \\
+																					&	\code{setup()}									&	called once at the start of the sketch, used to initialise variables, pin modes, etc.  \\
+		\multirow{-2}{*}{Sketch}							&	\code{loop()}										&	loops consecutively after setup was called \\\tline{.4}
+																					&	\code{digitalRead(pin)}					&	reads the value from the digital pin (HIGH or LOW) \\
 																					&	\code{digitalWrite(pin, value)}	&	writes HIGH or LOW value to the digital pin\\
 % 		\cellcolor{YellowOrange!10}	
 		\multirow{-3}{*}{Digital \ac{I/O}}		&	\code{pinMode(pin, mode)}				&	configures the pin as INPUT or OUTPUT\\\tline{.4}
@@ -117,12 +119,11 @@ A list of the most common methods is shown in \ar{tab:2}. For more information l
 \end{table}
 %END
 
-\newpage
+\cleardoublepage
 \subsection{Project Management with}\label{sec:git}
 %BEGIN Git
 \begin{figure}[h!]\vspace*{-1.43cm}\hspace*{6.7cm}\includegraphics[height=1cm]{gitlogo}\end{figure}\vspace*{-.4cm}\noindent
 Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for source code management in software development, but it can be used to keep track of changes in any set of files \cite{wiki:2}.\par
-\begin{huge}\textbf{More explanation?}\end{huge}
 %END
 
 \subsection{Voltage Divider}\label{sec:vd}
@@ -186,6 +187,10 @@ This circuit is useful because it has a large input impedance, so it will not lo
 
 \subsection{Operational Amplifier}
 Should be covered in AP next semester
+
+\subsection{PID Controller}\label{sec:pid}
+A \ac{PID} controller is a control loop feedback mechanism widely used in industrial control systems and a variety of other applications requiring continuously modulated control. A \ac{PID} controller continuously calculates an error value $e{t}$ as the difference between a desired setpoint (SP) and a measured process variable (PV) and applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D respectively) which give the controller its name.\par
+In practical terms it automatically applies accurate and responsive correction to a control function. An everyday example is the cruise control on a road vehicle; where external influences such as gradients would cause speed changes, and the driver has the ability to alter the desired set speed. The PID algorithm restores the actual speed to the desired speed in the optimum way, without delay or overshoot, by controlling the power output of the vehicle's engine \cite{wiki:pid}.
 
 
 
