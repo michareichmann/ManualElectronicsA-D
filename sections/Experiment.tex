@@ -1,16 +1,97 @@
-\section{Setup and Experimental Procedure}
+\section{Setup and Experimental Procedure}\label{sec:exp}
+The Digital Electronics Lab is meant to be very open in implementation. The aim will be to build an automated cooling system. We will guide you through this process step by step, but you are also encouraged to bring in your own ideas of other possible implementations!
+
+\subsection{Experimental Material}\label{sec:material}
+%BEGIN Material
+You will find the following objects on your test stand:
+\begin{itemize}
+	\item 1 Arduino Uno Board
+	\item 1 Oscilloscope
+	\item 2 Probes 
+	\item 1 Multimeter
+	\item 1 \ac{USB} Type B cable
+	\item 1 Breadboard
+	\item 1 Grove Starter Kit for Arduino
+	\begin{itemize}
+		\item 1 Base Shield
+		\item 1 LCD RGB Backlight
+		\item 1 Smart Relay
+		\item 1 Buzzer
+		\item 1 Sound Sensor
+		\item 1 Touch Sensor
+		\item 1 Rotary Angle Sensor
+		\item 1 Temperature Sensor
+		\item 1 LED Module
+		\item 3 Dip LEDs (red, green, blue)
+		\item 1 Light Sensor
+		\item 1 Button
+		\item 1 Mini Servo
+		\item 10 Grove Cables
+	\end{itemize}
+	\item 1 3-pin fan
+	\item 1 operational amplifier (\href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{LM358})
+	\item 1 NPN transistor (\href{https://www.sparkfun.com/datasheets/Components/BC546.pdf}{BC547})
+	\item 1 \ac{NTC} thermistor (\href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J})
+\end{itemize}\vspace*{10pt}\noindent
+\textcolor{red}{\textbf{In addition you should bring a lab book to note down everything what you do and measure (immediately after the execution). Please write clearly and meticulously since it will greatly help you to find mistakes and to write your report!}}
+%END
+
+\subsection{Setting up the Arduino}\label{sec:setup}
+%BEGIN Arduino Setup
+\subsubsection{Software installation}
+We highly recommend you to install the Arduino \ac{IDE} on your machine so that you can access it any time. If you should have trouble with the installation or would prefer to work you can also use the online \ac{IDE}.
+\begin{itemize}
+	\item install \ac{IDE} following \ar{sec:soft} (Do we provide some laptops just in case?)
+\end{itemize}
+
+\subsubsection{Connect the Arduino}
+\begin{itemize}
+	\item connect the Arduino to your computer and check if it is recognised by the \ac{IDE}
+	\begin{itemize}
+		\item select the correct port: \fpath{Tools > Port}
+		\item get board info: \fpath{Tools > Get Board Info}
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Your First Sketch}
+\begin{itemize}
+	\item create your sketch directory
+	\begin{itemize}
+		\item you can link it to your \ac{IDE}: \fpath{File > Preferences > Sketchbook Location}
+	\end{itemize}
+	\item create a git repository for this project in the sketch folder
+	\item write a sketch that turns on the built in LED 
+	\begin{itemize}
+		\item name it \path{LedOn.ino}
+		\item \code{\var{const int} LedPin = \var{LED\_BUILTIN};}
+	\end{itemize}
+\end{itemize}
+%END
+
+\subsection{Blinking LED on Bread Board}\label{sec:led}
+%BEGIN Blinking LED
+This task will teach you how to use the Breadboard with the Arduino and the difference between \code{\meth{delay}()} and \code{\meth{millis}()}.
+\begin{itemize}
+	\item supply the Breadboard with \SI{5}{\volt} from the Arduino
+	\item connect a LED to the Breadboard 
+	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{10}{\hertz} using the \code{\meth{delay}()} method
+	\item connect a second LED to the circuit
+	\item write a sketch (\path{Blink2.ino}) that makes the second LED blink in a different pattern than the first one
+	\begin{itemize}
+		\item why is \code{\meth{delay}()} not working anymore?
+		\item use a timer with \code{\meth{millis}()} or \code{\meth{micros}()}
+	\end{itemize}
+\end{itemize}
+%END
 
 
-\subsection{Setting up the Arduino}
-
-\subsection{Blinking LED on Bread Board}
-
-\subsection{Grove Temperature Sensor}
+\subsection{Grove Temperature Sensor}\label{sec:grovetemp}
+%BEGIN Grove Temp
 In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/}{Grove - Temperature Sensor V1.2}. It uses a \ac{NTC} thermistor to detect the ambient temperature. The specifications are shown in \ar{tab:gt}.
-\begin{table}[h!]\centering\alternatecolors
+\begin{table}[ht!]\centering\alternatecolors
 	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
 		\fatwhite{Specification}		& \fatwhite{Value}																					\\\tline{1.3}
-		Voltage											&	\SIrange{3.3}{5.0}{\volt}																	\\
+		Operating voltage						&	\SIrange{3.3}{5.0}{\volt}																	\\
 		Zero power resistance				&	\SI{100\pm1}{\kilo\ohm}																		\\
 		Operating temperature range	&	\SIrange[retain-explicit-plus]{-40}{+125}{\degreeCelsius}	\\
 		Nominal $B$-constant				&	\SIrange{4250}{4299}{K}																		\\\tline{.4}
@@ -19,16 +100,109 @@ In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grov
 	\label{tab:gt}
 \end{table}
 
-\subsection{Building Your Own Temperature Sensor}
-During this lab you will work with the \ac{NTC} \SI{100}{\kilo\ohm} \href{http://www.farnell.com/datasheets/91602.pdf}{B57164-K104-J} thermistor.
+\begin{itemize}
+	\item connect the Grove Base Shield to your Arduino
+	\item connect the Grove Temperature Sensor to the shield
+	\begin{itemize}
+		\item think about which connector to choose on the shield
+		\item \code{\var{const int} TempPin = D8/A2;}?
+	\end{itemize}
+	\item write a sketch (\path{GroveTemp.ino}) that measures the ambient temperature
+	\begin{itemize}
+		\item read the voltage value from the sensor
+		\item convert the voltage into the corresponding resistance
+		\item convert the resistance into a temperature in \SI{}{\degreeCelsius}
+		\item write the temperature to the serial interface
+		\item look at the data with the Arduino Serial Monitor:\\ \fpath{Tools > Serial Monitor} (\code{Ctrl+Shift+M})
+		\item look at the data with the Arduino Serial Plotter:\\ \fpath{Tools > Serial Plotter} (\code{Ctrl+Shift+P})
+	\end{itemize}
+\end{itemize}
+%END
 
-\subsection{Building a Heating System}
+\subsection{Data Handling}\label{sec:data}
+%BEGIN Data Handling
+Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with.\par
+Once a sketch is uploaded to the microprocessor the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. In order to read the data externally from the serial port you have to close the Arduino serial tools.\\
+Example code in python:
+\begin{itemize}
+	\item open the serial port
+	\begin{itemize}
+		\item \code{\var{from} serial \var{import} Serial}
+		\item \code{arduino = Serial(\str{'/dev/<arduino\_portname>'})}
+		\item you can find the name of the port in the Arduino \ac{IDE}
+		\item read the data using the serial methods \code{arduino.read\_all()} or \code{arduino.readline()}  
+	\end{itemize}
+	\item write the data to a text file (\path{data.txt}), every value on a single line
+	\begin{itemize}
+		\item if you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}
+	\end{itemize}
+\end{itemize}
+%END
 
-\subsection{Building a Cooling System}
+\subsection{Building Your Own Temperature Sensor}\label{sec:temp}
+%BEGIN Temperature Sensor
+In this task you will build your own temperature sensor using discrete components. The \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} thermistor has the specifications listed in \ar{tab:ts}.
+\begin{table}[ht!]\centering\alternatecolors
+	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
+		\fatwhite{Specification}		& \fatwhite{Value}																					\\\tline{1.3}
+		Operating voltage											&	\SIrange{3.3}{5.0}{\volt}																	\\
+		Zero power resistance				&	\SI{100\pm5}{\kilo\ohm}																		\\
+		Operating temperature range	&	\SIrange[retain-explicit-plus]{-55}{+125}{\degreeCelsius}	\\
+		Nominal $B$-constant				&	\SI{4600\pm1340}{K}																		\\\tline{.4}
+	\end{tabular}
+	\caption{B57164-K104-J specifications.}
+	\label{tab:ts}
+\end{table}
+
+\begin{itemize}
+	\item build a voltage divider circuit to convert the resistance into a measurable voltage
+	\item use the operational amplifier to increase the outgoing signal
+	\item reproduce the temperature measurements from \ar{sec:grovetemp}
+\end{itemize}
+%END
+
+
+\subsection{Building a Heating System}\label{sec:heat}
+Since it is boring to measure a constant temperature you build a system to heat your temperature sensor.
+\begin{itemize}
+	\item connect a resistor (or a series of resistors) to the Breadboard
+	\item calculate the power dissipation of the resistor
+	\item heat the temperature sensor with the heater
+	\item monitor the temperature
+	\item measure time constant of the temperature rise?
+\end{itemize}
+
+\subsection{Building a Cooling System}\label{sec:cool}
+Many electrical components will produce heat under load and may break at critical temperatures. That is why many of complex systems like computers require cooling. You will now build a system that controls a fan and can regulate it's rotation speed.
+\begin{itemize}
+	\item connect the fan to the breadboard
+	\item use the transistor as a voltage buffer to supply the fan with voltage
+	\item use a digital pin with \ac{PWM} to control the fan and be able to change the rotation speed
+\end{itemize}
+
+\subsection{Building a PID Controller}
+To prevent your resistor from overheating you will no implement a \ac{PID} controller to regulate it's temperature.
+\begin{itemize}
+	\item build a setup including the heater and the fan
+	\item measure the temperature of the resistor with your sensor
+	\item write a sketch (\path{TControl.ino}) that uses \ac{PID} to regulate the temperature of the resistor to a stable value
+\end{itemize}
+
 
 \subsection{Read Out the Fan Speed (Advanced)}
+\begin{itemize}
+	\item connect tacho pin of the fan to an analogue pin of the Arduino
+	\item count the pulses to measure the \ac{RPM}
+	\item write the \ac{RPM} value so serial
+	\item plot the \ac{RPM} together with the temperature
+\end{itemize}
 
 \subsection{Adding a Display (Advanced)}
+\begin{itemize}
+	\item show the \ac{RPM} and temperature values on the display
+	\item control backlight colour
+\end{itemize}
+
 
 
 
