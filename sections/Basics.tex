@@ -2,8 +2,8 @@
 \section{Basics}
 This section will give you the basic information about the components we are using in this lab.
 
+\subsection{Arduino Uno}\label{sec:uno}
 %BEGIN Arduino Uno
-\subsection{Arduino Uno}
 
 \fig{.9}{BoardAnatomy}
 \begin{itemize}
@@ -20,8 +20,8 @@ This section will give you the basic information about the components we are usi
 \end{itemize}
 %END
 
+\subsection{Grove Base Shield}\label{sec:grove}
 %BEGIN Grove Base Shield
-\subsection{Grove Base Shield}
 The so called shields are printed circuit expansion boards, which plug into the normally supplied Arduino pin headers. The Grove Base Shield is one example that simplifies projects that require a lot of sensors or LEDs. With the Grove connectors on the base board, one can add all the Grove modules to the Arduino Uno very conveniently.\par
 
 \subfigs{\subfig[.41]{.25}{grove}[Side view.]}{\subfig[.51]{.25}{grove1}[Top view.]}[Grove shield.]
@@ -46,8 +46,8 @@ There are 16 Grove connectors on the Base Shield which are shown in \ar{tab:1}. 
 Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\volt} is required \cite{grove:1}.
 %END
 
+\subsection{The Software}\label{sec:soft}
 %BEGIN Software
-\subsection{The Software}
 
 \subsubsection{Arduino \ac{IDE}}
 All you require to write programs and upload them to your board is the Arduino Software (\ac{IDE}). There are two options how to use it:\\[5pt]
@@ -79,8 +79,8 @@ All you require to write programs and upload them to your board is the Arduino S
 First the Arduino board has to be connected to the computer via the \ac{USB} cable which will power the board indicated by the green \ac{PWR} LED. The board drivers should then install automatically in Linux, Mac OS X and Windows. If the board was not properly recognised, follow these \href{https://www.arduino.cc/en/Guide/ArduinoUno}{instructions}.
 %END
 
+\subsection{Programming}\label{sec:prog}
 %BEGIN Programming
-\subsection{Programming}
 In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \textbf{\path{File > Examples}}\\
 A list of the most common methods is shown in \ar{tab:2}. For more information look at the \href{https://www.arduino.cc/reference/en/}{detailed description}.
 \begin{table}[ht!]\centering\setlength\extrarowheight{5pt}
@@ -118,13 +118,15 @@ A list of the most common methods is shown in \ar{tab:2}. For more information l
 %END
 
 \newpage
-\subsection{Project Management With}
+\subsection{Project Management with}\label{sec:git}
+%BEGIN Git
 \begin{figure}[h!]\vspace*{-1.43cm}\hspace*{6.7cm}\includegraphics[height=1cm]{gitlogo}\end{figure}\vspace*{-.4cm}\noindent
 Git is a version control system for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for source code management in software development, but it can be used to keep track of changes in any set of files \cite{wiki:2}.\par
 \begin{huge}\textbf{More explanation?}\end{huge}
+%END
 
-%BEGIN Voltage Divider
 \subsection{Voltage Divider}\label{sec:vd}
+%BEGIN Voltage Divider
 A voltage divider is a passive linear circuit that produces an output voltage $V_{\z{out}}$ that is a fraction of its input voltage $V_{\z{in}}$. Voltage division is the result of distributing the input voltage among the components of the divider. A simple example of a voltage divider is two resistors connected in series, with $V_{\z{in}}$ across the resistor pair and $V_{\z{out}}$ emerging from the connection between them as shown in \ar{fig:vd}.\par
 \fig{.2}{voltdivider}[Voltage divider.][fig:vd]
 Resistor voltage dividers are commonly used to create reference voltages, or to reduce the magnitude of a voltage so it can be measured. Using Ohm's law one can easily derive the formula for $V_{\z{out}}$:
@@ -133,8 +135,8 @@ Resistor voltage dividers are commonly used to create reference voltages, or to 
 \end{equation}
 %END
 
+\subsection{Thermistor}\label{sec:therm}
 %BEGIN Thermistor
-\subsection{Thermistor}
 If, for a given temperature, the current is directly proportional to the applied voltage the electrical component is said to obey Ohm's law. Such components are called linear resistors. If a component does not meet this requirement it is termed a non-linear resistor, which falls into two classes $-$ the temperature-sensitive type and the voltage-sensitive type. The temperature-sensitive types are often known as thermistors and change the resistance very reproducible. The word is a portmanteau of \textit{THERM}ally-sensitive and res\textit{ISTOR}.\par
 \fig{.15}{therm2}[Electronic symbol of the thermistor][fig:tc]
 They consist of the sintered oxides of manganese and nickel with small amounts of copper, cobalt or iron added to vary the properties and the physical shape is usually a bead, rod or a disc. The electronic symbol is shown in \ar{fig:tc}. The resistance is given by
@@ -160,8 +162,8 @@ Now we need to convert the resistance into the temperature using \ar{eq:th}:
 Note that this temperature will be in Kelvin!
 %END
 	
-%BEGIN Transistor
 \subsection{Bipolar Junction Transistor}\label{sec:trans}
+%BEGIN Transistor
 \Iac{BJT} is a type of transistor that uses both electron and hole charge carriers. For their operation, \acp{BJT} use two junctions between two semiconductor types, n-type and p-type and thus can be manufactured in two types, NPN and PNP. The basic function of a \ac{BJT} is to amplify current which allows it to be used as amplifiers or switches, giving them wide applicability in electronic equipment.
 \subfigs{\subfig[.2]{.07}{trans4}[NPN]}{\subfig[.2]{.07}{trans5}[PNP]}[Electronic symbols of the \ac{BJT}.]
 
