@@ -119,6 +119,35 @@ In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grov
 \end{itemize}
 %END
 
+
+\subsection{Grove Display and Potentiometer}\label{sec:grovetemp}
+%BEGIN Grove3
+As a next step, we will add two more components from the Grove kit: a display to output the current temperature read by the sensor and a potentiometer to set the threshold for out two-point temperature control later. 
+\begin{itemize}
+    \item add the display to your project
+	\begin{itemize}
+        \item install the libraries from \href{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}
+        \item look at the example code on the above website, especially on how to include the libraries in your project and how to initialize it during the \ac{setup()} routine
+        \item make sure the "3V3_VCC_5V" switch on the Grove shield is set to 5V, otherwise the display will not work correctly
+	    \item connect the Grove LCD RGB Backlight display to your Grove shield
+		\item modify your project such that the measured temperature is printed on the display every second 
+	\end{itemize}
+	\item define a fixed threshold in your code, e.g. 30 degrees above which a LED is turned on. (As alternative you can change the background color of your display). Test if your project is working.
+	\item now we want to make the threshold controllable without recompiling our project. For this purpose, connect the potentiometer (Grove Rotary Angle Sensor) to the Grove shield.
+	\begin{itemize}
+        \item read the description at \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}
+        \item read-out the sensor with \ac{analogRead()}
+        \item to map the ADCs which range from 0 to 1023 to a reasonable temperature range (a, b), e.g. 20 to 40 degrees, the function \ac{map(degrees, 0, 1023, a, b)} can be used for convenience
+ 	\end{itemize} 
+ 	\item indicate the status below/above threshold also in the output to the serial interface, e.g. add a second number (0 = below threshold, 50 = above threshold) separated by a space
+    	\item test your code by varying the threshold below/above the room temperature
+	\begin{itemize}
+		\item the serial plotter should now draw a second line indicating whether below or above threshold
+ 	\end{itemize}
+    	\item optional: while turning the potentiometer, you can also print the threshold temperature on the display in the second row below the measured temperature
+\end{itemize}
+%END
+
 \subsection{Data Handling}\label{sec:data}
 %BEGIN Data Handling
 Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with.\par
@@ -130,13 +159,16 @@ Example code in python:
 		\item \code{\var{from} serial \var{import} Serial}
 		\item \code{arduino = Serial(\str{'/dev/<arduino\_portname>'})}
 		\item you can find the name of the port in the Arduino \ac{IDE}
-		\item read the data using the serial methods \code{arduino.read\_all()} or \code{arduino.readline()}  
+		\item read a single line using the serial method \code{arduino.readline().decode('utf-8')}  
 	\end{itemize}
+	\item print the line in the terminal using \ac{print}
 	\item write the data to a text file (\path{data.txt}), every value on a single line
 	\begin{itemize}
 		\item if you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}
 	\end{itemize}
+	\item your program should repeat this until you terminate it e.g. by pressing CTRL+C.
 \end{itemize}
+\b{Optional}: If you use Linux or Mac, try to do all of the above with a single line of bash with less than 100 characters. Look at \ac{read} and \ac{tee} commands.
 %END
 
 \subsection{Building Your Own Temperature Sensor}\label{sec:temp}
@@ -175,33 +207,69 @@ Since it is boring to measure a constant temperature you build a system to heat 
 \subsection{Building a Cooling System}\label{sec:cool}
 Many electrical components will produce heat under load and may break at critical temperatures. That is why many of complex systems like computers require cooling. You will now build a system that controls a fan and can regulate it's rotation speed.
 \begin{itemize}
-	\item connect the fan to the breadboard
-	\item use the transistor as a voltage buffer to supply the fan with voltage
-	\item use a digital pin with \ac{PWM} to control the fan and be able to change the rotation speed
+	\item connect the fan to the breadboard, for the 4 pin header, the following conventions are used:
+	\begin{itemize}
+	    \item black: ground
+	    \item yellow: 5V
+	    \item green: tacho read-out (will be used later)
+	    \item blue: PWM control
+	\end{itemize}
+	\item keep in mind that only a few of the digital pins (marked by "\~" on the board) are able to use PWM, e.g. use digital pin 11
+\end{itemize}
+Now we can finally build the full two-point controller.
+\begin{itemize}
+    \item define a low and high threshold, e.g. use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one.
+	\item set the duty cycle of the fan to 100\% when above the high threshold
+	\item set the duty cycle of the fan to 0\% when below the low threshold
+	\item setting the PWM duty-cycle can be done using the \textbf{analogWrite()} function
+	\item if thresholds are set reasonably, you will see an oscillatory behavior. \textbf{Create a plot of temperature vs. time which shows multiple periods.}
+\end{itemize}
+%	\item use the transistor as a voltage buffer to supply the fan with voltage
+%	\item use a digital pin with \ac{PWM} to control the fan and be able to change the rotation speed
 \end{itemize}
 
-\subsection{Building a PID Controller}
-To prevent your resistor from overheating you will no implement a \ac{PID} controller to regulate it's temperature.
+\subsection{Read Out the Fan Speed}
+We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure its rotation speed. In every rotation this sensor will produce two pulses we can count and then convert to revolutions per minute (\textbf{RPM}). The maximum (for 100\% duty cycle) according to the datasheet is 1900 RPM, with a tolerance of 10\%, the minimum is around 230 RPM.
+
+\begin{itemize}
+	\item calculate a rough estimate for the minimum frequency needed for reading the voltage on the tacho pin and be able to count the pulses? (Use Nyquist theorem) In practice, a much higher frequency should be used than the limit calculated above
+	\item check the Arduino reference of \textbf{analogRead()} for the maximum frequency. Since we also have to do other work in the \textbf{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice.
+    \item what is the expected uncertainty on the minimum and maximum RPM if we count pulses for 1 second?
+	\item connect the tacho (green wire) of the fan to an analog pin of the Arduino, using a 10k pull-up resistor. (optional: figure out how to use internal pull-up resistor of the Arduino instead of a discrete component)
+	\item what is the role of the pull-up resistor?
+	\item count the pulses of the HES and convert the result to RPM. Is it within the range expected by the datasheet numbers?
+	\item write the \ac{RPM} value to the serial output
+\end{itemize}
+
+\subsection{Final measurements}
+Now that our device has all basic functionalities, we can perform some measurements with it.
+\begin{itemize}
+	\item plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin?
+	\item plot the equilibrium temperature vs. the duty cycle and the equilibrium temperature vs. the fan RPM
+\end{itemize}
+
+Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino.
+
+
+\subsection{Bi-directional communication with the computer (Advanced)}
+Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
+\begin{itemize}
+	\item instead of using the potentiometer to set the threshold, implement a way to set the threshold via serial commands
+	\item one can use the SCPI protocol as a reference, e.g. set the threshold to 32 degrees with the command "SET:THR 32"
+	\item which other commands are necessary to run the measurements from above section without hardcoding the measurement programme (e.g. number of steps, seconds per step etc.)?
+	\item write a Python script to perform the measurements from above section via sending SCPI style commands to the Arduino
+\end{itemize}
+
+
+
+\subsection{Building a PID Controller (Advanced)}
+To prevent your resistor from overheating you will now implement a \ac{PID} controller to regulate it's temperature.
 \begin{itemize}
 	\item build a setup including the heater and the fan
 	\item measure the temperature of the resistor with your sensor
 	\item write a sketch (\path{TControl.ino}) that uses \ac{PID} to regulate the temperature of the resistor to a stable value
 \end{itemize}
 
-
-\subsection{Read Out the Fan Speed (Advanced)}
-\begin{itemize}
-	\item connect tacho pin of the fan to an analogue pin of the Arduino
-	\item count the pulses to measure the \ac{RPM}
-	\item write the \ac{RPM} value so serial
-	\item plot the \ac{RPM} together with the temperature
-\end{itemize}
-
-\subsection{Adding a Display (Advanced)}
-\begin{itemize}
-	\item show the \ac{RPM} and temperature values on the display
-	\item control backlight colour
-\end{itemize}
 
 
 
