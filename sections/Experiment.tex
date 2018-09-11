@@ -126,18 +126,18 @@ As a next step, we will add two more components from the Grove kit: a display to
 \begin{itemize}
     \item add the display to your project
 	\begin{itemize}
-        \item install the libraries from \href{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}
-        \item look at the example code on the above website, especially on how to include the libraries in your project and how to initialize it during the \ac{setup()} routine
-        \item make sure the "3V3_VCC_5V" switch on the Grove shield is set to 5V, otherwise the display will not work correctly
+        \item install the libraries from \href{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}
+        \item look at the example code on the above website, especially on how to include the libraries in your project and how to initialize it during the \code{setup()} routine
+        \item make sure the "3V3\_VCC\_5V" switch on the Grove shield is set to 5V, otherwise the display will not work correctly
 	    \item connect the Grove LCD RGB Backlight display to your Grove shield
 		\item modify your project such that the measured temperature is printed on the display every second 
 	\end{itemize}
 	\item define a fixed threshold in your code, e.g. 30 degrees above which a LED is turned on. (As alternative you can change the background color of your display). Test if your project is working.
 	\item now we want to make the threshold controllable without recompiling our project. For this purpose, connect the potentiometer (Grove Rotary Angle Sensor) to the Grove shield.
 	\begin{itemize}
-        \item read the description at \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}
-        \item read-out the sensor with \ac{analogRead()}
-        \item to map the ADCs which range from 0 to 1023 to a reasonable temperature range (a, b), e.g. 20 to 40 degrees, the function \ac{map(degrees, 0, 1023, a, b)} can be used for convenience
+        \item read the description at \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}
+        \item read-out the sensor with \code{analogRead()}
+        \item to map the ADCs which range from 0 to 1023 to a reasonable temperature range (a, b), e.g. 20 to 40 degrees, the function \code{map(degrees, 0, 1023, a, b)} can be used for convenience
  	\end{itemize} 
  	\item indicate the status below/above threshold also in the output to the serial interface, e.g. add a second number (0 = below threshold, 50 = above threshold) separated by a space
     	\item test your code by varying the threshold below/above the room temperature
@@ -161,14 +161,14 @@ Example code in python:
 		\item you can find the name of the port in the Arduino \ac{IDE}
 		\item read a single line using the serial method \code{arduino.readline().decode('utf-8')}  
 	\end{itemize}
-	\item print the line in the terminal using \ac{print}
+	\item print the line in the terminal using \code{print}
 	\item write the data to a text file (\path{data.txt}), every value on a single line
 	\begin{itemize}
 		\item if you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}
 	\end{itemize}
 	\item your program should repeat this until you terminate it e.g. by pressing CTRL+C.
 \end{itemize}
-\b{Optional}: If you use Linux or Mac, try to do all of the above with a single line of bash with less than 100 characters. Look at \ac{read} and \ac{tee} commands.
+\b{Optional}: If you use Linux or Mac, try to do all of the above with a single line of bash with less than 100 characters. Look at \code{read} and \code{tee} commands.
 %END
 
 \subsection{Building Your Own Temperature Sensor}\label{sec:temp}
@@ -221,19 +221,17 @@ Now we can finally build the full two-point controller.
     \item define a low and high threshold, e.g. use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one.
 	\item set the duty cycle of the fan to 100\% when above the high threshold
 	\item set the duty cycle of the fan to 0\% when below the low threshold
-	\item setting the PWM duty-cycle can be done using the \textbf{analogWrite()} function
+	\item setting the PWM duty-cycle can be done using the \code{analogWrite()} function
 	\item if thresholds are set reasonably, you will see an oscillatory behavior. \textbf{Create a plot of temperature vs. time which shows multiple periods.}
 \end{itemize}
-%	\item use the transistor as a voltage buffer to supply the fan with voltage
-%	\item use a digital pin with \ac{PWM} to control the fan and be able to change the rotation speed
-\end{itemize}
+
 
 \subsection{Read Out the Fan Speed}
 We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure its rotation speed. In every rotation this sensor will produce two pulses we can count and then convert to revolutions per minute (\textbf{RPM}). The maximum (for 100\% duty cycle) according to the datasheet is 1900 RPM, with a tolerance of 10\%, the minimum is around 230 RPM.
 
 \begin{itemize}
 	\item calculate a rough estimate for the minimum frequency needed for reading the voltage on the tacho pin and be able to count the pulses? (Use Nyquist theorem) In practice, a much higher frequency should be used than the limit calculated above
-	\item check the Arduino reference of \textbf{analogRead()} for the maximum frequency. Since we also have to do other work in the \textbf{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice.
+	\item check the Arduino reference of \code{analogRead()} for the maximum frequency. Since we also have to do other work in the \code{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice.
     \item what is the expected uncertainty on the minimum and maximum RPM if we count pulses for 1 second?
 	\item connect the tacho (green wire) of the fan to an analog pin of the Arduino, using a 10k pull-up resistor. (optional: figure out how to use internal pull-up resistor of the Arduino instead of a discrete component)
 	\item what is the role of the pull-up resistor?
