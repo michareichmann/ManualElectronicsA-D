@@ -39,9 +39,9 @@ You will find the following objects on your test stand:
 \subsection{Setting up the Arduino}\label{sec:setup}
 %BEGIN Arduino Setup
 \subsubsection{Software installation}
-We highly recommend you to install the Arduino \ac{IDE} on your machine so that you can access it any time. If you should have trouble with the installation or would prefer to work you can also use the online \ac{IDE}.
+We highly recommend you to install the Arduino \ac{IDE} on your machine so that you can access it any time. If you should have trouble with the installation or you prefer to not use your computer for the experiment, you can use one of the Windows XP machines provided to you, which have the Arduino IDE and all necessary drivers pre-installed. These machines do not have internet connection, so you have to bring a portable USB drive to copy the data.
 \begin{itemize}
-	\item install \ac{IDE} following \ar{sec:soft} (Do we provide some laptops just in case?)
+	\item install \ac{IDE} following \ar{sec:soft}
 \end{itemize}
 
 \subsubsection{Connect the Arduino}
@@ -55,33 +55,72 @@ We highly recommend you to install the Arduino \ac{IDE} on your machine so that 
 
 \subsubsection{Your First Sketch}
 \begin{itemize}
-	\item create your sketch directory
+	\item (optional) set your sketchbook location
 	\begin{itemize}
 		\item you can link it to your \ac{IDE}: \fpath{File > Preferences > Sketchbook Location}
 	\end{itemize}
-	\item create a git repository for this project in the sketch folder
-	\item write a sketch that turns on the built in LED 
-	\begin{itemize}
-		\item name it \path{LedOn.ino}
-		\item \code{\var{const int} LedPin = \var{LED\_BUILTIN};}
-	\end{itemize}
+	\item create a new sketch with \fpath{File > New}, it will look like this:
+\end{itemize}
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Arduino]
+void setup() {
+  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+\end{lstlisting}
+\end{minipage}
+
+Now we want to turn on the LED on the Arduino board, which is connected to the special pin \code{\var{LED\_BUILTIN}}. Since use this pin as an output, we have to set the pin mode during the \code{\meth{setup()}} function to \code{OUTPUT}. Afterwards we can use the method \code{\meth{digitalWrite()}} to set the pin to \code{\var{HIGH}}, (corresponding to 5V), which will turn on the LED on the board. We don't need to use the \code{\meth{loop()}} method for this simple sketch, but we will use it later.
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Arduino]
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+\end{lstlisting}
+\end{minipage}
+
+That's it. All the methods and constants we use in this script are already defined and don't have to be imported explicitly. There is a long list of such pre-defined constants, make sure to not redefine them when adding new constants or variables!
+We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct Port and choose "Arduino/Genuino Uno" as board type if not already selected.
+
+\begin{itemize}
+	\item compile the code
+	\item upload the code to the Arduino
+	\item add the sketch folder to a git repository
 \end{itemize}
 %END
 
 \subsection{Blinking LED on Bread Board}\label{sec:led}
 %BEGIN Blinking LED
-This task will teach you how to use the Breadboard with the Arduino and the difference between \code{\meth{delay}()} and \code{\meth{millis}()}.
+That was easy (but boring...). As next step we want to have a blinking external LED on the breadboard. Since it should continue blinking forever, we will use the \code{\meth{loop()}} function now.
 \begin{itemize}
 	\item supply the Breadboard with \SI{5}{\volt} from the Arduino
-	\item connect a LED to the Breadboard 
-	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{10}{\hertz} using the \code{\meth{delay}()} method
-	\item connect a second LED to the circuit
+	\item connect a LED to the breadboard with appropriate resistor (220 Ohm) and to a digital pin
+	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{1}{\hertz} using the \code{\meth{delay}(int \var{nMicroSeconds})} method, which pauses the execution for \code{\var{nMicroSeconds}} microsenconds.
+\end{itemize}
+Upload your sketch now to the Arduino and test it.
+
+\begin{itemize}
+	\item connect a second LED on the breadboard to a different pin
 	\item write a sketch (\path{Blink2.ino}) that makes the second LED blink in a different pattern than the first one
 	\begin{itemize}
 		\item why is \code{\meth{delay}()} not working anymore?
-		\item use a timer with \code{\meth{millis}()} or \code{\meth{micros}()}
+		\item use a timer with \code{\meth{micros}()} which returns a microseconds counter
 	\end{itemize}
 \end{itemize}
+
 %END
 
 
@@ -104,25 +143,26 @@ In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grov
 	\item connect the Grove Base Shield to your Arduino
 	\item connect the Grove Temperature Sensor to the shield
 	\begin{itemize}
-		\item think about which connector to choose on the shield
-		\item \code{\var{const int} TempPin = D8/A2;}?
+		\item figure out which connector to choose on the shield
 	\end{itemize}
 	\item write a sketch (\path{GroveTemp.ino}) that measures the ambient temperature
 	\begin{itemize}
 		\item read the voltage value from the sensor
 		\item convert the voltage into the corresponding resistance
 		\item convert the resistance into a temperature in \SI{}{\degreeCelsius}
-		\item write the temperature to the serial interface
+		\item write the temperature to the serial interface every second
 		\item look at the data with the Arduino Serial Monitor:\\ \fpath{Tools > Serial Monitor} (\code{Ctrl+Shift+M})
 		\item look at the data with the Arduino Serial Plotter:\\ \fpath{Tools > Serial Plotter} (\code{Ctrl+Shift+P})
 	\end{itemize}
 \end{itemize}
+
+The serial connection has to be enabled during the \code{\meth{setup()}} function with \code{Serial.begin(9600);} where 9600 is the baud rate. It is 9600 by default in the Serial Plotter and Serial monitor utilities, so it is convenient to use this.
 %END
 
 
 \subsection{Grove Display and Potentiometer}\label{sec:grovetemp}
 %BEGIN Grove3
-As a next step, we will add two more components from the Grove kit: a display to output the current temperature read by the sensor and a potentiometer to set the threshold for out two-point temperature control later. 
+As a next step, we will add two more components from the Grove kit: a display to output the current temperature read by the sensor and a potentiometer to set the threshold for our two-point temperature control later. 
 \begin{itemize}
     \item add the display to your project
 	\begin{itemize}
@@ -142,7 +182,7 @@ As a next step, we will add two more components from the Grove kit: a display to
  	\item indicate the status below/above threshold also in the output to the serial interface, e.g. add a second number (0 = below threshold, 50 = above threshold) separated by a space
     	\item test your code by varying the threshold below/above the room temperature
 	\begin{itemize}
-		\item the serial plotter should now draw a second line indicating whether below or above threshold
+		\item the serial plotter should now draw a second line indicating whether below or above threshold. Vary your threshold slowly below and above the room temperature and make a screenshot of the resulting graph.
  	\end{itemize}
     	\item optional: while turning the potentiometer, you can also print the threshold temperature on the display in the second row below the measured temperature
 \end{itemize}
@@ -151,7 +191,11 @@ As a next step, we will add two more components from the Grove kit: a display to
 \subsection{Data Handling}\label{sec:data}
 %BEGIN Data Handling
 Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with.\par
-Once a sketch is uploaded to the microprocessor the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. In order to read the data externally from the serial port you have to close the Arduino serial tools.\\
+Once a sketch is uploaded to the microprocessor the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. Note down the port number or name, which can be seen under "Tools" in the Arduino IDE. In order to read the data externally from the serial port you have to close the Arduino serial tools (Serial Monitor, Serial Plotter, ...).\\
+
+
+\subsubsection{With Python}
+
 Example code in python:
 \begin{itemize}
 	\item open the serial port
@@ -168,7 +212,21 @@ Example code in python:
 	\end{itemize}
 	\item your program should repeat this until you terminate it e.g. by pressing CTRL+C.
 \end{itemize}
-\b{Optional}: If you use Linux or Mac, try to do all of the above with a single line of bash with less than 100 characters. Look at \code{read} and \code{tee} commands.
+
+\subsubsection{On Windows XP lab computers}
+
+If your port is COM3, you can type the following simple command into a command shell (Start > Run > cmd):
+
+\code{type com3: > output.log}
+
+There is a small delay in writing as data is written in blocks. It can also happen that the last line is incomplete, take this into account in the analysis of the file. You can stop the program by pressing CTRL+break in the command shell. You can use a USB stick to transfer the resulting file to your personal computer to proceed with the analysis.
+
+\subsubsection{bash (Linux, Mac OSX}
+If you use Linux or Mac, you can do all of the above with a single line of bash. Instead of "/dev/cu.usbmodem14141" put your device name (which is listed as port in the Arduino IDE), which can be different from this.
+
+\code{while read -r line; do echo \$line; done < /dev/cu.usbmodem14141 | tee "output.txt"}
+
+
 %END
 
 \subsection{Building Your Own Temperature Sensor}\label{sec:temp}
@@ -188,20 +246,20 @@ In this task you will build your own temperature sensor using discrete component
 
 \begin{itemize}
 	\item build a voltage divider circuit to convert the resistance into a measurable voltage
-	\item use the operational amplifier to increase the outgoing signal
+	\item use the LM358 operational amplifier to increase the outgoing signal (why do we need it?)
 	\item reproduce the temperature measurements from \ar{sec:grovetemp}
 \end{itemize}
+
+You can copy the schematics from \href{https://github.com/SeeedDocument/Grove-Temperature_Sensor_V1.2/raw/master/res/Grove_-_Temperature_sensor_v1.1.pdf}, which shows the easiest way how to use the op-amp.
 %END
 
 
 \subsection{Building a Heating System}\label{sec:heat}
-Since it is boring to measure a constant temperature you build a system to heat your temperature sensor.
+Since it is boring to measure a constant temperature, we build a simple heat load of 0.2-0.25 W with a couple of resistors.
 \begin{itemize}
-	\item connect a resistor (or a series of resistors) to the Breadboard
-	\item calculate the power dissipation of the resistor
-	\item heat the temperature sensor with the heater
-	\item monitor the temperature
-	\item measure time constant of the temperature rise?
+	\item calculate the resistors needed to have the correct power dissipation.
+	\item bring the heating resistor and the temperature sensor close together to have as good thermal contact as possible.
+	\item create a plot of the temperature vs. time (starting from room temperature) and measure the time constant of the temperature rise and estimate the equilibrium temperature.
 \end{itemize}
 
 \subsection{Building a Cooling System}\label{sec:cool}
@@ -224,7 +282,7 @@ Now we can finally build the full two-point controller.
 	\item setting the PWM duty-cycle can be done using the \code{analogWrite()} function
 	\item if thresholds are set reasonably, you will see an oscillatory behavior. \textbf{Create a plot of temperature vs. time which shows multiple periods.}
 \end{itemize}
-
+Experiment with different set-points, what is the advantage of having two setpoints instead of a single threshold above we turn cooling on? What are the draw-backs of the two-point controller?
 
 \subsection{Read Out the Fan Speed}
 We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure its rotation speed. In every rotation this sensor will produce two pulses we can count and then convert to revolutions per minute (\textbf{RPM}). The maximum (for 100\% duty cycle) according to the datasheet is 1900 RPM, with a tolerance of 10\%, the minimum is around 230 RPM.
@@ -233,7 +291,7 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 	\item calculate a rough estimate for the minimum frequency needed for reading the voltage on the tacho pin and be able to count the pulses? (Use Nyquist theorem) In practice, a much higher frequency should be used than the limit calculated above
 	\item check the Arduino reference of \code{analogRead()} for the maximum frequency. Since we also have to do other work in the \code{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice.
     \item what is the expected uncertainty on the minimum and maximum RPM if we count pulses for 1 second?
-	\item connect the tacho (green wire) of the fan to an analog pin of the Arduino, using a 10k pull-up resistor. (optional: figure out how to use internal pull-up resistor of the Arduino instead of a discrete component)
+	\item connect the tacho (green wire) of the fan to an analog pin of the Arduino, using a 10k pull-up resistor to 5V. (optional: figure out how to use internal pull-up resistor of the Arduino instead of a discrete component)
 	\item what is the role of the pull-up resistor?
 	\item count the pulses of the HES and convert the result to RPM. Is it within the range expected by the datasheet numbers?
 	\item write the \ac{RPM} value to the serial output
@@ -242,12 +300,51 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 \subsection{Final measurements}
 Now that our device has all basic functionalities, we can perform some measurements with it.
 \begin{itemize}
-	\item plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin?
-	\item plot the equilibrium temperature vs. the duty cycle and the equilibrium temperature vs. the fan RPM
+	\item plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at which RPM? What is the maximum RPM for full duty-cycle?
+	\item plot the equilibrium temperature vs. the duty cycle and the equilibrium temperature vs. the fan RPM. Make sure you measure long enough for each data point and give a reasonable estimate for the uncertainty that you obtain on the equilibrium value.
 \end{itemize}
 
-Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino.
+Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
 
+
+\subsection{Building a PID Controller (Advanced)}
+We have seen that with the two-point controller above, we could not exactly stabilize to a constant temperature and were suffering from under- and overshoot. Using a \ac{PID} controller can overcome both issues.
+\begin{itemize}
+	\item implement a \ac{PID} controller
+	\item regulate cooling by the PWM duty-cycle of your fan
+	\item tune your three parameters to have reasonably stable operation. (Perfect tuning is very complicated and does not have to done here.)
+	\item create some plots with temperature vs. time, starting from different initial temperatures, which show converging temperature.
+\end{itemize}
+
+The output of the PID controller consists of three different terms, each having a tuneable coefficient.
+\begin{itemize}
+	\item proportional: proportional to the error, which is \code{error = temperature - setpoint}
+	\item integral: proportional to the sum of all errors of previous steps
+	\item derivative: proportional to the difference in error compared to last step
+\end{itemize}
+
+In practice, there are few more things to consider
+\begin{itemize}
+    \item using a timer, perform the PID calculations between every 100 ms and every second. You should not use longer values to be fast enough in response and not too much shorter values to be not susceptible to noise.
+    \item use a discrete digital low-pass filter on your measured temperature if it is noisy.
+    \item convert your PID response to a duty\_cycle between 0 and 255 to be used in \code{\meth{analogWrite}(\var{PIN\_FAN\_PWM}, duty\_cycle);}
+\end{itemize}
+
+A low-pass filter can be used to filter out high frequency fluctuations (noise) on the measured temperature. It can be implemented in it's simplest form with
+
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Arduino]
+temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * (temperature_current - temperature);
+\end{lstlisting}
+\end{minipage}
+
+where \code{temperature\_current} is the actual reading from the sensor and \code{temperature} (which has to be properly initialized once to be the sensor reading!) the output of the filter. \code{\var{LOWPASS\_ALPHA}} controls the cut-off frequency of the lowpass filter and obviously depends on how often per seconds we measure. Set it to a reasonable value which suppresses the noise and is still fast enough for the timescale of temperature changes we expect (roughly few degrees per second). It can also be computed analytically:
+
+\begin{equation}
+\alpha = \frac{\Delta t}{\tau + \Delta t}
+\end{equation}
+
+where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the result would stay constant.
 
 \subsection{Bi-directional communication with the computer (Advanced)}
 Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
@@ -258,15 +355,6 @@ Until now we only read values from the device, but we can also write commands fr
 	\item write a Python script to perform the measurements from above section via sending SCPI style commands to the Arduino
 \end{itemize}
 
-
-
-\subsection{Building a PID Controller (Advanced)}
-To prevent your resistor from overheating you will now implement a \ac{PID} controller to regulate it's temperature.
-\begin{itemize}
-	\item build a setup including the heater and the fan
-	\item measure the temperature of the resistor with your sensor
-	\item write a sketch (\path{TControl.ino}) that uses \ac{PID} to regulate the temperature of the resistor to a stable value
-\end{itemize}
 
 
 
