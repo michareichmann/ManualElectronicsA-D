@@ -93,14 +93,16 @@ void loop() {
 \end{minipage}
 
 That's it. All the methods and constants we use in this script are already defined and don't have to be imported explicitly. There is a long list of such pre-defined constants, make sure to not redefine them when adding new constants or variables!
-We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct Port and choose "Arduino/Genuino Uno" as board type if not already selected.
+We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct Port and choose "Arduino/Genuino Uno" as board type if not already selected.\newline
 
 \begin{itemize}
 	\item compile the code
 	\item upload the code to the Arduino
 	\item add the sketch folder to a git repository
 \end{itemize}
-%END
+
+\textbf{Important: Do not use the pins A4 and A5! The Arduino Uno uses these pins for the I2C communication, which will later be used for the display! Even if it looks like they are separate pins on the shield board, they are shared internally!}
+
 
 \subsection{Blinking LED on Bread Board}\label{sec:led}
 %BEGIN Blinking LED
@@ -108,7 +110,7 @@ That was easy (but boring...). As next step we want to have a blinking external 
 \begin{itemize}
 	\item supply the Breadboard with \SI{5}{\volt} from the Arduino
 	\item connect a LED to the breadboard with appropriate resistor (220 Ohm) and to a digital pin
-	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{1}{\hertz} using the \code{\meth{delay}(int \var{nMicroSeconds})} method, which pauses the execution for \code{\var{nMicroSeconds}} microsenconds.
+	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{1}{\hertz} using the \code{\meth{delay}(int \var{nMilliSeconds})} method, which pauses the execution for \code{\var{nMilliSeconds}} milliseconds.
 \end{itemize}
 Upload your sketch now to the Arduino and test it.
 
@@ -122,6 +124,33 @@ Upload your sketch now to the Arduino and test it.
 \end{itemize}
 
 %END
+
+
+\subsection{General tips for writing Code for the Arduino}\label{sec:codestyle}
+\subsubsection{Avoid hard-coded values}
+Instead of a hard-coded number somewhere in the middle of the program, like \newline
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Arduino]
+...
+if (now > lastPid + 100000) {
+...
+\end{lstlisting}
+\end{minipage}
+define a constant (with const or as macro with \#define) in the beginning of the program. Give it a systematic name, e.g. all uppercase for constants, and e.g. also include the unit (micro-seconds) here and add a comment: \newline
+\noindent\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Arduino]
+#define INTERVAL_MICROS_PID            100000     // update interval of PID in micro-seconds
+...
+if (now > lastPid + INTERVAL_MICROS_PID) {
+...
+\end{lstlisting}
+\end{minipage}
+and later use this constant \code{\var{INTERVAL\_MICROS\_PID}} in the if clause. This makes the code easier to read. Macros with \code{\#define} don't use space for variables (in contrast to declaration with \code{int ...}), which reduces memory footprint of your program. Keep in mind that the total RAM is only 2 kB, which corresponds to only around 500 32-bit integers you can store and part of this is already used by libraries. Using constants instead of hard-coded numbers is especially important for pin numbers.
+
+
+\subsubsection{Code documentation}
+Add a short description on the functionality of your program at the top of the code. Also include the date and author name. Also comment any non-trivial steps in your code. (remember: it's generally better to write code in a self-explaining way such that no comments are necessary. Sometimes though comments are unavoidable.) \newline
+\textbf{Your final code has to be added to the report. A reasonable documentation is therefore required for the report to be accepted by the assistant.}
 
 
 \subsection{Grove Temperature Sensor}\label{sec:grovetemp}
@@ -140,7 +169,7 @@ In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grov
 \end{table}
 
 \begin{itemize}
-	\item connect the Grove Base Shield to your Arduino
+	\item connect the  Shield to your Arduino
 	\item connect the Grove Temperature Sensor to the shield
 	\begin{itemize}
 		\item figure out which connector to choose on the shield
@@ -173,7 +202,7 @@ As a next step, we will add two more components from the Grove kit: a display to
 		\item modify your project such that the measured temperature is printed on the display every second 
 	\end{itemize}
 	\item define a fixed threshold in your code, e.g. 30 degrees above which a LED is turned on. (As alternative you can change the background color of your display). Test if your project is working.
-	\item now we want to make the threshold controllable without recompiling our project. For this purpose, connect the potentiometer (Grove Rotary Angle Sensor) to the Grove shield.
+	\item now we want to make the threshold controllable without recompiling our project. For this purpose, connect the potentiometer (Grove Rotary Angle Sensor) to the Grove shield (you can also use the sliding potentiometer instead if you prefer)
 	\begin{itemize}
         \item read the description at \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}
         \item read-out the sensor with \code{analogRead()}
@@ -246,11 +275,19 @@ In this task you will build your own temperature sensor using discrete component
 
 \begin{itemize}
 	\item build a voltage divider circuit to convert the resistance into a measurable voltage
-	\item use the LM358 operational amplifier to increase the outgoing signal (why do we need it?)
+	\item use the LM358 operational amplifier (with gain 1) to amplify the sensor signal.
 	\item reproduce the temperature measurements from \ar{sec:grovetemp}
 \end{itemize}
 
-You can copy the schematics from \href{https://github.com/SeeedDocument/Grove-Temperature_Sensor_V1.2/raw/master/res/Grove_-_Temperature_sensor_v1.1.pdf}, which shows the easiest way how to use the op-amp.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=14cm]{ntc_opamp_schematic}
+\caption{Circuit for reading the NTC resistance with Op-amp.}\label{fig:tempcircuit}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:tempcircuit} shows the simplest possible circuit you can use for this purpose. The high input impedance of the op-amp ensures that there is basically no load on the voltage divider and we can use the simple formula which is only valid without load. There is then also virtually no current flowing through the NTC resistor which would heat it up.
+
 %END
 
 
@@ -272,7 +309,7 @@ Many electrical components will produce heat under load and may break at critica
 	    \item green: tacho read-out (will be used later)
 	    \item blue: PWM control
 	\end{itemize}
-	\item keep in mind that only a few of the digital pins (marked by "\~" on the board) are able to use PWM, e.g. use digital pin 11
+	\item keep in mind that only a few of the digital pins (marked by "{\raise.17ex\hbox{$\scriptstyle\sim$}}" on the board) are able to use PWM, e.g. use digital pin 11
 \end{itemize}
 Now we can finally build the full two-point controller.
 \begin{itemize}
@@ -344,7 +381,7 @@ where \code{temperature\_current} is the actual reading from the sensor and \cod
 \alpha = \frac{\Delta t}{\tau + \Delta t}
 \end{equation}
 
-where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the result would stay constant.
+where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the output would stay constant.
 
 \subsection{Bi-directional communication with the computer (Advanced)}
 Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
@@ -354,6 +391,28 @@ Until now we only read values from the device, but we can also write commands fr
 	\item which other commands are necessary to run the measurements from above section without hardcoding the measurement programme (e.g. number of steps, seconds per step etc.)?
 	\item write a Python script to perform the measurements from above section via sending SCPI style commands to the Arduino
 \end{itemize}
+
+
+\subsection{Use of other components (Advanced)}
+There is also a bunch of other components available which can be used to extend your Arduino project. Among them:
+\begin{itemize}
+	\item ultra-sonic distance sensor
+	\item electric current sensor
+	\item infrared leds and sensor
+	\item electro magnet
+	\item Piezzo vibration sensor
+	\item 96x96 pixels OLED display
+	\item Servo motor
+	\item ...
+\end{itemize}
+
+Ask the assistants for more information if you are interested in using them. For example you could use the distance sensor and servo motor to keep an object at a fixed position relative to another moving one.
+
+
+\subsection{I2C protocoll debugging (Advanced)}
+Many of the Grove components communicate via I2C bus protocol. Using a digital oscilloscope, it is possible to look at the I2C signal and manually decode it on the scope. Use the Grove RBG LCD display, initialize it and periodically write text to the display and set the color. Spy on the commuication, find out the the device IDs of the 2 devices connected to the bus. What do they correspond to? Compare with the library of the Grove display. Record a short communication of a few bytes and decode it.
+
+
 
 
 
