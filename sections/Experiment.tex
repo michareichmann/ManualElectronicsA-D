@@ -251,13 +251,27 @@ As a next step, we will add two more components from the Grove kit: a display to
 
 \subsection{Data Handling}\label{sec:data}
 %BEGIN Data Handling
-Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with.\par
+Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with. The easiest solution for Windows is the "type" command, which is explained below. \par
 Once a sketch is uploaded to the microprocessor the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. Note down the port number or name, which can be seen under "Tools" in the Arduino IDE. In order to read the data externally from the serial port you have to close the Arduino serial tools (Serial Monitor, Serial Plotter, ...).\\
 
 
 \subsubsection{With Python}
 
-Example code in python:
+Python needs the \textbf{pyserial} package to be able to read from the serial interface.
+
+
+\noindent If you are using \textbf{anaconda}, type the following command in your anaconda shell:
+\begin{lstlisting}[language=bash]
+  conda install -c anaconda pyserial
+\end{lstlisting}
+
+\noindent If you are using \textbf{pip}:
+\begin{lstlisting}[language=bash]
+  pip install pyserial
+\end{lstlisting}
+
+
+You can test if you have installed the \textbf{pyserial} package correctly by typing "import serial" into a Python shell. After this works, you can start writing you Python code. An outline of what the code should do is below:
 \begin{itemize}
 	\item open the serial port
 	\begin{itemize}
@@ -272,7 +286,10 @@ Example code in python:
 		\item if you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}
 	\end{itemize}
 	\item your program should repeat this until you terminate it e.g. by pressing CTRL+C.
+	\item optional: add timestamps to every line in your log-file. This makes it easier later analyze the data.
 \end{itemize}
+
+On Windows, the Arduino is typically called "COM3", so do \code{arduino = Serial("COM3")} to open it.
 
 \subsubsection{On Windows XP lab computers}
 
@@ -375,6 +392,7 @@ Now that our device has all basic functionalities, we can perform some measureme
 
 Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
 
+\textbf{After you are done with above measurement, pick one of the "Advanced" topics below or come up with your own idea. It can be a new measurement, involve new hardware, or be an improved analysis of the data measured already.}
 
 \subsection{Building a PID Controller (Advanced)}
 We have seen that with the two-point controller above, we could not exactly stabilize to a constant temperature and were suffering from under- and overshoot. Using a \ac{PID} controller can overcome both issues.
@@ -414,6 +432,9 @@ where \code{temperature\_current} is the actual reading from the sensor and \cod
 \end{equation}
 
 where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the output would stay constant.
+
+\subsection{Fit heating/cooling(Advanced)}
+Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
 
 \subsection{Bi-directional communication with the computer (Advanced)}
 Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
