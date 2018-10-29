@@ -316,7 +316,7 @@ In this task you will build your own temperature sensor using discrete component
 		Operating voltage											&	\SIrange{3.3}{5.0}{\volt}																	\\
 		Zero power resistance				&	\SI{100\pm5}{\kilo\ohm}																		\\
 		Operating temperature range	&	\SIrange[retain-explicit-plus]{-55}{+125}{\degreeCelsius}	\\
-		Nominal $B$-constant				&	\SI{4600\pm1340}{K}																		\\\tline{.4}
+		Nominal $B$-constant				&	\SI{4600}{K} $\pm 3\%$																		\\\tline{.4}
 	\end{tabular}
 	\caption{B57164-K104-J specifications.}
 	\label{tab:ts}
@@ -384,13 +384,13 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 \end{itemize}
 
 \subsection{Final measurements}
-Now that our device has all basic functionalities, we can perform some measurements with it.
+Now that our device has all basic functionalities, we can perform two additional measurements with it. For both of them disable the thresholds for the two-point controller added in the previous measurement and now vary the duty-cycle between 0 and 100\% with at least 10 steps in between.
 \begin{itemize}
 	\item plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at which RPM? What is the maximum RPM for full duty-cycle?
 	\item plot the equilibrium temperature vs. the duty cycle and the equilibrium temperature vs. the fan RPM. Make sure you measure long enough for each data point and give a reasonable estimate for the uncertainty that you obtain on the equilibrium value.
 \end{itemize}
 
-Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
+Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be completely automated and either programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
 
 \textbf{After you are done with above measurement, pick one of the "Advanced" topics below or come up with your own idea. It can be a new measurement, involve new hardware, or be an improved analysis of the data measured already.}
 
