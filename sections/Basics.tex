@@ -81,7 +81,7 @@ First the Arduino board has to be connected to the computer via the \ac{USB} cab
 
 \subsection{Programming}\label{sec:prog}
 %BEGIN Programming
-In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \fpath{File > Examples}\\
+For the programming of the micro-controller we use the \textbf{Arduino Language}, which is mostly the same as \textbf{C/C++}. In order to get a feeling for the programming language it is recommended to have a look at the examples first which can be found under: \fpath{File > Examples}\\
 A list of the most common methods is shown in \ar{tab:2}. For more information look at the \href{https://www.arduino.cc/reference/en/}{detailed description}.
 \begin{table}[ht!]\centering\setlength\extrarowheight{5pt}
 	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
@@ -187,7 +187,7 @@ This circuit is useful because it has a large input impedance, so it will not lo
 
 \subsection{Operational Amplifier}
 
-Operational amplifiers (Op-amps) are used for various purposes in different circuit configurations. We will use one op-amp as a \textbf{voltage follower} (or also called buffer), which is a special case of a non-inverting amplifier, which itself is one of the most basic use cases. The operating mode of the op-amp is determined by the way the output (right side) is connected to the inputs (left side), which is called \textbf{feedback}.
+Operational amplifiers (Op-amps) are used for various purposes in electronics. Their operating mode is determined by the way the output (right side) is connected to the inputs (left side). This connection between input and output is called \textbf{feedback}. We will use an op-amp as \textbf{voltage follower} (or also called buffer), which is a special case of a non-inverting amplifier with a gain (voltage amplification) of one. It is used to decouple the two parts of the circuit, the measurement side and the read-out (digitization) side. Without such decoupling, the current drawn from the Arduino analog input pin could influence the voltage drop over the NTC and therefore deteriorate our measurement.
 
 \begin{figure}[H]
 \begin{center}
@@ -198,7 +198,7 @@ Operational amplifiers (Op-amps) are used for various purposes in different circ
 
 \fbox{
   \parbox{0.9\textwidth}{
-    \textbf{Task: calculate $V_\text{out}$ based on $V_\text{in}$ in the circuit shown in figure \ref{fig:opamp}. Show that for $R_2 = 0$ you obtain $V_\text{out} = V_\text{in}$.}
+    \textbf{Task: calculate $V_\text{out}$ based on $V_\text{in}$ in the non-inverting amplifier circuit shown in figure \ref{fig:opamp}. Show that for $R_2 = 0$ you obtain the voltage follower: $V_\text{out} = V_\text{in}$.}
   }
 }
 \vspace{0.5cm}\\
@@ -208,7 +208,7 @@ For calculations with op-amps you can use the following rules:
 \item the op-amp puts both inputs at the same potential ("virtual-short")
 \end{itemize}
 
-With these two rules you can directly apply Kirchhoff's rules to the circuit. 
+After use of these two rules you can directly apply Kirchhoff's law to the circuit. 
 
 The voltage follower circuit we build has a very high input impedance and therefore only draws very little current from the circuit with the NTC resistor. This allows us to use the formulas for an unloaded voltage-divider in the calculation and it also limits the current through the NTC, which could heat it up.
 

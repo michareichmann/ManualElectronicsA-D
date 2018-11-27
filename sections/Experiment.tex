@@ -323,30 +323,9 @@ while read -r line; do echo $line;
 
 
 
-\subsection{Calibration}\label{sec:calibration}
-
-The NTC resistors we used for this experiment are not calibrated yet and therefore have a relatively large error on the absolute temperature scale.
-\vspace{0.5cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: calculate the uncertainty on the temperature we obtain from the following sources:}
-    \begin{itemize}
-    		\item B-constant of the NTC
-    		\item resistance of the 100 k resistor (use 1\% resistors if possible)
-    		\item resolution of the ADC
-    		\item any other non-negligible uncertainty you find
-    \end{itemize}
-  }
-}
-\end{center}
-
-
-%END
-
-\subsection{Building Your Own Temperature Sensor}\label{sec:temp}
+\subsection{Op-Amp Circuit}\label{sec:temp}
 %BEGIN Temperature Sensor
-In this task you will build your own temperature sensor using discrete components. The \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} thermistor has the specifications listed in \ar{tab:ts}.
+In this task you will build your own temperature sensor using an B57164-K104-J NTC resistor and LM358 Op-amp. The \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} thermistor has the specifications listed in \ar{tab:ts}.
 \begin{table}[ht!]\centering\alternatecolors
 	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
 		\fatwhite{Specification}		& \fatwhite{Value}																					\\\tline{1.3}
@@ -361,7 +340,7 @@ In this task you will build your own temperature sensor using discrete component
 
 \begin{itemize}
 	\item build a voltage divider circuit to convert the resistance into a measurable voltage
-	\item use the LM358 operational amplifier (with gain 1) to amplify the sensor signal. The pin layout is given in the datasheet or in figure \ref{fig:tempcircuit2}.
+	\item use the LM358 operational amplifier (as voltage follower with gain 1) to amplify the sensor signal. The pin layout is given in the datasheet or in figure \ref{fig:tempcircuit2}.
 	\item reproduce the temperature measurements from \ar{sec:grovetemp}
 \end{itemize}
 
@@ -378,7 +357,7 @@ Figure \ref{fig:tempcircuit} shows the simplest possible circuit you can use for
 \begin{figure}[H]
 \begin{center}
   \centering
-  \begin{minipage}[b]{0.3\textwidth}
+  \begin{minipage}[b]{0.4\textwidth}
     \includegraphics[width=\textwidth]{lm358pins}
   \end{minipage}
   \hfill
@@ -390,9 +369,39 @@ Figure \ref{fig:tempcircuit} shows the simplest possible circuit you can use for
 \end{figure}
 
 
+\subsection{Calibration}\label{sec:calibration}
+
+The NTC resistor we used for this experiment is not calibrated yet and therefore we obtain a relatively large error on the absolute temperature scale.
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: calculate the uncertainty on the temperature we obtain from the following sources:}
+    \begin{itemize}
+    		\item B-constant of the NTC
+    		\item resistance of the 100 k resistor (use 1\% resistors if possible)
+    		\item resolution of the ADC
+    		\item any other non-negligible uncertainty you find
+    \end{itemize}
+  }
+}
+\end{center}
+
+By calibrating our device with an already calibrated reference device, we can reduce the systematic uncertainties. For this calibration we can use the Sensirion SHT21 temperature sensor or any equivalent device.
+
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: calibrate your device by adjusting the B constant, such that its measured temperature matches the one measured with the reference device. Use the given uncertainty on the temperature of the reference device to calculate a new uncertainty for your B constant. How much does it improve?}
+}
+}
+\end{center}
+
+
 %END
 
-\subsection{Building a Heating System}\label{sec:heat}
+\subsection{Heating}\label{sec:heat}
 Since it is boring to measure a constant temperature, we build a simple heat load of 0.2-0.25 W with a couple of resistors.
 \begin{itemize}
 	\item calculate the resistors needed to have the correct power dissipation.
@@ -402,7 +411,7 @@ Since it is boring to measure a constant temperature, we build a simple heat loa
 Important: the temperature difference between the room temperature and the equilibrium temperature without cooling should be at least 5 degrees, better more (e.g. 10). 
 If improving the thermal contact is not enough to heat up the NTC to more than 5 degrees above the room temperature, use the external power supply to provide power for the heating resistor.
 
-\vspace{0.5cm}
+\vspace{0.2cm}
 \begin{center}
 \fbox{
   \parbox{0.9\textwidth}{
@@ -410,8 +419,9 @@ If improving the thermal contact is not enough to heat up the NTC to more than 5
   }
 }
 \end{center}
+\vspace{0.2cm}
 
-\subsection{Building a Cooling System}\label{sec:cool}
+\subsection{Cooling}\label{sec:cool}
 Many electrical components will produce heat under load and may break at critical temperatures. That is why many of complex systems like computers require cooling. You will now build a system that controls a fan and can regulate it's rotation speed.
 \begin{itemize}
 	\item connect the fan to the breadboard, for the 4 pin header, the following conventions are used:
@@ -456,7 +466,7 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 	\item write the \ac{RPM} value to the serial output
 \end{itemize}
 
-\vspace{0.5cm}
+\vspace{0.1cm}
 \begin{center}
 \fbox{
   \parbox{0.9\textwidth}{
@@ -468,7 +478,7 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 
 Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
 
-\subsection{Equilibrium temperature vs. fan RPM}
+\subsection{Equilibrium temperature}
 \begin{center}
 \fbox{
   \parbox{0.9\textwidth}{
@@ -478,10 +488,10 @@ Scanning the points for the different duty cycles should be done without flashin
 \end{center}
 \vspace{0.5cm}
 
-Also make sure, that you measure the equlibrium temperature without cooling. It might need few minutes to reach a stable equilibrium per point.
+It might need few minutes to reach a stable equilibrium per point.
 
 
-\subsection{Building a PID Controller}
+\subsection{PID Controller}
 We have seen that with the two-point controller above, we could not exactly stabilize to a constant temperature and were suffering from under- and overshoot. Using a \ac{PID} controller can overcome both issues.
 \begin{itemize}
 	\item implement a \ac{PID} controller
@@ -501,7 +511,7 @@ In practice, there are few more things to consider
 \begin{itemize}
     \item using a timer, perform the PID calculations between every 100 ms and every second. You should not use longer values to be fast enough in response and not too much shorter values to be not susceptible to noise.
     \item use a discrete digital low-pass filter on your measured temperature if it is noisy.
-    \item convert your PID response to a duty\_cycle between 0 and 255 to be used in \code{\meth{analogWrite}(\var{PIN\_FAN\_PWM}, duty\_cycle);}
+    \item convert your PID response to a duty\_cycle between 0 and 255 to be used in \code{\meth{analogWrite}(\var{PIN\_FAN\_PWM}, duty\_cycle)}. 
 \end{itemize}
 
 \begin{center}
@@ -518,17 +528,17 @@ A low-pass filter can be used to filter out high frequency fluctuations (noise) 
 
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[language=Arduino]
-temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * (temperature_current - temperature);
+temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * temperature_current;
 \end{lstlisting}
 \end{minipage}
 
-where \code{temperature\_current} is the actual reading from the sensor and \code{temperature} (which has to be properly initialized once to be the sensor reading!) the output of the filter. \code{\var{LOWPASS\_ALPHA}} controls the cut-off frequency of the lowpass filter and obviously depends on how often per seconds we measure. Set it to a reasonable value which suppresses the noise and is still fast enough for the timescale of temperature changes we expect (roughly few degrees per second). It can also be computed analytically:
+where \code{temperature\_current} is the actual reading from the sensor and \code{temperature} (which has to be properly initialized once to be the sensor reading!) the output of the filter. \code{\var{LOWPASS\_ALPHA}} and the interval between two measurements $\Delta t$ control the cut-off frequency of the lowpass filter. Set it to a reasonable value which suppresses the noise and is still fast enough for the timescale of temperature changes we expect (order of few degrees per second). It can also be computed analytically:
 
 \begin{equation}
 \alpha = \frac{\Delta t}{\tau + \Delta t}
 \end{equation}
 
-where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the output would stay constant.
+where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so the output is equal to the input, where as $\alpha = 1$ makes the response infinitely slow, so the output would stay constant at its initial value.
 
 \subsection{Advanced tasks}
 
