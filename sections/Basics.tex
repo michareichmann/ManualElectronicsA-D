@@ -162,7 +162,7 @@ Now we need to convert the resistance into the temperature using \ar{eq:th}:
 \end{equation}
 Note that this temperature will be in Kelvin!
 %END
-	
+
 \subsection{Bipolar Junction Transistor}\label{sec:trans}
 %BEGIN Transistor
 \Iac{BJT} is a type of transistor that uses both electron and hole charge carriers. For their operation, \acp{BJT} use two junctions between two semiconductor types, n-type and p-type and thus can be manufactured in two types, NPN and PNP. The basic function of a \ac{BJT} is to amplify current which allows it to be used as amplifiers or switches, giving them wide applicability in electronic equipment.
@@ -186,16 +186,47 @@ This circuit is useful because it has a large input impedance, so it will not lo
 %END
 
 \subsection{Operational Amplifier}
-Should be covered in AP next semester
+
+Operational amplifiers (Op-amps) are used for various purposes in different circuit configurations. We will use one op-amp as a \textbf{voltage follower} (or also called buffer), which is a special case of a non-inverting amplifier, which itself is one of the most basic use cases. The operating mode of the op-amp is determined by the way the output (right side) is connected to the inputs (left side), which is called \textbf{feedback}.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=7cm]{opamp}
+\caption{Op-amp as non-inverting amplifier.}\label{fig:opamp}
+\end{center}
+\end{figure}
+
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: calculate $V_\text{out}$ based on $V_\text{in}$ in the circuit shown in figure \ref{fig:opamp}. Show that for $R_2 = 0$ you obtain $V_\text{out} = V_\text{in}$.}
+  }
+}
+\vspace{0.5cm}\\
+For calculations with op-amps you can use the following rules:
+\begin{itemize}
+\item no current flows into the two \textbf{inputs} (left side) of the op-amp. It gets all its current from the \textbf{supply} (top and bottom)
+\item the op-amp puts both inputs at the same potential ("virtual-short")
+\end{itemize}
+
+With these two rules you can directly apply Kirchhoff's rules to the circuit. 
+
+The voltage follower circuit we build has a very high input impedance and therefore only draws very little current from the circuit with the NTC resistor. This allows us to use the formulas for an unloaded voltage-divider in the calculation and it also limits the current through the NTC, which could heat it up.
+
+\subsection{Pulse Width Modulation (PWM)}
+
+Pulse Width Modulation is a technique, to transmit information (or power) using a square-wave signal with fixed period and amplitude, but varying pulse-width. The fraction of time during which the signal is at the high level is called \textbf{duty cycle}. PWM signals with different duty cycles are shown in figure \ref{fig:pwm}. The frequency of the PWM signal created with \code{analogWrite()} is fixed to $\approx$ 490 Hz which is fast enough for our purpose, but it is possible to change this frequency as well, see e.g. in \cite{avrguide}.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=14cm]{pwm}
+\caption{PWM signals with different duty cycles 20\%, 50\% and 80\%.}\label{fig:pwm}
+\end{center}
+\end{figure}
+
 
 \subsection{PID Controller}\label{sec:pid}
 A \ac{PID} controller is a control loop feedback mechanism widely used in industrial control systems and a variety of other applications requiring continuously modulated control. A \ac{PID} controller continuously calculates an error value $e{t}$ as the difference between a desired setpoint (SP) and a measured process variable (PV) and applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D respectively) which give the controller its name.\par
 In practical terms it automatically applies accurate and responsive correction to a control function. An everyday example is the cruise control on a road vehicle; where external influences such as gradients would cause speed changes, and the driver has the ability to alter the desired set speed. The PID algorithm restores the actual speed to the desired speed in the optimum way, without delay or overshoot, by controlling the power output of the vehicle's engine \cite{wiki:pid}.
-
-
-
-
-
 
 
 

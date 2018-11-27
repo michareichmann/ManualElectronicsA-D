@@ -156,6 +156,14 @@ Data-types on Arduino are defined differently than for 32-bit or 64-bit x86 proc
 	\label{tab:1}
 \end{table}
 
+\vspace{0.5cm}
+
+\fbox{
+  \parbox{0.9\textwidth}{
+    Be sure to use \textbf{unsigned long} to store the output of microsecond counters like \textbf{micros()}!
+  }
+}
+
 
 \subsubsection{Avoid hard-coded values}
 Instead of a hard-coded number somewhere in the middle of the program, like \newline
@@ -180,8 +188,12 @@ and later use this constant \code{\var{INTERVAL\_MICROS\_PID}} in the if clause.
 
 \subsubsection{Code documentation}
 Add a short description on the functionality of your program at the top of the code. Also include the date and author name. Also comment any non-trivial steps in your code. (remember: it's generally better to write code in a self-explaining way such that no comments are necessary. Sometimes though comments are unavoidable.) \newline
-\textbf{Your final code has to be added to the report. A reasonable documentation is therefore required for the report to be accepted by the assistant.}
 
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Your final code has to be added to the report. A reasonable documentation is therefore required for the report to be accepted by the assistant.}
+  }
+}
 
 \subsection{Grove Temperature Sensor}\label{sec:grovetemp}
 %BEGIN Grove Temp
@@ -295,14 +307,39 @@ On Windows, the Arduino is typically called "COM3", so do \code{arduino = Serial
 
 If your port is COM3, you can type the following simple command into a command shell (Start > Run > cmd):
 
-\code{type com3: > output.log}
+\begin{lstlisting}
+type com3: > output.log
+\end{lstlisting}
 
 There is a small delay in writing as data is written in blocks. It can also happen that the last line is incomplete, take this into account in the analysis of the file. You can stop the program by pressing CTRL+break in the command shell. You can use a USB stick to transfer the resulting file to your personal computer to proceed with the analysis.
 
 \subsubsection{bash (Linux, Mac OSX}
 If you use Linux or Mac, you can do all of the above with a single line of bash. Instead of "/dev/cu.usbmodem14141" put your device name (which is listed as port in the Arduino IDE), which can be different from this.
 
-\code{while read -r line; do echo \$line; done < /dev/cu.usbmodem14141 | tee "output.txt"}
+\begin{lstlisting}
+while read -r line; do echo $line; 
+    done < /dev/cu.usbmodem14141 | tee "output.txt"
+\end{lstlisting}
+
+
+
+\subsection{Calibration}\label{sec:calibration}
+
+The NTC resistors we used for this experiment are not calibrated yet and therefore have a relatively large error on the absolute temperature scale.
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: calculate the uncertainty on the temperature we obtain from the following sources:}
+    \begin{itemize}
+    		\item B-constant of the NTC
+    		\item resistance of the 100 k resistor (use 1\% resistors if possible)
+    		\item resolution of the ADC
+    		\item any other non-negligible uncertainty you find
+    \end{itemize}
+  }
+}
+\end{center}
 
 
 %END
@@ -316,7 +353,7 @@ In this task you will build your own temperature sensor using discrete component
 		Operating voltage											&	\SIrange{3.3}{5.0}{\volt}																	\\
 		Zero power resistance				&	\SI{100\pm5}{\kilo\ohm}																		\\
 		Operating temperature range	&	\SIrange[retain-explicit-plus]{-55}{+125}{\degreeCelsius}	\\
-		Nominal $B$-constant				&	\SI{4600}{K} $\pm 3\%$																		\\\tline{.4}
+		Nominal $B$-constant				&	\SI{4600\pm138}{K}																		\\\tline{.4}
 	\end{tabular}
 	\caption{B57164-K104-J specifications.}
 	\label{tab:ts}
@@ -324,7 +361,7 @@ In this task you will build your own temperature sensor using discrete component
 
 \begin{itemize}
 	\item build a voltage divider circuit to convert the resistance into a measurable voltage
-	\item use the LM358 operational amplifier (with gain 1) to amplify the sensor signal.
+	\item use the LM358 operational amplifier (with gain 1) to amplify the sensor signal. The pin layout is given in the datasheet or in figure \ref{fig:tempcircuit2}.
 	\item reproduce the temperature measurements from \ar{sec:grovetemp}
 \end{itemize}
 
@@ -337,16 +374,42 @@ In this task you will build your own temperature sensor using discrete component
 
 Figure \ref{fig:tempcircuit} shows the simplest possible circuit you can use for this purpose. The high input impedance of the op-amp ensures that there is basically no load on the voltage divider and we can use the simple formula which is only valid without load. There is then also virtually no current flowing through the NTC resistor which would heat it up.
 
-%END
 
+\begin{figure}[H]
+\begin{center}
+  \centering
+  \begin{minipage}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{lm358pins}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.5\textwidth}
+    \includegraphics[width=\textwidth]{lm358table}
+  \end{minipage}
+\caption{Pin layout (left) and descriptions (right) of the LM358 Op-Amp. Source: datasheet from http://www.ti.com/lit/ds/symlink/lm158-n.pdf}\label{fig:tempcircuit2}
+\end{center}
+\end{figure}
+
+
+%END
 
 \subsection{Building a Heating System}\label{sec:heat}
 Since it is boring to measure a constant temperature, we build a simple heat load of 0.2-0.25 W with a couple of resistors.
 \begin{itemize}
 	\item calculate the resistors needed to have the correct power dissipation.
 	\item bring the heating resistor and the temperature sensor close together to have as good thermal contact as possible.
-	\item create a plot of the temperature vs. time (starting from room temperature) and measure the time constant of the temperature rise and estimate the equilibrium temperature.
 \end{itemize}
+
+Important: the temperature difference between the room temperature and the equilibrium temperature without cooling should be at least 5 degrees, better more (e.g. 10). 
+If improving the thermal contact is not enough to heat up the NTC to more than 5 degrees above the room temperature, use the external power supply to provide power for the heating resistor.
+
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: create a plot of the temperature vs. time (starting from room temperature) and determine the time constant of the temperature rise and estimate the equilibrium temperature from a fit.}
+  }
+}
+\end{center}
 
 \subsection{Building a Cooling System}\label{sec:cool}
 Many electrical components will produce heat under load and may break at critical temperatures. That is why many of complex systems like computers require cooling. You will now build a system that controls a fan and can regulate it's rotation speed.
@@ -360,15 +423,25 @@ Many electrical components will produce heat under load and may break at critica
 	\end{itemize}
 	\item keep in mind that only a few of the digital pins (marked by "{\raise.17ex\hbox{$\scriptstyle\sim$}}" on the board) are able to use PWM, e.g. use digital pin 11
 \end{itemize}
+
+\subsection{Two-point controller}\label{sec:cool2}
 Now we can finally build the full two-point controller.
 \begin{itemize}
-    \item define a low and high threshold, e.g. use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one.
+    \item define a low and high threshold, e.g. use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one. both thresholds have to be in reach
 	\item set the duty cycle of the fan to 100\% when above the high threshold
 	\item set the duty cycle of the fan to 0\% when below the low threshold
 	\item setting the PWM duty-cycle can be done using the \code{analogWrite()} function
-	\item if thresholds are set reasonably, you will see an oscillatory behavior. \textbf{Create a plot of temperature vs. time which shows multiple periods.}
 \end{itemize}
-Experiment with different set-points, what is the advantage of having two setpoints instead of a single threshold above we turn cooling on? What are the draw-backs of the two-point controller?
+Experiment with different set-points. What is the advantage of having two setpoints instead of a single threshold above we turn cooling on? What are the draw-backs of the two-point controller?
+
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: create a plot of temperature vs. time with the two-point controller active which shows multiple periods.}
+  }
+}
+\end{center}
 
 \subsection{Read Out the Fan Speed}
 We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure its rotation speed. In every rotation this sensor will produce two pulses we can count and then convert to revolutions per minute (\textbf{RPM}). The maximum (for 100\% duty cycle) according to the datasheet is 1900 RPM, with a tolerance of 10\%, the minimum is around 230 RPM.
@@ -383,18 +456,32 @@ We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure it
 	\item write the \ac{RPM} value to the serial output
 \end{itemize}
 
-\subsection{Final measurements}
-Now that our device has all basic functionalities, we can perform two additional measurements with it. For both of them disable the thresholds for the two-point controller added in the previous measurement and now vary the duty-cycle between 0 and 100\% with at least 10 steps in between.
-\begin{itemize}
-	\item plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at which RPM? What is the maximum RPM for full duty-cycle?
-	\item plot the equilibrium temperature vs. the duty cycle and the equilibrium temperature vs. the fan RPM. Make sure you measure long enough for each data point and give a reasonable estimate for the uncertainty that you obtain on the equilibrium value.
-\end{itemize}
+\vspace{0.5cm}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at which RPM? What is the maximum RPM for full duty-cycle?}
+  }
+}
+\end{center}
+\vspace{0.5cm}
 
-Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be completely automated and either programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
+Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
 
-\textbf{After you are done with above measurement, pick one of the "Advanced" topics below or come up with your own idea. It can be a new measurement, involve new hardware, or be an improved analysis of the data measured already.}
+\subsection{Equilibrium temperature vs. fan RPM}
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: plot the equilibrium temperature vs. the fan RPM. Make sure you measure long enough for each data point and give a reasonable estimate for the uncertainty that you obtain on the equilibrium value.}
+  }
+}
+\end{center}
+\vspace{0.5cm}
 
-\subsection{Building a PID Controller (Advanced)}
+Also make sure, that you measure the equlibrium temperature without cooling. It might need few minutes to reach a stable equilibrium per point.
+
+
+\subsection{Building a PID Controller}
 We have seen that with the two-point controller above, we could not exactly stabilize to a constant temperature and were suffering from under- and overshoot. Using a \ac{PID} controller can overcome both issues.
 \begin{itemize}
 	\item implement a \ac{PID} controller
@@ -417,6 +504,16 @@ In practice, there are few more things to consider
     \item convert your PID response to a duty\_cycle between 0 and 255 to be used in \code{\meth{analogWrite}(\var{PIN\_FAN\_PWM}, duty\_cycle);}
 \end{itemize}
 
+\begin{center}
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{Task: Optimize the three parameters reasonably well to have fast convergence and low fluctuations after a certain time and plot the temperature vs. time. Also de-tune your parameters to produce slow convergence and/or overshooting/oscillations and show both curves in one plot.}
+  }
+}
+\end{center}
+
+\vspace{0.5cm}
+
 A low-pass filter can be used to filter out high frequency fluctuations (noise) on the measured temperature. It can be implemented in it's simplest form with
 
 \noindent\begin{minipage}{\textwidth}
@@ -433,8 +530,18 @@ where \code{temperature\_current} is the actual reading from the sensor and \cod
 
 where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so as consequence disables the filter, where $\alpha = 1$ would make it infinitely slow, so the output would stay constant.
 
+\subsection{Advanced tasks}
+
+\fbox{
+  \parbox{0.9\textwidth}{
+    \textbf{All of the following tasks are optional. They can be used to replace some of the other tasks if agreed on with the assistant.}
+  }
+}
+
+
 \subsection{Fit heating/cooling(Advanced)}
-Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
+Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Take special care on correlation of input uncertainties in the fit and explain in the report why this is an issue here and what effect it would have to neglect correlations. Also look at the uncertainties and correlations of the fitted parameters.
+Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
 
 \subsection{Bi-directional communication with the computer (Advanced)}
 Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
