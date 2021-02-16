@@ -1,1 +1,1 @@
-### Instructions for the VP Experiment Electronics D
+### Instructions for the Physics Lab 3+4 Experiment Electronics A+D
