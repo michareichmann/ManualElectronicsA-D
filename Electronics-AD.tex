@@ -1,17 +1,11 @@
 \documentclass[11pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm]{geometry}
-\usepackage{float}
-\usepackage{lmodern}
+
+\input{preamble/general}
 \input{arduinoLanguage.tex}
 
-\input{exrapackages}
-\input{settings}
-\input{newcommands}
-\input{TitlePage}
-
-\experiment{Electronics A+D}
+% --------------------------- INFO -------------------------------------------
+\experiment{Electronics A\raisebox{.3ex}{$\LARGE\boldsymbol{+}$}D}
 \title{Modern Aspect of Data Taking and Processing with a Microcontroller}
 \author{Pirmin Berger \& Michael Reichmann}
 % \date{}
@@ -22,29 +16,25 @@
 \makeindex
 \begin{document}
 
-% ========== TITLE PAGE WITH ABSTRACT ===========
-	\maketitle
+% --------------------------- FRONTMATTER -------------------------------------
+\maketitle
+\input{toc}
 
-	\thispagestyle{empty}
-	\cleardoublepage\tableofcontents
-	\setcounter{page}{0}
-	
-	\cleardoublepage
-	\input{Introduction}
-	\input{Basics}
-	\input{Experiment}
-	\input{Analysis}
-	
-	\newpage
-	\pagenumbering{Roman}
-	\listoffigures
-	\listoftables
-	\input{acros}
-	
-% ========== BIBLIOGRAPHY =======================
+% --------------------------- MAINMATTER --------------------------------------
+\input{intro}
+\input{basics}
+\input{experiment}
+\input{analysis}
+
+% --------------------------- BACKMATTER --------------------------------------
+\newpage
+\pagenumbering{Roman}
+\listoffigures
+\listoftables
+\input{acros}
 \newpage
 \bibliographystyle{plain}
-\bibliography{refs}
+\bibliography{backmatter/refs}
 %\includepdf[pages=-]{LM358.pdf}
 %\includepdf[pages=-]{BC547.pdf}
 

@@ -1,3 +1,5 @@
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill \kern \z@}
+
 \newcommand{\li}{\left|}
 \newcommand{\re}{\right|}
 \newcommand{\const}{\text{const.}}
@@ -40,3 +42,9 @@
 % WRAPFIG
 \DeclareDocumentCommand{\wrapfig}{O{l} m m O{nocap} O{nolab}}{
 	\begin{wrapfigure}{#1}{#2\linewidth}\includegraphics[width={.95\linewidth}]{#3}\caplab{#4}{#5}\end{wrapfigure}}
+% NICETAB
+\DeclareDocumentCommand{\nicetab}{O{} m m O{nocap} O{nolab}}{
+  \begin{table}[ht!]#1\centering \begin{tabular}
+    {#2}\noalign{\hrule height 1.3pt}#3
+    \noalign{\hrule height 1.3pt}
+  \end{tabular}\caplab{#4}{#5}\end{table}}

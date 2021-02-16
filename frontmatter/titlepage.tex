@@ -1,0 +1,36 @@
+% TITLEPAGE
+\makeatletter
+\renewcommand*{\maketitle}{
+\begin{titlepage}
+%
+  \begin{figure}
+    \begin{minipage}{0.45\linewidth}\flushleft
+      \includegraphics[height=.16\textheight]{VPLogo}\vspace*{2ex}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}\flushright\vspace*{6ex}
+      \includegraphics[height=.026\textheight]{LogoDPHYS}\\[3ex]
+      Version \@version\\
+      Manual Number: \@manualnr\\[0.3cm]
+    \end{minipage}
+    \hrule height 1pt
+  \end{figure}\vspace*{.4cm}
+%
+  \centering
+  {\Large\scshape Instruction Manual\strut\par}\vspace*{.5cm}
+  {\Huge\bfseries Advanced Physics Lab\unskip\strut\par}\vspace*{.3cm}
+  {\Huge\bfseries\@experiment\unskip\strut\par}\vspace*{1.3cm}
+  {\huge\itshape\@title\strut\par}\vspace*{1.3cm}
+  {\large\@author\unskip\strut\par}\vspace*{.5cm}
+  \input{abstract}
+  \vfill
+%
+  \flushleft
+  ETH Z\"urich, Switzerland, \@date
+%
+\end{titlepage}}
+
+
+
+
+

@@ -1,53 +1,47 @@
 \newpage
 \section{Basics}
-This section will give you the basic information about the components we are using in this lab.
-
+This section will give you the basic information about the components we are using in this lab course.
+%
+% UNO BEGIN -----------------------------------------------------
 \subsection{Arduino Uno}\label{sec:uno}
-%BEGIN Arduino Uno
-
+%
 \fig{.9}{BoardAnatomy}
-\begin{itemize}
-	\item[1.] \textbf{Digital pins:} 			used with \code{digitalRead()}, \code{digitalWrite()}, and \code{analogWrite()} methods, \code{analogWrite()} only works on pins with the \ac{PWM} symbol
-	\item[2.] \textbf{Pin 13 LED:} 				only built-in actuator
-	\item[3.] \textbf{Power LED}
-	\item[4.] \textbf{ATmega microcontroller}
-	\item[5.] \textbf{Analogue in:} 			used with \code{analogWrite()} method
-	\item[6.] \textbf{GND and 5V pins:} 	provide \SI[retain-explicit-plus]{5}{\volt} power and \ac{GND} to the circuits
-	\item[7.] \textbf{Power connector:} 	additional power supply, accepted voltages: \SIrange{7}{12}{\volt}
-	\item[8.] \textbf{TX and RX LEDs:} 		indicate communication between Arduino and computer
-	\item[9.] \textbf{USB port:} used 		for powering and communication with computer
-	\item[10.] \textbf{Reset button:}			resets the ATmega microcontroller
-\end{itemize}
-%END
-
+%
+\begin{enumerate}
+  \item \textbf{Digital pins:}      used with \mintinline{arduino}{digitalRead()}, \mintinline{arduino}{digitalWrite()}, and \mintinline{arduino}{analogWrite()} methods, \mintinline{arduino}{analogWrite()} only works on pins with the \ac{PWM} symbol
+  \item \textbf{Pin 13 LED:}        only built-in actuator
+  \item \textbf{Power LED}
+  \item \textbf{ATmega microcontroller}
+  \item \textbf{Analogue in:}       used with \mintinline{arduino}{analogWrite()} method  
+  \item \textbf{GND and 5V pins:}   provide \SI[retain-explicit-plus]{5}{\volt} power and \ac{GND} to the circuits
+  \item \textbf{Power connector:}   additional power supply, accepted voltages: \SIrange{7}{12}{\volt}
+  \item \textbf{TX and RX LEDs:}    indicate communication between Arduino and computer
+  \item \textbf{USB port:} used     for powering and communication with computer
+  \item \textbf{Reset button:}      resets the ATmega microcontroller
+\end{enumerate}
+% UNO END -------------------------------------------------------
+%
+% SHIELD BEGIN --------------------------------------------------
 \subsection{Grove Base Shield}\label{sec:grove}
-%BEGIN Grove Base Shield
 The so called shields are printed circuit expansion boards, which plug into the normally supplied Arduino pin headers. The Grove Base Shield is one example that simplifies projects that require a lot of sensors or LEDs. With the Grove connectors on the base board, one can add all the Grove modules to the Arduino Uno very conveniently.\par
-
+%
 \subfigs{\subfig[.41]{.25}{grove}[Side view.]}{\subfig[.51]{.25}{grove1}[Top view.]}[Grove shield.]
-% \subfigs[.41][.51]{.25}{grove}{grove1}{side view}{top view}[Grove shield.]
-
+%
 There are 16 Grove connectors on the Base Shield which are shown in \ar{tab:1}. Apart from the connectors the board also consists of a \ac{RST} button, a green LED to indicating power status, a toggle switch and four rows of pinouts, which is equivalent to the pinout of the Arduino.\par
-\begin{table}[h!]\centering
-	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
-	\begin{tabular}{|lll|}
-		\rowcolor{PineGreen}\tline{.5}
-		\bfseries
-		\textcolor{white}{\textbf{Specification}}	& \textcolor{white}{\textbf{Name}}	&	\textcolor{white}{\textbf{Quantity}}	\\\tline{1.3}
-		Analog		&	A0/A1/A2/A3							&	4	\\
-		Digital		&	D2/D3/D4/D5/D6/D7/D8		&	7	\\
-		UART			&	UART										&	1	\\
-		I2C				&	I2C											&	4	\\\tline{.5}
-	\end{tabular}
-	\caption{Base Shield connectors.}
-	\label{tab:1}
-\end{table}
-
-Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\volt} is required \cite{grove:1}.
-%END
-
+%
+\nicetab{lll}{
+  \textbf{Specification} & \textbf{Name} & \textbf{Quantity}	\\\hline
+  Analogue      & A0/A1/A2/A3           & 4 \\
+  Digital       & D2/D3/D4/D5/D6/D7/D8  & 7 \\
+  UART          & UART                  & 1 \\
+  \acs{I2C}     & I2C                   & 4 \\
+}[Base Shield connectors.][tab:1]
+%
+Every Grove connector has four wires, one of which is the \ac{VCC}. Since some micro-controller main boards need need different supply voltages the power toggle switch allows you to select the suitable voltage. In the case of the Arduino Uno a voltage of \SI{5}{\V} is required \cite{grove:1}.
+% SHIELD END ----------------------------------------------------
+%
+% SOFTWARE BEGIN ------------------------------------------------
 \subsection{The Software}\label{sec:soft}
-%BEGIN Software
 
 \subsubsection{Arduino \ac{IDE}}
 All you require to write programs and upload them to your board is the Arduino Software (\ac{IDE}). There are two options how to use it:\\[5pt]

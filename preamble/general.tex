@@ -1,0 +1,20 @@
+\makeatletter
+  \def\input@path{ {sections/} {preamble/} {frontmatter/} {backmatter/} }
+  \newcommand*{\version}[1]{\gdef\@version{#1}}
+  \newcommand*{\@version}{0.0.0}
+  \newcommand*{\manualnr}[1]{\gdef\@manualnr{#1}}
+  \newcommand*{\@manualnr}{1}
+  \newcommand*{\experiment}[1]{\gdef\@experiment{#1}}
+\makeatother
+
+\input{packages}
+\graphicspath{ {figures/} {figures/main/}}
+\input{definitions}
+\input{titlepage}
+
+\sisetup{detect-weight=true, detect-family=true, range-units=single, range-phrase=$\ \sim\ $, separate-uncertainty=true}
+
+%\newfontfamily\ubuntu{Ubuntu}
+%\newfontfamily\dejavu{DejaVuSans}
+
+\setlength{\headheight}{14pt}
