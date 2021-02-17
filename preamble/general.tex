@@ -11,6 +11,7 @@
 \graphicspath{ {figures/} {figures/main/}}
 \input{definitions}
 \input{titlepage}
+\input{task}
 
 \sisetup{detect-weight=true, detect-family=true, range-units=single, range-phrase=$\ \sim\ $, separate-uncertainty=true}
 
@@ -18,3 +19,10 @@
 %\newfontfamily\dejavu{DejaVuSans}
 
 \setlength{\headheight}{14pt}
+
+% MINTED CODE STYLES
+\setminted[arduino]{fontsize=\footnotesize, breaklines}
+\usemintedstyle[arduino]{arduino}
+\mdfsetup{roundcorner=6pt, backgroundcolor=gray!5, shadow=true, shadowsize=3pt, linecolor=black!10, leftmargin=6pt, innerleftmargin=4pt}
+\usetikzlibrary{shadows}
+\surroundwithmdframed{minted}
