@@ -10,5 +10,6 @@
 *.blg
 *.lof
 *.lot
+*.tsk
 _*
 *.synctex.gz

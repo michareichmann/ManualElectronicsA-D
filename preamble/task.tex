@@ -1,15 +1,35 @@
-\mdfsetup{skipabove=\topskip,skipbelow=\topskip}
-\newcounter{task}[section]
+% DEFINE LIST
+\newcommand{\listtaskname}{List of Tasks} % Set the name of the list
+
+\newlistof[chapter]{tasks}{tsk}{\listtaskname} % First bracket is \listof{what's in here}, second is the document that will be created, NameOfYourDoc.tsk in this case. Third is title of the list, what you define in above \newcommand.
+%
+\newcommand{\tasks}[1]{% How to set a counter for. 
+\refstepcounter{tasks} %increase the counter
+\par\noindent\textbf{Task \thetasks:~#1} %The text that will be used when \tasks is used.
+\addcontentsline{tsk}{tasks} % Add the line to the .tsk file
+{\protect\numberline{\thetasks}#1}\par} %I do not understand this, maybe somebody can explain.
+
+\setlength{\cfttasksindent}{1.5em} %Indent of the example #. Same as \listoffigures
+\setlength{\cfttasksnumwidth}{2.3em} %Indent of the tasks title. Same as \listoffigures
+\renewcommand{\cfttsktitlefont}{\bfseries\Large} % Sets the font for \listtaskname
+
+%
+% DEFINE ENVIRONMENT
+\mdfsetup{skipabove=\topskip, skipbelow=\topskip}
 \newenvironment{task}[1][]{%
-\stepcounter{task}%
 \ifstrempty{#1}
-{\mdfsetup{%
-frametitle=\null\hspace*{1em}{%
+{\mdfsetup{frametitle=\null\hspace*{1em}{%
 \tikz[baseline=(current bounding box.east),outer sep=0pt, rounded corners=2mm]
-\node[anchor=east,rectangle,fill=red!30, draw=red,line width=1pt]
-{\strut Task~\thetask};}}%
-}{}%
-\mdfsetup{roundcorner=5pt, frametitleaboveskip=-12pt\relax, frametitlebelowskip=0pt, innerleftmargin=1em, linecolor=red!50, backgroundcolor=red!5}
+\node[anchor=east,rectangle,fill=red!30, draw=red, line width=1pt]
+{\tasks{#1}};}}%
+}
+{\mdfsetup{frametitle=\null\hspace*{1em}{%
+\tikz[baseline=(current bounding box.east),outer sep=0pt, rounded corners=2mm]
+\node[anchor=east,rectangle,fill=red!30, draw=red, line width=1pt]
+{\tasks{#1}};}}%
+}
+%
+\mdfsetup{roundcorner=5pt, frametitleaboveskip=-12pt, frametitlebelowskip=1pt, innerleftmargin=1em, linecolor=red!50, backgroundcolor=red!5}
 
 \begin{mdframed}[]\relax\bfseries%
 }{\end{mdframed}}
