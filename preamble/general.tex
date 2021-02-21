@@ -12,8 +12,9 @@
 \input{definitions}
 \input{titlepage}
 \input{task}
+\input{note}
 
-\sisetup{detect-weight=true, detect-family=true, range-units=single, range-phrase=$\ \sim\ $, separate-uncertainty=true}
+\sisetup{detect-weight=true, detect-family=true, range-units=single, range-phrase=$\ \sim\ $, separate-uncertainty=true, binary-units=true, retain-explicit-plus=true}
 
 %\newfontfamily\ubuntu{Ubuntu}
 %\newfontfamily\dejavu{DejaVuSans}
@@ -22,6 +23,9 @@
 
 % MINTED CODE STYLES
 \setminted[arduino]{fontsize=\footnotesize, breaklines}
+\setminted[console]{fontsize=\footnotesize, breaklines, style=default}
+\setminted[python]{fontsize=\footnotesize, breaklines, style=monokai, linenos=true}
+\setminted[bat]{fontsize=\footnotesize, breaklines}
 \usemintedstyle[arduino]{arduino}
 \mdfsetup{roundcorner=6pt, backgroundcolor=gray!5, shadow=true, shadowsize=3pt, linecolor=black!10, leftmargin=6pt, innerleftmargin=4pt}
 \usetikzlibrary{shadows}

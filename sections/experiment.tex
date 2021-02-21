@@ -1,69 +1,67 @@
-\section{Setup and Experimental Procedure}\label{sec:exp}
+\section{Experimental Procedure}\label{sec:exp}
 The Digital Electronics Lab is meant to be very open in implementation. The aim will be to build an automated cooling system. We will guide you through this process step by step, but you are also encouraged to bring in your own ideas of other possible implementations!
-
+%
+% MATERIAL BEGIN ------------------------------------------------
 \subsection{Experimental Material}\label{sec:material}
-%BEGIN Material
-You will find the following objects on your test stand:
-\begin{itemize}
-	\item 1 Arduino Uno Board
-	\item 1 Oscilloscope
-	\item 2 Probes 
-	\item 1 Multimeter
-	\item 1 \ac{USB} Type B cable
-	\item 1 Breadboard
-	\item 1 Grove Starter Kit for Arduino
-	\begin{itemize}
-		\item 1 Base Shield
-		\item 1 LCD RGB Backlight
-		\item 1 Smart Relay
-		\item 1 Buzzer
-		\item 1 Sound Sensor
-		\item 1 Touch Sensor
-		\item 1 Rotary Angle Sensor
-		\item 1 Temperature Sensor
-		\item 1 LED Module
-		\item 3 Dip LEDs (red, green, blue)
-		\item 1 Light Sensor
-		\item 1 Button
-		\item 1 Mini Servo
-		\item 10 Grove Cables
-	\end{itemize}
-	\item 1 3-pin fan
-	\item 1 operational amplifier (\href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{LM358})
-	\item 1 NPN transistor (\href{https://www.sparkfun.com/datasheets/Components/BC546.pdf}{BC547})
-	\item 1 \ac{NTC} thermistor (\href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J})
-\end{itemize}\vspace*{10pt}\noindent
-\textcolor{red}{\textbf{In addition you should bring a lab book to note down everything what you do and measure (immediately after the execution). Please write clearly and meticulously since it will greatly help you to find mistakes and to write your report!}}
-%END
-
+The full setup is contained in the box shown in \ar{fig:box}. You will find this box on your assigned lab space in room H 41 in the HPP building. The box contains the items shown in \ar{fig:items}, and the contents of the Grove starter kit are shown in \ar{fig:grv}. Manuals for several devices may be found in \ar{tab:man}:\par
+%
+\fig{.6}{setup0}[Utz box containing the full setup.][fig:box][Utz box with full setup]
+%
+\fig{1}{setup1}[Content of the Utz box.][fig:items]
+%
+\fig{1}{setup2}[Content of the Grove starter kit. The base shield is under the red protective foam.][fig:grv][Content of the Grove starter kit.]
+\nicetab{ccc}{\textbf{Item} & \textbf{Type} & \textbf{Manual} \\\hline
+  multimeter      & UT61C & \href{https://www.distrelec.ch/Web/Downloads/nu/al/UT61_eng_manual.pdf}{Link} \\
+  4-pin fan       & Noctua NF-A14 5V PWM & \href{https://noctua.at/en/products/fan/nf-a14-5v-pwm/faq}{Link} \\
+  \ac{op-amp}     & LM358 & \href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{Link} \\
+%   NPN transistor  & BC547 & \href{https://www.sparkfun.com/datasheets/Components/BC546.pdf}{Link} \\
+  \ac{NTC} thermistor & B57164-K104-J & \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{Link}\\
+}[Item manuals.][tab:man]
+%
+\begin{note}[Lab notes]
+  In addition you should bring a lab book (or any other form of notepad) to note down everything what you do and measure (immediately after the execution). Please write clearly and meticulously since it will greatly help you to find mistakes and to write your report! 
+\end{note}
+%
+\begin{note}[Tidy return]
+  If you finish your experiment, please return the setup as shown in \ar{fig:box}, \ar{fig:items} and \ar{fig:grv}. If anything broke during the experiment, please inform the assistant, so that it can be replaced.
+\end{note}
+% MATERIAL END --------------------------------------------------
+%
+% HOME BEGIN ----------------------------------------------------
+\subsection{Working from home}
+Due to the compactness of the setup it is possible for you to bring the setup to your place and do the measurements at home. In order to do so, please fill the form and send it signed to the assistant. It is, of course, also possible to do the experiment at the designated lab space at ETH.\par
+%
+The setup should contain all required items for the experiment. If something is missing or you require additional parts, please contact the technical assistants at the help-desk in HPP J 14. If you want to take additional parts home, please also contact the assistant.\par
+% HOME END ------------------------------------------------------
+%
+% ARDUINO BEGIN -------------------------------------------------
 \subsection{Setting up the Arduino}\label{sec:setup}
-%BEGIN Arduino Setup
-\subsubsection{Software installation}
-We highly recommend you to install the Arduino \ac{IDE} on your machine so that you can access it any time. If you should have trouble with the installation or you prefer to not use your computer for the experiment, you can use one of the Windows XP machines provided to you, which have the Arduino IDE and all necessary drivers pre-installed. These machines do not have internet connection, so you have to bring a portable USB drive to copy the data.
-\begin{itemize}
-	\item install \ac{IDE} following \ar{sec:soft}
-\end{itemize}
-
-\subsubsection{Connect the Arduino}
-\begin{itemize}
-	\item connect the Arduino to your computer and check if it is recognised by the \ac{IDE}
-	\begin{itemize}
-		\item select the correct port: \fpath{Tools > Port}
-		\item get board info: \fpath{Tools > Get Board Info}
-	\end{itemize}
-\end{itemize}
-
-\subsubsection{Your First Sketch}
-\begin{itemize}
-	\item (optional) set your sketchbook location
-	\begin{itemize}
-		\item you can link it to your \ac{IDE}: \fpath{File > Preferences > Sketchbook Location}
-	\end{itemize}
-	\item create a new sketch with \fpath{File > New}, it will look like this:
-\end{itemize}
-
-\noindent\begin{minipage}{\textwidth}
-\begin{lstlisting}[language=Arduino]
+%
+We highly recommend you to install the Arduino \ac{IDE} on your machine so that you can access it any time. If you should have trouble with the installation or you prefer not to use your computer for the experiment, you can use one of the Windows XP machines provided to you at the lab place, which have the Arduino IDE and all necessary drivers pre-installed. These machines do not have internet connection, so you have to bring a portable USB drive to copy the data.
+%
+\begin{task}[IDE installation]
+  Install the Arduino \ac{IDE} following \ar{sec:soft}!
+\end{task}
+%
+\begin{task}[Connecting the Arduino]
+  Connect the Arduino to your computer via the \ac{USB} cable and check if it is recognised by the \ac{IDE}!
+  \begin{itemize}
+    \item select the correct port: \fpath{Tools > Port}
+    \item get board info: \fpath{Tools > Get Board Info}
+  \end{itemize}
+\end{task}
+% ARDUINO END ---------------------------------------------------
+%
+% SKETCH BEGIN --------------------------------------------------
+\subsection{Your First Sketch}
+In order to have a better overview of your own sketches, it is recommended to set up your own sketchbook location: \fpath{File > Preferences > Sketchbook Location}.
+%
+\begin{task}[Creating the first sketch]
+  \item Create a new sketch with \fpath{File > New}!
+\end{task}
+%
+A new sketch will look like this:
+\begin{minted}[linenos]{arduino}
 void setup() {
   // put your setup code here, to run once:
 
@@ -73,13 +71,11 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 }
-\end{lstlisting}
-\end{minipage}
-
-Now we want to turn on the LED on the Arduino board, which is connected to the special pin \code{\var{LED\_BUILTIN}}. Since use this pin as an output, we have to set the pin mode during the \code{\meth{setup()}} function to \code{OUTPUT}. Afterwards we can use the method \code{\meth{digitalWrite()}} to set the pin to \code{\var{HIGH}}, (corresponding to 5V), which will turn on the LED on the board. We don't need to use the \code{\meth{loop()}} method for this simple sketch, but we will use it later.
-
-\noindent\begin{minipage}{\textwidth}
-\begin{lstlisting}[language=Arduino]
+\end{minted}
+%
+Now we want to turn on the LED on the Arduino board, which is connected to the special pin \mintinline{arduino}{LED_BUILTIN}. Since this pin is used as an output, we have to set the \mintinline{arduino}{pinMode} during the \mintinline{arduino}{setup()} function to \mintinline{arduino}{OUTPUT}. Afterwards we can use the \mintinline{arduino}{digitalWrite()} method to set the pin to \mintinline{arduino}{HIGH} (corresponding to \SI{5}{\V}), which will turn on the LED on the board. There is no need to use the \mintinline{arduino}{loop()} function for this simple sketch, but it will be important later.
+%
+\begin{minted}[linenos]{arduino}
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
@@ -89,242 +85,209 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 }
-\end{lstlisting}
-\end{minipage}
-
-That's it. All the methods and constants we use in this script are already defined and don't have to be imported explicitly. There is a long list of such pre-defined constants, make sure to not redefine them when adding new constants or variables!
-We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct Port and choose "Arduino/Genuino Uno" as board type if not already selected.\newline
-
-\begin{itemize}
-	\item compile the code
-	\item upload the code to the Arduino
-	\item add the sketch folder to a git repository
-\end{itemize}
-
-\textbf{Important: Do not use the pins A4 and A5! The Arduino Uno uses these pins for the I2C communication, which will later be used for the display! Even if it looks like they are separate pins on the shield board, they are shared internally!}
-
-
+\end{minted}
+%
+That's it. All the methods and constants used in this script are already defined and do not have to be imported explicitly. There is a long list of such predefined constants. Make sure to not redefine them when adding new constants or variables!
+We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct port and choose \fpath{Arduino/Genuino Uno} as board type if it is not already selected.\newline
+%
+\begin{task}[Uploading the first sketch]
+  First compile the code and then upload it to the Arduino. If everything is working, create a git repository in your sketch folder and commit your first sketch!
+\end{task}
+%
+\begin{note}[Do not use pins A4 \& A5]
+  The Arduino Uno uses pins A4 and A5 for the \ac{I2C} communication, which will later be used for the display! Even if it looks like they are separate pins on the shield board, they are shared internally!
+\end{note}
+% SKETCH END ----------------------------------------------------
+%
+% BLINK BEGIN ---------------------------------------------------
 \subsection{Blinking LED on Bread Board}\label{sec:led}
-%BEGIN Blinking LED
-That was easy (but boring...). As next step we want to have a blinking external LED on the breadboard. Since it should continue blinking forever, we will use the \code{\meth{loop()}} function now.
-\begin{itemize}
-	\item supply the Breadboard with \SI{5}{\volt} from the Arduino
-	\item connect a LED to the breadboard with appropriate resistor (220 Ohm) and to a digital pin
-	\item write a sketch (\path{Blink.ino}) that makes the LED blink with a frequency of \SI{1}{\hertz} using the \code{\meth{delay}(int \var{nMilliSeconds})} method, which pauses the execution for \code{\var{nMilliSeconds}} milliseconds.
-\end{itemize}
-Upload your sketch now to the Arduino and test it.
+That was easy (but boring \ldots). As the next step we want to have a blinking external LED on the breadboard. Since it should continue blinking forever, we will use the \mintinline{arduino}{loop()} function now.
+%
 
-\begin{itemize}
-	\item connect a second LED on the breadboard to a different pin
-	\item write a sketch (\path{Blink2.ino}) that makes the second LED blink in a different pattern than the first one
-	\begin{itemize}
-		\item why is \code{\meth{delay}()} not the optimal method for this task?
-		\item use a timer with \code{\meth{micros}()} which returns a micro-seconds counter as \code{unsigned long}.
-		\item remember to use  \code{unsigned long} to save the results of \code{\meth{micros}()}
-		\item after some time (roughly 70 minutes), the 32-bit counter will overflow and start from 0 again! Make sure to handle this case well!
-	\end{itemize}
-\end{itemize}
+\begin{task}[Writing a blinking LED sketch]
+  Fist supply the breadboard with a voltage of \SI{5}{\V} from the Arduino. Then connect a LED to the breadboard with an appropriate series resistor (\SI{220}{\ohm}) and to a digital pin of the Arduino. Finally write a sketch (\path{Blink.ino}), that makes the LED blink with a frequency of \SI{1}{\Hz} using the \mintinline{arduino}{delay(int nMilliSeconds)} method, which pauses the execution for \mintinline{arduino}{nMilliSeconds}. Upload your sketch now to the Arduino and test it!
+\end{task}
+%
+\begin{task}[Adding a second LED]\label{tsk:bla}
+  Now connect a second LED on the breadboard to a different pin. Write a sketch (\path{Blink2.ino}) that makes the second LED blink in a different pattern than the first one, upload it and test it.
+\end{task}
+%
+Why is \mintinline{arduino}{delay()} not the optimal method for this task? Try to use a timer with \mintinline{arduino}{micros()}, which returns a micro-seconds counter as \mintinline{arduino}{unsigned long} to solve this problem. In order to save the result from \mintinline{arduino}{micros} you have to save it to a \mintinline{arduino}{unsiged long} variable. After \SI{\sim 70}{\minute}, the 32-bit counter will overflow and start again from 0! Make sure to handle this case well!
+%
+\begin{task}[Adding code to the report]
+  If you succeeded to implement the two blinking LEDs with timers, please add the code to your report and to your git repository.
+\end{task}
+% BLINK END -----------------------------------------------------
+%
+% TIPS BEGIN ----------------------------------------------------
+\subsection{General tips for writing code for the Arduino}\label{sec:codestyle}
+%
+\subsubsection{Data types}
+Data types on Arduino are defined differently than for 32-bit or 64-bit x86 processors, e.g. \mintinline{arduino}{int} is only 16-bit, which can store values from -32768 to 32767. In most cases it is better to use \mintinline{arduino}{long} instead of \mintinline{arduino}{int} to avoid overflows. If no negative numbers are required, use \mintinline{arduino}{unsigned} versions. Note: On Arduino Uno, \mintinline{arduino}{double} and \mintinline{arduino}{float} are exactly the same.
 
-\textbf{Add the code for the 2 blinking LEDs, implemented with timers, to your report.}
-
-%END
-
-
-\subsection{General tips for writing Code for the Arduino}\label{sec:codestyle}
-
-\subsubsection{Data-types}
-
-Data-types on Arduino are defined differently than for 32-bit or 64-bit x86 processors, e.g. \code{int} is only 16-bit, which can store values from -32768 to 32767. In most cases it's better to use \code{long} instead of int to avoid overflows. If no negative numbers are required, use \code{unsigned} versions. Note: On Arduino Uno, \code{double} and \code{float} are exactly the same.
-
-\begin{table}[h!]\centering
-	\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}
-	\begin{tabular}{|lll|}
-		\rowcolor{PineGreen}\tline{.5}
-		\bfseries
-		\textcolor{white}{\textbf{type}}	&	\textcolor{white}{\textbf{length}}	& \textcolor{white}{\textbf{range}}\\\tline{1.3}
-		char		&	8 bit						&	-128 to 127	\\
-		unsigned char		&	8-bit		&	0 to 255	\\
-		int			&	16-bit										&	-32768 to 32767	\\
-		unsigned int				&	16-bit				&	0 to 65535 	\\
-		long			&	32-bit										&	-2147483648 to 2147483647	\\
-		unsigned long				&	32-bit				&	0 to 4294967295 	\\
-		float				&	32-bit				&	floating point 	\\
-		double			&	32-bit				&	floating point 	\\
-		\tline{.5}
-	\end{tabular}
-	\caption{Basic numeric data-types for Arduino Uno.}
-	\label{tab:1}
-\end{table}
-
-\vspace{0.5cm}
-
-\fbox{
-  \parbox{0.9\textwidth}{
-    Be sure to use \textbf{unsigned long} to store the output of microsecond counters like \textbf{micros()}!
-  }
-}
-
-
+\nicetab{lll}{
+  \textbf{Type}                       & \textbf{Size} & \textbf{Range}            \\\hline
+  \mintinline{arduino}{char}          & 8-bit         & \SIrange{-128}{127}{}     \\
+  \mintinline{arduino}{unsigned char} & 8-bit         & \SIrange{0}{255}{}        \\
+  \mintinline{arduino}{int}           & 16-bit        & \SIrange{-32768}{32767}{} \\
+  \mintinline{arduino}{unsigned int}  & 16-bit        & \SIrange{0}{65535}{}      \\
+  \mintinline{arduino}{long}          & 32-bit        & \SIrange{-2147483648}{2147483647}{}  \\
+  \mintinline{arduino}{unsigned long} & 32-bit        & \SIrange{0}{4294967295}{} \\
+  \mintinline{arduino}{float}         & 32-bit        & floating point            \\
+  \mintinline{arduino}{double}        & 32-bit        & floating point            \\
+}[Basic numeric data types for the Arduino Uno.][tab:1]
+%
+\begin{note}[Datatypes]
+  Be sure to use \mintinline{arduino}{unsigned long} to store the output of microsecond counters like \mintinline{arduino}{micros()}!
+\end{note}
+%
 \subsubsection{Avoid hard-coded values}
-Instead of a hard-coded number somewhere in the middle of the program, like \newline
-\noindent\begin{minipage}{\textwidth}
-\begin{lstlisting}[language=Arduino]
+Avoid of a ``hard-coded'' numbers somewhere in the middle of your program, like \eg
+%
+\begin{minted}[linenos]{arduino}
 ...
 if (now > lastPid + 100000) {
 ...
-\end{lstlisting}
-\end{minipage}
-define a constant (with const or as macro with \#define) in the beginning of the program. Give it a systematic name, e.g. all uppercase for constants, and e.g. also include the unit (micro-seconds) here and add a comment: \newline
-\noindent\begin{minipage}{\textwidth}
-\begin{lstlisting}[language=Arduino]
-#define INTERVAL_MICROS_PID            100000     // update interval of PID in micro-seconds
+\end{minted}
+%
+Rather define a constant (with \mintinline{arduino}{const} or as a macro with \mintinline{arduino}{#define} in the beginning of the program. Give it a systematic name, like all uppercase for constants, include the unit (\eg micro-seconds) and add a comment: 
+%
+\begin{minted}[linenos]{arduino}
+#define INTERVAL_MICROS_PID 100000 // update interval of PID in micro-seconds
 ...
 if (now > lastPid + INTERVAL_MICROS_PID) {
 ...
-\end{lstlisting}
-\end{minipage}
-and later use this constant \code{\var{INTERVAL\_MICROS\_PID}} in the if clause. This makes the code easier to read. Macros with \code{\#define} don't use space for variables (in contrast to declaration with \code{int ...}), which reduces memory footprint of your program. Keep in mind that the total RAM is only 2 kB, which corresponds to only around 500 32-bit integers you can store and part of this is already used by libraries. Using constants instead of hard-coded numbers is especially important for pin numbers.
-
-
+\end{minted}
+%
+and then use the constant (\mintinline{arduino}{INTERVAL_MICROS_PID}) in the \mintinline{arduino}{if} clause. This makes the code easier to read. Macros with \mintinline{arduino}{#define} do not use space for variables (in contrast to a declaration with \mintinline{arduino}{int ...}), which reduces the memory footprint of your program. Keep in mind that the total RAM is only \SI{2}{\kilo\byte}, which corresponds to only around 500 32-bit integers that you can store! Note, that part of this memory is already used by libraries. Using constants instead of hard-coded numbers is especially important for pin numbers.\par
+%
 \subsubsection{Code documentation}
-Add a short description on the functionality of your program at the top of the code. Also include the date and author name. Also comment any non-trivial steps in your code. (remember: it's generally better to write code in a self-explaining way such that no comments are necessary. Sometimes though comments are unavoidable.) \newline
-
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Your final code has to be added to the report. A reasonable documentation is therefore required for the report to be accepted by the assistant.}
-  }
-}
-
+Add a short description on the functionality of your program at the top of the code. Include the date and author name. Also comment any non-trivial steps in your code. (Remember: it is in general better to write code in a self-explaining way, such that no comments are necessary. Sometimes though, comments are unavoidable.) \newline
+%
+\begin{task}[Code documentation]
+  Always add reasonable documentation to your code, so that it is easy for another person to understand each step of it!
+\end{task}
+% TIPS END ------------------------------------------------------
+%
+% T-GROVE BEGIN -------------------------------------------------
 \subsection{Grove Temperature Sensor}\label{sec:grovetemp}
-%BEGIN Grove Temp
-In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/}{Grove - Temperature Sensor V1.2}. It uses a \ac{NTC} thermistor to detect the ambient temperature. The specifications are shown in \ar{tab:gt}.
-\begin{table}[ht!]\centering\alternatecolors
-	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
-		\fatwhite{Specification}		& \fatwhite{Value}																					\\\tline{1.3}
-		Operating voltage						&	\SIrange{3.3}{5.0}{\volt}																	\\
-		Zero power resistance				&	\SI{100\pm1}{\kilo\ohm}																		\\
-		Operating temperature range	&	\SIrange[retain-explicit-plus]{-40}{+125}{\degreeCelsius}	\\
-		Nominal $B$-constant				&	\SIrange{4250}{4299}{K}																		\\\tline{.4}
-	\end{tabular}
-	\caption{Grove-Temperature Sensor V1.2 specifications.}
-	\label{tab:gt}
-\end{table}
-
-\begin{itemize}
-	\item connect the  Shield to your Arduino
-	\item connect the Grove Temperature Sensor to the shield
-	\begin{itemize}
-		\item figure out which connector to choose on the shield
-	\end{itemize}
-	\item write a sketch (\path{GroveTemp.ino}) that measures the ambient temperature
-	\begin{itemize}
-		\item read the voltage value from the sensor
-		\item convert the voltage into the corresponding resistance
-		\item convert the resistance into a temperature in \SI{}{\degreeCelsius}
-		\item write the temperature to the serial interface every second
-		\item look at the data with the Arduino Serial Monitor:\\ \fpath{Tools > Serial Monitor} (\code{Ctrl+Shift+M})
-		\item look at the data with the Arduino Serial Plotter:\\ \fpath{Tools > Serial Plotter} (\code{Ctrl+Shift+P})
-	\end{itemize}
-\end{itemize}
-
-The serial connection has to be enabled during the \code{\meth{setup()}} function with \code{Serial.begin(9600);} where 9600 is the baud rate. It is 9600 by default in the Serial Plotter and Serial monitor utilities, so it is convenient to use this.
-%END
-
-
+In this experiment you will work with the \href{http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/}{Grove - Temperature Sensor V1.2}. It uses a \ac{NTC} thermistor to detect the ambient temperature. The specifications of the sensor are shown in \ar{tab:gt}.
+%
+\nicetab{ll}{
+  \textbf{Specification}      & \textbf{Value}                \\\hline
+  Operating voltage           & \SIrange{3.3}{5.0}{\volt}     \\
+  Zero power resistance       & \SI{100\pm1}{\kilo\ohm}       \\
+  Operating temperature range & \SIrange{-40}{+125}{\celsius} \\
+  Nominal $B$-constant        & \SIrange{4250}{4299}{K}       \\
+}[Specifications of the Grove-Temperature Sensor V1.2.][tab:gt]
+%
+\begin{task}[Connecting the Grove temperature sensor]
+  First connect the Grove Base Shield to your Arduino. Then find out which connector on the shied you have to use to connect the temperature sensor.
+\end{task}
+%
+\begin{task}[Measuring the ambient temperature]
+  Create a new sketch and name it \path{GroveTemp.ino}! In order to measure the temperature, you have to first read the voltage value from the sensor, then convert the voltage into the corresponding resistance and then convert the resistance to a temperature in \si{\celsius}. Use the serial interface to write one temperature reading every second and both investigate the data with the \textit{Arduino Serial Monitor}: \fpath{Tools > Serial Monitor} (\code{Ctrl+Shift+M}) and the \textit{Arduino Serial Plotter}: \fpath{Tools > Serial Plotter} (\code{Ctrl+Shift+P})
+\end{task}
+%
+\begin{note}[Baud rate]
+  The serial connection has to be enabled during the \mintinline{arduino}{setup()} function with \mintinline{arduino}{Serial.begin(9600);} where 9600 is the baud rate. 9600 is the default value for the \textit{Arduino Serial Plotter} and \textit{Arduino Serial Monitor} utilities, so it is convenient to use this.
+\end{note}
+% T-GROVE END ---------------------------------------------------
+%
+% GROVE-3 BEGIN -------------------------------------------------
 \subsection{Grove Display and Potentiometer}\label{sec:grovedisp}
-%BEGIN Grove3
-As a next step, we will add two more components from the Grove kit: a display to output the current temperature read by the sensor and a potentiometer to set the threshold for our two-point temperature control later. 
-\begin{itemize}
-    \item add the display to your project
-	\begin{itemize}
-        \item install the libraries from \href{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}{http://wiki.seeedstudio.com/Grove-LCD\_RGB\_Backlight/}
-        \item look at the example code on the above website, especially on how to include the libraries in your project and how to initialize it during the \code{setup()} routine
-        \item make sure the "3V3\_VCC\_5V" switch on the Grove shield is set to 5V, otherwise the display will not work correctly
-	    \item connect the Grove LCD RGB Backlight display to your Grove shield
-		\item modify your project such that the measured temperature is printed on the display every second 
-	\end{itemize}
-	\item define a fixed threshold in your code, e.g. 30 degrees above which a LED is turned on. (As alternative you can change the background color of your display). Test if your project is working.
-	\item now we want to make the threshold controllable without recompiling our project. For this purpose, connect the potentiometer (Grove Rotary Angle Sensor) to the Grove shield (you can also use the sliding potentiometer instead if you prefer)
-	\begin{itemize}
-        \item read the description at \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}{http://wiki.seeedstudio.com/Grove\-Rotary\_Angle\_Sensor/}
-        \item read-out the sensor with \code{analogRead()}
-        \item to map the ADCs which range from 0 to 1023 to a reasonable temperature range (a, b), e.g. 20 to 40 degrees, the function \code{map(degrees, 0, 1023, a, b)} can be used for convenience
- 	\end{itemize} 
- 	\item indicate the status below/above threshold also in the output to the serial interface, e.g. add a second number (0 = below threshold, 50 = above threshold) separated by a space
-    	\item test your code by varying the threshold below/above the room temperature
-	\begin{itemize}
-		\item the serial plotter should now draw a second line indicating whether below or above threshold. Vary your threshold slowly below and above the room temperature and make a screenshot of the resulting graph.
- 	\end{itemize}
-    	\item optional: while turning the potentiometer, you can also print the threshold temperature on the display in the second row below the measured temperature
-\end{itemize}
-
-\textbf{Don't forget to add the code for this exercise to your report!}
-%END
-
-\subsection{Data Handling}\label{sec:data}
-%BEGIN Data Handling
-Even though one can use the Arduino \ac{IDE} to look at the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file so that you can use it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with. The easiest solution for Windows is the "type" command, which is explained below. \par
-Once a sketch is uploaded to the microprocessor the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. Note down the port number or name, which can be seen under "Tools" in the Arduino IDE. In order to read the data externally from the serial port you have to close the Arduino serial tools (Serial Monitor, Serial Plotter, ...).\\
-
-
-\subsubsection{With Python}
-
-Python needs the \textbf{pyserial} package to be able to read from the serial interface.
-
-
+As a next step, we will add two more components from the Grove kit: an LCD display to show the current temperature reading of the sensor and a potentiometer to adjust the threshold for our two-point temperature control later. 
+%
+\begin{task}[Adding a LCD display]
+  First install the libraries from the \href{http://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/}{Grove website}. Include the libraries to your sketch and initialise the display in the \mintinline{arduino}{setup()} function, based on the example code on the above website. Connect the Grove LCD RGB Backlight display to your Grove Shield and modify your project, such that the measured temperature is printed on the display and updated every second.
+\end{task}
+%
+\begin{note}[VCC switch]
+  The LCD display will only work correctly, if the \textit{3V3\_VCC\_5V} switch on the Grove Shield is setup to \SI{5}{\V}.
+\end{note}
+%
+\begin{task}[Temperature threshold]
+  \begin{enumerate}
+    \item Define a fixed threshold in your code, \eg \SI{30}{\celsius}, above which a LED is turned on. As an alternative you can also change the background colour of the display. (Always test if your code is working!)
+    \item Make the threshold adjustable without recompiling the code! For this purpose, connect a potentiometer, \eg the Grove Rotary Angle Sensor, to the Grove Shield. Using the \href{http://wiki.seeedstudio.com/Grove-Rotary_Angle_Sensor/}{description}, read out the sensor with \mintinline{arduino}{analogRead()} and map the \ac{ADC} values (\SIrange{0}{1023}{}) to a reasonable temperature range (a$\,\sim\, $b), \eg \SIrange{20}{40}{\celsius}. This can be  implemented, \eg, with the method  \mintinline{arduino}{map(adc, 0, 1023, a, b)}.
+    \item Indicate the status (below/above threshold) also in the output to the serial interface. For example, add a second number (0 = below threshold, 50 = above threshold) separated by a space.
+    \item Test your code by setting the threshold below and above the room temperature! The serial plotter should now draw a second line indicating whether the value is below or above threshold. Vary the threshold slowly below and above the room temperature and make a screenshot of the resulting graph.
+    \item (Optional). Print the temperature threshold on the second row of the display below the measured temperature!
+    \item Add the code to your report!
+  \end{enumerate}
+\end{task}
+% GROVE-3 END ---------------------------------------------------
+%
+% DATA BEGIN ----------------------------------------------------
+\subsection{Data handling}\label{sec:data}
+Even though the Arduino \ac{IDE} has tools to display the values from the temperature sensor, there is no way to save them. That is why we encourage you to write a short program to save the data to file, so that you can analyse it afterwards. We recommend you to use python for this purpose, but feel free to use whatever you have the most experience with.\par
+%
+Once a sketch is uploaded to the microprocessor, the Arduino will perform the loop until it is disconnected from power or overwritten by a new sketch. Note down the port number or name, which can be seen under \fpath{Tools} in the Arduino \ac{IDE}. In order to read the data externally from the serial port you have to close the Arduino serial tools (Serial Monitor, Serial Plotter, \ldots).\par
+%
+\subsubsection{Python}
+Python needs the \mintinline[style=default]{python}{pyserial} package to be able to read from the serial interface.\par
+%
 \noindent If you are using \textbf{anaconda}, type the following command in your anaconda shell:
-\begin{lstlisting}[language=bash]
-  conda install -c anaconda pyserial
-\end{lstlisting}
-
+%
+\begin{minted}{console}
+student@host:~$ conda install -c anaconda pyserial
+\end{minted}
+%
 \noindent If you are using \textbf{pip}:
-\begin{lstlisting}[language=bash]
-  pip install pyserial
-\end{lstlisting}
-
-
-You can test if you have installed the \textbf{pyserial} package correctly by typing "import serial" into a Python shell. After this works, you can start writing you Python code. An outline of what the code should do is below:
-\begin{itemize}
-	\item open the serial port
-	\begin{itemize}
-		\item \code{\var{from} serial \var{import} Serial}
-		\item \code{arduino = Serial(\str{'/dev/<arduino\_portname>'})}
-		\item you can find the name of the port in the Arduino \ac{IDE}
-		\item read a single line using the serial method \code{arduino.readline().decode('utf-8')}  
-	\end{itemize}
-	\item print the line in the terminal using \code{print}
-	\item write the data to a text file (\path{data.txt}), every value on a single line
-	\begin{itemize}
-		\item if you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}
-	\end{itemize}
-	\item your program should repeat this until you terminate it e.g. by pressing CTRL+C.
-	\item optional: add timestamps to every line in your log-file. This makes it easier later analyze the data.
-\end{itemize}
-
-On Windows, the Arduino is typically called "COM3", so do \code{arduino = Serial("COM3")} to open it.
-
+\begin{minted}{console}
+student@host:~$ sudo pip install pyserial
+\end{minted}
+%
+You can test if you have installed the \mintinline[style=default]{python}{pyserial} package correctly by typing \mintinline[style=default]{python}{import serial} into a python shell. If this works, you can start writing you python code. An outline of what the code should do is below (python3):
+%
+\mdfsetblack
+\begin{minted}{python}
+  #!/usr/bin/python3
+  
+  from serial import Serial
+  
+  port_name = '<arduino_portname>'  # the name of the port is shown in the IDE
+  arduino = Serial(portname)  # open serial port of the Arduino
+  
+  line = arduino.readline()  # read a single line of the serial output
+  
+  def save_line(file_name):  
+    """ writes a single temperature measurement to the next line of the file [file_name] ."""
+    pass
+    
+  def save_data(file_name):
+    """ opens a file [file_name] and continues to save the data. """
+    pass
+    
+  def add_timestamp(line):  # optional
+    """ adds the current time stamp to the [line] to simplify the analysis. """
+    from datetime import datetime
+    t = str(datetime.now())
+\end{minted}
+%
+If you have trouble handling files in python follow this \href{http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python}{guide}. On Windows, the Arduino's serial port is typically called \mintinline[style=default]{python}{'COM3'}, so you can open it via \mintinline[style=default]{python}{arduino = Serial('COM3')}.
+%
 \subsubsection{On Windows XP lab computers}
-
-If your port is COM3, you can type the following simple command into a command shell (Start > Run > cmd):
-
-\begin{lstlisting}
-type com3: > output.log
-\end{lstlisting}
-
-There is a small delay in writing as data is written in blocks. It can also happen that the last line is incomplete, take this into account in the analysis of the file. You can stop the program by pressing CTRL+break in the command shell. You can use a USB stick to transfer the resulting file to your personal computer to proceed with the analysis.
-
-\subsubsection{bash (Linux, Mac OSX}
-If you use Linux or Mac, you can do all of the above with a single line of bash. Instead of "/dev/cu.usbmodem14141" put your device name (which is listed as port in the Arduino IDE), which can be different from this.
-
-\begin{lstlisting}
-while read -r line; do echo $line; 
-    done < /dev/cu.usbmodem14141 | tee "output.txt"
-\end{lstlisting}
-
-
-
+The easiest solution for Windows is the \mintinline{bat}{type} command. 
+If your port is \mintinline{bat}{COM3}, you can type the following simple command into a command shell (\fpath{Start > Run > cmd}):
+%
+\mdfsetgrey
+\begin{minted}{bat}
+C:\Users\student> type com3: > output.log
+\end{minted}
+%
+There is a small delay in writing the data, since it is written in blocks. It can also happen, that the last line is incomplete. Take this into account, when you analyse the file. You can stop the program by pressing \code{Ctrl+break} in the command shell. Use a thumb drive to transfer the resulting file to your personal computer to proceed with the analysis.
+%
+\subsubsection{bash (Linux, Mac OS X)}
+If you use Linux or Mac, you can do all of the above with a single line of bash. Instead of \mintinline{bat}{/dev/arduino_portname} put your device name, which is listed as port in the Arduino \ac{IDE}.\par
+%
+\begin{minted}{console}
+student@host:~$ while read -r line; do echo $line; done < /dev/arduino_portname | tee "output.txt"
+\end{minted}
+% DATA END ------------------------------------------------------
+%
+% OP-AMP BEGIN --------------------------------------------------
 \subsection{Op-Amp Circuit}\label{sec:temp}
-%BEGIN Temperature Sensor
 In this task you will build your own temperature sensor using an B57164-K104-J NTC resistor and LM358 Op-amp. The \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} thermistor has the specifications listed in \ar{tab:ts}.
 \begin{table}[ht!]\centering\alternatecolors
 	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
