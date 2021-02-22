@@ -43,7 +43,7 @@ Every Grove connector has four wires, one of which is the \ac{VCC}. Since some m
 % SOFTWARE BEGIN ------------------------------------------------
 \subsection{The Software}\label{sec:soft}
 %
-\subsubsection{Arduino \acs{IDE}}
+\subsubsection{Arduino IDE}
 All you require to write programs and upload them to your board is the Arduino Software (\ac{IDE}). There are two options how to use it:\newpage
 %
 \begin{enumerate}
@@ -196,6 +196,49 @@ Resistor voltage dividers are commonly used to create reference voltages, or to 
 \end{equation}
 % VOLTDEV END ---------------------------------------------------
 %
+% LPF BEGIN -----------------------------------------------------
+\subsection{Low-Pass Filter}\label{sec:lfp}
+In general, an electronic filter is a device, that either passes or attenuates a signal depending on the frequency of the signal. All filters have a range of frequencies, which they completely pass or completely stop. The frequency at which the filter switches from pass to no pass (or vice versa) is called cutoff frequency $\omega_c$ \cite{filter}.\par 
+%
+\Iac{LPF} is designed to pass all frequencies below the cutoff frequency and stop all frequencies above. A simple \ac{LPF} implemented with an $RC$ circuit is shown in \ar{fig:lpf}. Using Kirchhoff's, the following relation between the input voltage $v_{\z{in}}$ and the output voltage $v_{\z{out}}$ can be derived:
+%
+\fig{.3}{lpf}[Simple low-pass $RC$ filter.][fig:lpf]
+%
+\begin{equation}\label{eq:lpf}
+  v_{\z{in}}(t) - v_{\z{out}}(t) = RC\dfrac{dv_{\z{out}}}{dt} = \dfrac{1}{\omega_c}\dfrac{dv_{\z{out}}}{dt} = \tau \dfrac{dv_{\z{out}}}{dt}
+\end{equation}
+%
+where time constant $\tau$ of the \ac{LPF} is the inverse of the cutoff frequency.\par
+%
+The frequency response of \iac{LPF} is in general characterised be the Laplace transform of the transfer function with follows from \ar{eq:lpf}:
+%
+\begin{equation}
+  H(s) = \dfrac{V_{\z{out}}(s)}{V_{\z{in}}(s)} = \dfrac{\omega_c}{s + \omega_c}
+\end{equation}
+%
+Also digital filters can be designed to give low-pass characteristics. Assuming that the samples at the input and the output are taken at a constant sampling time $\Delta t$, it is simple to discretise \ar{eq:lpf}: 
+%
+\begin{equation}
+  x_i - y_i = \tau\dfrac{y_i - y_{i-1}}{\Delta t}
+\end{equation}
+%
+where $v_{\z{in}}$ is represented by the sequence $(x_0, x_1, \ldots, x_n)$ and $v_{\z{out}}$ represented by $(y_0, y_1, \ldots, y_n)$. By rearranging the terms an equation for the current output can be derived:
+%
+\begin{equation}
+  y_i = \underbrace{x_i\left(\dfrac{\Delta t}{\tau + \Delta t}\right)}_{\z{input}} + \underbrace{y_{i-1}\left(\dfrac{\tau}{\tau + \Delta t}\right)}_{\z{previous output}}
+\end{equation}
+%
+This shows that the discrete implementation of a simple \ac{LPF} is equivalent to the the exponentially weighted average:
+%
+\begin{equation}\label{eq:lpf1}
+  y_i = \alpha x_i + (1-\alpha)y_{i-1},\hspace*{1em}\z{ where } \hspace*{1em} \alpha:= \dfrac{\Delta t}{\tau + \Delta t}.
+\end{equation}
+%
+By definition the smoothing factor $\alpha$ lies in the interval $0\le\alpha\le1$. If $\alpha=0.5$, the time constant $\tau$ is equal to the sampling period. Setting $\alpha = 1$ makes the system infinitely fast, so the output is equal to the input, whereas if $\alpha = 0$, the response is infinitely slow, so the output would stay constant at its initial value.\par 
+%
+From \ar{eq:lpf1} follows, that the cutoff frequency of the \ac{LPF} may be adjusted by choosing appropriate values for $\alpha$ and $\Delta t$.
+% LPF END -------------------------------------------------------
+%
 % THERMISTOR BEGIN ----------------------------------------------
 \subsection{Thermistor}\label{sec:therm}
 If, for a given temperature, the current is directly proportional to the applied voltage the electrical component is said to obey Ohm's law. Such components are called linear resistors. If a component does not meet this requirement it is termed a non-linear resistor, which falls into two classes $-$ the temperature-sensitive type and the voltage-sensitive type. The temperature-sensitive types are often known as thermistors and change the resistance very reproducible. The word is a portmanteau of \textit{THERM}ally-sensitive and res\textit{ISTOR}.\par
@@ -295,7 +338,7 @@ This type of voltage follower circuit has a very high input impedance and theref
 % PWM END -------------------------------------------------------
 %
 % PID BEGIN -----------------------------------------------------
-\subsection{\acs{PID} Controller}\label{sec:pid}
+\subsection{PID Controller}\label{sec:pid}
 A \ac{PID} controller is a control loop feedback mechanism widely used in industrial control systems and a variety of other applications requiring continuously modulated control. A \ac{PID} controller continuously calculates an error value $e(t)$ as the difference between a desired setpoint and a measured process variable and applies a correction based on proportional, integral, and derivative terms (denoted P, I, and D respectively) which give the controller its name.\par
 %
 In practical terms it automatically applies accurate and responsive correction to a control function. An everyday example is the cruise control on a road vehicle; where external influences such as gradients would cause speed changes, and the driver has the ability to alter the desired set speed. The \ac{PID} algorithm restores the actual speed to the desired speed in the optimum way, without delay or overshoot, by controlling the power output of the vehicle's engine \cite{wiki:pid}.

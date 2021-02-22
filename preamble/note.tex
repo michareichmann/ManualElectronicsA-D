@@ -1,7 +1,7 @@
 % DEFINE LIST
 \newcommand{\listnotename}{List of Notes} % Set the name of the list
 
-\newlistof[chapter]{notes}{nte}{\listnotename} % First bracket is \listof{what's in here}, second is the document that will be created, NameOfYourDoc.nte in this case. Third is title of the list, what you define in above \newcommand.
+\newlistof{notes}{nte}{\listnotename} % First bracket is \listof{what's in here}, second is the document that will be created, NameOfYourDoc.nte in this case. Third is title of the list, what you define in above \newcommand.
 %
 \newcommand{\notes}[1]{% How to set a counter for. 
 \refstepcounter{notes} %increase the counter

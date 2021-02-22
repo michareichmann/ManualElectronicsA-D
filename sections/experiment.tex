@@ -12,8 +12,8 @@ The full setup is contained in the box shown in \ar{fig:box}. You will find this
 \fig{1}{setup2}[Content of the Grove starter kit. The base shield is under the red protective foam.][fig:grv][Content of the Grove starter kit.]
 \nicetab{ccc}{\textbf{Item} & \textbf{Type} & \textbf{Manual} \\\hline
   multimeter      & UT61C & \href{https://www.distrelec.ch/Web/Downloads/nu/al/UT61_eng_manual.pdf}{Link} \\
-  4-pin fan       & Noctua NF-A14 5V PWM & \href{https://noctua.at/en/products/fan/nf-a14-5v-pwm/faq}{Link} \\
-  \ac{op-amp}     & LM358 & \href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{Link} \\
+  4-pin fan       & Noctua NF-A12x25 5V PWM & \href{https://noctua.at/en/products/fan/nf-a12x25-5v-pwm/faq}{Link} \\
+  \ac{op-amp}     & LM358-N & \href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{Link} \\
 %   NPN transistor  & BC547 & \href{https://www.sparkfun.com/datasheets/Components/BC546.pdf}{Link} \\
   \ac{NTC} thermistor & B57164-K104-J & \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{Link}\\
 }[Item manuals.][tab:man]
@@ -249,14 +249,14 @@ You can test if you have installed the \mintinline[style=default]{python}{pyseri
   port_name = '<arduino_portname>'  # the name of the port is shown in the IDE
   arduino = Serial(portname)  # open serial port of the Arduino
   
-  line = arduino.readline()  # read a single line of the serial output
+  line = arduino.readline()   # read a single line of the serial output
   
   def save_line(file_name):  
     """ writes a single temperature measurement to the next line of the file [file_name] ."""
     pass
     
   def save_data(file_name):
-    """ opens a file [file_name] and continues to save the data. """
+    """ opens a file [file_name] and continuously saves the data. """
     pass
     
   def add_timestamp(line):  # optional
@@ -288,207 +288,184 @@ student@host:~$ while read -r line; do echo $line; done < /dev/arduino_portname 
 %
 % OP-AMP BEGIN --------------------------------------------------
 \subsection{Op-Amp Circuit}\label{sec:temp}
-In this task you will build your own temperature sensor using an B57164-K104-J NTC resistor and LM358 Op-amp. The \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} thermistor has the specifications listed in \ar{tab:ts}.
-\begin{table}[ht!]\centering\alternatecolors
-	\begin{tabular}{|ll|}\rowcolor{PineGreen}\tline{.5}
-		\fatwhite{Specification}		& \fatwhite{Value}																					\\\tline{1.3}
-		Operating voltage											&	\SIrange{3.3}{5.0}{\volt}																	\\
-		Zero power resistance				&	\SI{100\pm5}{\kilo\ohm}																		\\
-		Operating temperature range	&	\SIrange[retain-explicit-plus]{-55}{+125}{\degreeCelsius}	\\
-		Nominal $B$-constant				&	\SI{4600\pm138}{K}																		\\\tline{.4}
-	\end{tabular}
-	\caption{B57164-K104-J specifications.}
-	\label{tab:ts}
-\end{table}
-
-\begin{itemize}
-	\item build a voltage divider circuit to convert the resistance into a measurable voltage
-	\item use the LM358 operational amplifier (as voltage follower with gain 1) to amplify the sensor signal. The pin layout is given in the datasheet or in figure \ref{fig:tempcircuit2}.
-	\item reproduce the temperature measurements from \ar{sec:grovetemp}
-\end{itemize}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=14cm]{ntc_opamp_schematic}
-\caption{Circuit for reading the NTC resistance with Op-amp.}\label{fig:tempcircuit}
-\end{center}
-\end{figure}
-
-Figure \ref{fig:tempcircuit} shows the simplest possible circuit you can use for this purpose. The high input impedance of the op-amp ensures that there is basically no load on the voltage divider and we can use the simple formula which is only valid without load. There is then also virtually no current flowing through the NTC resistor which would heat it up.
-
-
-\begin{figure}[H]
-\begin{center}
-  \centering
-  \begin{minipage}[b]{0.4\textwidth}
-    \includegraphics[width=\textwidth]{lm358pins}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[b]{0.5\textwidth}
-    \includegraphics[width=\textwidth]{lm358table}
-  \end{minipage}
-\caption{Pin layout (left) and descriptions (right) of the LM358 Op-Amp. Source: datasheet from http://www.ti.com/lit/ds/symlink/lm158-n.pdf}\label{fig:tempcircuit2}
-\end{center}
-\end{figure}
-
-
+Now you will build your own temperature sensor using a \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{B57164-K104-J} \ac{NTC} resistor and the \ac{op-amp} \href{http://www.ti.com/lit/ds/symlink/lm158-n.pdf}{LM358-N}. The thermistor has the specifications listed in \ar{tab:ts}.\par
+%
+\nicetab{ll}{
+  \textbf{Specification}      & \textbf{Value}                \\\hline
+  Operating voltage           & \SIrange{3.3}{5.0}{\volt}     \\
+  Zero power resistance       & \SI{100\pm5}{\kilo\ohm}       \\
+  Operating temperature range & \SIrange{-55}{+125}{\celsius} \\
+  Nominal $B$-constant        & \SI{4600\pm138}{\kelvin}      \\
+}[Specification of the B57164-K104-J thermistor.][tab:ts]
+%
+\begin{task}[Building a temperature sensor]
+  Build a voltage divider circuit on the breadboard to convert the resistance of the thermistor into a measurable voltage. Use the an \ac{op-amp} as a voltage follower with gain 1 to amplify this voltage signal (see \ar{fig:pins}). Reproduce the temperature measurements from \ar{sec:grovetemp}.
+\end{task}
+%
+\subfigs{\subfig[.34]{.13}{lm358n}[Layout.]}{\subfig[.61]{.13}{lm358table}[Description.]}[Pin layout and descriptions of the LM358 \ac{op-amp} \cite{lm358}.][fig:pins]
+%
+\ar{fig:tcirc} shows the simplest possible electrical circuit for this purpose. The high input impedance of the \ac{op-amp} ensures that there is basically no load on the voltage divider and we can use the simple formula which is only valid without load. There is then also virtually no current flowing through the \ac{NTC} resistor which would heat it up otherwise.\par
+%
+\fig{.6}{ntc_opamp_schematic}[Circuit diagram for reading the \ac{NTC} resistor with an \ac{op-amp}.][fig:tcirc]
+% OP-AMP END ----------------------------------------------------
+%
+% CALIB BEGIN ---------------------------------------------------
 \subsection{Calibration}\label{sec:calibration}
-
-The NTC resistor we used for this experiment is not calibrated yet and therefore we obtain a relatively large error on the absolute temperature scale.
-\vspace{0.5cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: calculate the uncertainty on the temperature we obtain from the following sources:}
-    \begin{itemize}
-    		\item B-constant of the NTC
-    		\item resistance of the 100 k resistor (use 1\% resistors if possible)
-    		\item resolution of the ADC
-    		\item any other non-negligible uncertainty you find
-    \end{itemize}
-  }
-}
-\end{center}
-
-By calibrating our device with an already calibrated reference device, we can reduce the systematic uncertainties. For this calibration we can use the Sensirion SHT21 temperature sensor or any equivalent device.
-
-\vspace{0.5cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: calibrate your device by adjusting the B constant, such that its measured temperature matches the one measured with the reference device. Use the given uncertainty on the temperature of the reference device to calculate a new uncertainty for your B constant. How much does it improve?}
-}
-}
-\end{center}
-
-
-%END
-
+The \ac{NTC} resistor we used for this experiment is not calibrated yet and therefore we obtain a relatively large error on the absolute temperature scale.\par
+%
+\begin{task}[Calculation of the temperature uncertainty]
+  Calculate the uncertainty on the measured temperature from the following sources:
+  \begin{itemize}
+      \item $B$-constant of the \ac{NTC}
+      \item \SI{100}{\kilo\ohm} resistor (use \SI{1}{\percent} resistors if possible)
+      \item resolution of the \ac{ADC}
+      \item any other non-negligible uncertainty you can think of
+  \end{itemize}
+\end{task}
+%
+By calibrating our device with an already calibrated reference device, we can reduce the systematic uncertainties. For this calibration you can use the Grove temperature sensor or any equivalent device.\par
+%
+\begin{task}[Temperature calibration]
+  Calibrate your device by adjusting the $B$ constant, such that the measured temperature matches the one measured with the reference device. Use the given uncertainty on the temperature of the reference device to calculate a new uncertainty for your $B$ constant. How much does it improve?
+\end{task}
+% CALIB END -----------------------------------------------------
+%
+% HEATING  BEGIN -------------------------------------------------
 \subsection{Heating}\label{sec:heat}
-Since it is boring to measure a constant temperature, we build a simple heat load of 0.2-0.25 W with a couple of resistors.
-\begin{itemize}
-	\item calculate the resistors needed to have the correct power dissipation.
-	\item bring the heating resistor and the temperature sensor close together to have as good thermal contact as possible.
-\end{itemize}
-
-Important: the temperature difference between the room temperature and the equilibrium temperature without cooling should be at least 5 degrees, better more (e.g. 10). 
-If improving the thermal contact is not enough to heat up the NTC to more than 5 degrees above the room temperature, use the external power supply to provide power for the heating resistor.
-
-\vspace{0.2cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: create a plot of the temperature vs. time (starting from room temperature) and determine the time constant of the temperature rise and estimate the equilibrium temperature from a fit.}
-  }
-}
-\end{center}
-\vspace{0.2cm}
-
+Since it is boring to monitor a constant temperature, you will build a simple heat load of \SIrange{.20}{.25}{\W} with some of resistors.\par
+%
+\begin{task}[Resistance calculation]
+  Calculate the resistance, that is required to have the power dissipation of \SIrange{.20}{.25}{\W}. Bring the heating resistor and the temperature sensor as close as possible together, so that they have a good thermal contact.
+\end{task}
+%
+\begin{note}[Temperature difference]
+  The temperature difference between the room temperature and the equilibrium temperature without cooling should be at least \SI{5}{\kelvin}, ideally \SI{\sim10}{\kelvin}. If improving the thermal contact is not enough to heat up the \ac{NTC} by more than \SI{5}{\kelvin}, use the external power supply to provide more power for the heating resistor.
+\end{note}
+%
+\begin{task}[Temperature plot]
+  Plot of the temperature versus time (starting from room temperature)! Fit the curve with an appropriate function and determine the time constant of the temperature rise and the equilibrium temperature.
+\end{task}
+% HEATING END ----------------------------------------------------
+%
+% COOLING BEGIN --------------------------------------------------
 \subsection{Cooling}\label{sec:cool}
-Many electrical components will produce heat under load and may break at critical temperatures. That is why many of complex systems like computers require cooling. You will now build a system that controls a fan and can regulate it's rotation speed.
-\begin{itemize}
-	\item connect the fan to the breadboard, for the 4 pin header, the following conventions are used:
-	\begin{itemize}
-	    \item black: ground
-	    \item yellow: 5V
-	    \item green: tacho read-out (will be used later)
-	    \item blue: PWM control
-	\end{itemize}
-	\item keep in mind that only a few of the digital pins (marked by "{\raise.17ex\hbox{$\scriptstyle\sim$}}" on the board) are able to use PWM, e.g. use digital pin 11
-\end{itemize}
-
+Many electrical components produce heat under load and may break above a critical temperature. That is why many complex systems like computers require cooling. You will now build a system that controls a fan and can regulate its rotation speed (\ac{RPM}).\par
+%
+\begin{task}[Connecting the fan]
+  Connect the fan to the breadboard. Follow the conventions in \ar{tab:fan} for the 4 pin header. Mind that only a few of the digital pins (marked by the $\sim$ symbol) are able to use \ac{PWM}. You can, \eg, use the digital pin 11.
+\end{task}
+%
+\nicetab{lll}{
+  \textbf{Pin}  & \textbf{Wire colour}  & \textbf{Usage}              \\\hline
+  1             & black                 & GND                         \\
+  2             & yellow                & \SI{5}{\V}                  \\
+  3             & green                 & sense (tachometer read-out) \\
+  4             & blue                  & control (\ac{PWM})          \\
+}[Intel standard connector pinout for a for 4-wire fan \cite{fanpinout}.][tab:fan]
+% COOLING END ----------------------------------------------------
+%
+% 2-POINT BEGIN --------------------------------------------------
 \subsection{Two-point controller}\label{sec:cool2}
-Now we can finally build the full two-point controller.
-\begin{itemize}
-    \item define a low and high threshold, e.g. use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one. both thresholds have to be in reach
-	\item set the duty cycle of the fan to 100\% when above the high threshold
-	\item set the duty cycle of the fan to 0\% when below the low threshold
-	\item setting the PWM duty-cycle can be done using the \code{analogWrite()} function
-\end{itemize}
-Experiment with different set-points. What is the advantage of having two setpoints instead of a single threshold above we turn cooling on? What are the draw-backs of the two-point controller?
-
-\vspace{0.5cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: create a plot of temperature vs. time with the two-point controller active which shows multiple periods.}
-  }
-}
-\end{center}
-
-\subsection{Read Out the Fan Speed}
-We now wan to use the built-in Hall Effect Sensor (HES) of the fan to measure its rotation speed. In every rotation this sensor will produce two pulses we can count and then convert to revolutions per minute (\textbf{RPM}). The maximum (for 100\% duty cycle) according to the datasheet is 1900 RPM, with a tolerance of 10\%, the minimum is around 230 RPM.
-
-\begin{itemize}
-	\item calculate a rough estimate for the minimum frequency needed for reading the voltage on the tacho pin and be able to count the pulses? (Use Nyquist theorem) In practice, a much higher frequency should be used than the limit calculated above
-	\item check the Arduino reference of \code{analogRead()} for the maximum frequency. Since we also have to do other work in the \code{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice.
-    \item what is the expected uncertainty on the minimum and maximum RPM if we count pulses for 1 second?
-	\item connect the tacho (green wire) of the fan to an analog pin of the Arduino, using a 10k pull-up resistor to 5V. (optional: figure out how to use internal pull-up resistor of the Arduino instead of a discrete component)
-	\item what is the role of the pull-up resistor?
-	\item count the pulses of the HES and convert the result to RPM. Is it within the range expected by the datasheet numbers?
-	\item write the \ac{RPM} value to the serial output
-\end{itemize}
-
-\vspace{0.1cm}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: plot the fan RPM vs. the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at which RPM? What is the maximum RPM for full duty-cycle?}
-  }
-}
-\end{center}
-\vspace{0.5cm}
-
-Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement programme (e.g. number of steps, seconds per step etc.) should be programmed into the Arduino or, alternatively, controlled by a Python program running on the computer which changes the parameters via the serial interface (see "Bi-directional communication with the computer" section below).
-
+Now we can finally build the full two-point controller.\par
+%
+\begin{task}[Building the 2-point controller]
+  Define a low and high temperature threshold, \eg use the potentiometer for the high threshold and set the lower threshold a few degrees lower than the high one. Mind that both thresholds have to be within the minimum and maximum temperature of your setup. Set the duty cycle of the fan to \SI{100}{\percent} when above the high threshold and to \SI{0}{\percent} when below threshold.
+\end{task}
+%
+You can set the \ac{PWM} duty-cycle of the fan using the \mintinline{arduino}{analogWrite()} function. Experiment with different set-points, so that you get a better understanding of the system. What is the advantage of having two set-points instead of a single threshold above which the cooling is turned on? What are the draw-backs of the two-point controller?\par
+%
+\begin{task}[Temperature plot 2]
+  Plot of temperature versus time with an active two-point controller and show multiple periods of cooling and heating.
+\end{task}
+% 2-POINT END ----------------------------------------------------
+%
+% FAN BEGIN ------------------------------------------------------
+\subsection{Fan speed}
+Now you will use the fan's built-in \ac{HES} to measure its rotation speed. For every rotation this sensor produces two pulses, that can be converted to \ac{RPM}. The maximum speed (for \SI{100}{\percent} duty cycle) is \SI{1900}{RPM}, with a tolerance of \SI{10}{\percent}, the minimum is \SI{230}{RPM} \cite{fan}.
+%
+\newpage
+\begin{task}[Sampling theory]
+  \begin{enumerate}
+    \item Based on the Nyquist-Shannon sampling theorem, estimate the minimum frequency for reading the voltage on the tachometer pin, that is required to count the pulses! In practice, a much higher frequency should be used.
+    \item Figure out, what the maximum frequency of the \mintinline{arduino}{analogRead()} method is (see Arduino reference). Since you also have to do other jobs in the \mintinline{arduino}{loop()} function, the frequency should be also much less than the maximum. Make a reasonable choice!
+  \end{enumerate}
+\end{task}
+%    
+\begin{task}[Fan speed read-out]
+  \begin{enumerate}
+    \item Connect the tachometer of the fan to an analogue pin of the Arduino, using a \SI{10}{\kilo\ohm} pull-up resistor to \SI{5}{\V}. 
+    \item (Optional). Figure out how to use internal pull-up resistor of the Arduino instead of using a discrete component!
+    \item Describe the role of the pull-up resistor!
+    \item Count the pulses of the \ac{HES} and convert the it to \ac{RPM}. Is the measured value in accordance with the expected range from \cite{fan}?
+    \item Write the \ac{RPM} value to the serial output!
+  \end{enumerate}
+\end{task}
+%
+Scanning the points for the different duty cycles should be done without flashing the device in between. Instead, the measurement program (\eg number of steps, seconds per step etc.) should be programmed into the Arduino code or, alternatively, controlled by a python program, which changes the parameters via the serial interface, as described in \ar{sec:bi}.\par
+%
+\begin{task}[Plotting \ac{RPM} vs. duty cycle]
+  Plot the \ac{RPM} of the fan versus the duty cycle. Which is the minimum duty cycle above which the fan starts to spin, and at how many \ac{RPM}? What is the maximum \ac{RPM} for the full duty-cycle?
+\end{task}
+% FAN END --------------------------------------------------------
+%
+% EQUILIBRIUM BEGIN ----------------------------------------------
 \subsection{Equilibrium temperature}
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: plot the equilibrium temperature vs. the fan RPM. Make sure you measure long enough for each data point and give a reasonable estimate for the uncertainty that you obtain on the equilibrium value.}
-  }
-}
-\end{center}
-\vspace{0.5cm}
-
-It might need few minutes to reach a stable equilibrium per point.
-
-
+\begin{task}[Equilibrium temperature]
+ Using the 2-point controller, plot the equilibrium temperature versus the \ac{RPM} of the fan. Give a reasonable estimate for the uncertainty on the equilibrium temperature.
+\end{task}
+%
+\begin{note}[Equilibrium temperature]
+  It can take several minutes to reach a stable equilibrium for each data point, so make sure to wait long enough until the temperature has reached the equilibrium.
+\end{note}
+% EQUILIBRIUM END ------------------------------------------------
+%
+% PID BEGIN ------------------------------------------------------
 \subsection{PID Controller}
-We have seen that with the two-point controller above, we could not exactly stabilize to a constant temperature and were suffering from under- and overshoot. Using a \ac{PID} controller can overcome both issues.
-\begin{itemize}
-	\item implement a \ac{PID} controller
-	\item regulate cooling by the PWM duty-cycle of your fan
-	\item tune your three parameters to have reasonably stable operation. (Perfect tuning is very complicated and does not have to done here.)
-	\item create some plots with temperature vs. time, starting from different initial temperatures, which show converging temperature.
-\end{itemize}
-
-The output of the PID controller consists of three different terms, each having a tuneable coefficient.
-\begin{itemize}
-	\item proportional: proportional to the error, which is \code{error = temperature - setpoint}
-	\item integral: proportional to the sum of all errors of previous steps
-	\item derivative: proportional to the difference in error compared to last step
-\end{itemize}
-
-In practice, there are few more things to consider
-\begin{itemize}
-    \item using a timer, perform the PID calculations between every 100 ms and every second. You should not use longer values to be fast enough in response and not too much shorter values to be not susceptible to noise.
-    \item use a discrete digital low-pass filter on your measured temperature if it is noisy.
-    \item convert your PID response to a duty\_cycle between 0 and 255 to be used in \code{\meth{analogWrite}(\var{PIN\_FAN\_PWM}, duty\_cycle)}. 
-\end{itemize}
-
-\begin{center}
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{Task: Optimize the three parameters reasonably well to have fast convergence and low fluctuations after a certain time and plot the temperature vs. time. Also de-tune your parameters to produce slow convergence and/or overshooting/oscillations and show both curves in one plot.}
+We have seen, that the two-point controller takes a long time to reach to a constant temperature and it suffers from under- and overshoot. Both issues can be overcome using a \ac{PID} controller.\par
+%
+The output of a \ac{PID} controller consists of three different terms, each having a tunable coefficient:
+%
+\begin{enumerate}
+  \item proportional: proportional to the error, where the error is equal to the difference of the actual temperature and the set-point 
+  \item integral: proportional to the sum of all errors of previous steps
+  \item derivative: proportional to the difference current error and the error of the last step
+\end{enumerate}
+%
+In practice, there are few more things to consider.
+% 
+\begin{task}[Implementing a \ac{PID} controller]
+  Regulate cooling by the \ac{PWM} duty-cycle of your fan! Adjust the three \ac{PID} parameters so that the controller work reasonably stable. (Perfect tuning is very complicated and does not have to be done here.) Plot the temperature versus time, starting from at least \SI{3}{\celsius} below or above the converging temperature.
+\end{task}
+%
+In order to use the full capacity of the fan, it is important to convert you \ac{PID} response to a \mintinline{arduino}{duty_cycle} between \SIrange{0}{255}. This way it can be used in the \mintinline{arduino}{analogWrite(PIN_FAN_PWM, duty_cycle)} method.\par
+%
+\begin{task}[Optimising the update interval]
+  \begin{enumerate}
+      \item Using a timer, the update time should be tuned, so that the response is fast enough while the measurement is not too susceptible to noise. In our case, the \ac{PID} calculations should be done every \SIrange{.1}{1}{\second}.
+      \item If you notice, that your temperature measurements gets noisy, add a discrete digital low-pass filter (see \ar{sec:lfp}) to your code.
+  \end{enumerate}
+\end{task}
+%
+The digital \ac{LPF} should look similar to this:
+\begin{minted}{arduino}
+  #define ALPHA 0.5
+  
+  float read_temp() {...};  // method to make a single temperature reading
+  
+  float t_out = read_temp();  // initialise the output temperature
+  
+  void loop(){
+  ...
+  t_out = ALPHA * ... + ...  // filter every temperature reading
+  
   }
-}
-\end{center}
-
-\vspace{0.5cm}
-
-A low-pass filter can be used to filter out high frequency fluctuations (noise) on the measured temperature. It can be implemented in it's simplest form with
-
+\end{minted}
+Remember, that you can adjust the cutoff temperature by adjusting \mintinline{arduino}{ALPHA} and the update interval.\par
+%
+\begin{task}[Optimising the \ac{PID} parameters]
+  Now optimise the three parameters reasonably well to have fast convergence and low fluctuations after a certain time and plot the temperature versus time. Also detune the parameters to produce slower convergence and/or overshooting/oscillations and show both curves in a single plot.
+\end{task}
+%
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[language=Arduino]
 temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * temperature_current;
@@ -497,12 +474,9 @@ temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * temperature_curr
 
 where \code{temperature\_current} is the actual reading from the sensor and \code{temperature} (which has to be properly initialized once to be the sensor reading!) the output of the filter. \code{\var{LOWPASS\_ALPHA}} and the interval between two measurements $\Delta t$ control the cut-off frequency of the lowpass filter. Set it to a reasonable value which suppresses the noise and is still fast enough for the timescale of temperature changes we expect (order of few degrees per second). It can also be computed analytically:
 
-\begin{equation}
-\alpha = \frac{\Delta t}{\tau + \Delta t}
-\end{equation}
 
-where $\tau$ is the characteristic time constant of the low-pass filter (corresponds to RC time of a RC filter). Setting $\alpha = 0$ makes it infinitely fast, so the output is equal to the input, where as $\alpha = 1$ makes the response infinitely slow, so the output would stay constant at its initial value.
-
+% PID END --------------------------------------------------------
+%
 \subsection{Advanced tasks}
 
 \fbox{
@@ -516,7 +490,7 @@ where $\tau$ is the characteristic time constant of the low-pass filter (corresp
 Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Take special care on correlation of input uncertainties in the fit and explain in the report why this is an issue here and what effect it would have to neglect correlations. Also look at the uncertainties and correlations of the fitted parameters.
 Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
 
-\subsection{Bi-directional communication with the computer (Advanced)}
+\subsection{Bi-directional communication with the computer (Advanced)}\label{sec:bi}
 Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
 \begin{itemize}
 	\item instead of using the potentiometer to set the threshold, implement a way to set the threshold via serial commands
@@ -542,20 +516,6 @@ There is also a bunch of other components available which can be used to extend 
 Ask the assistants for more information if you are interested in using them. For example you could use the distance sensor and servo motor to keep an object at a fixed position relative to another moving one.
 
 
-\subsection{I2C protocoll debugging (Advanced)}
-Many of the Grove components communicate via I2C bus protocol. Using a digital oscilloscope, it is possible to look at the I2C signal and manually decode it on the scope. Use the Grove RBG LCD display, initialize it and periodically write text to the display and set the color. Spy on the commuication, find out the the device IDs of the 2 devices connected to the bus. What do they correspond to? Compare with the library of the Grove display. Record a short communication of a few bytes and decode it.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\subsection{I2C protocol debugging (Advanced)}
+Many of the Grove components communicate via I2C bus protocol. Using a digital oscilloscope, it is possible to look at the I2C signal and manually decode it on the scope. Use the Grove RBG LCD display, initialise it and periodically write text to the display and set the colour. Spy on the communication, find out the the device IDs of the 2 devices connected to the bus. What do they correspond to? Compare with the library of the Grove display. Record a short communication of a few bytes and decode it.
 

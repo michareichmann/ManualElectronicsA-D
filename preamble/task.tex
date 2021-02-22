@@ -1,7 +1,7 @@
 % DEFINE LIST
 \newcommand{\listtaskname}{List of Tasks} % Set the name of the list
 
-\newlistof[chapter]{tasks}{tsk}{\listtaskname} % First bracket is \listof{what's in here}, second is the document that will be created, NameOfYourDoc.tsk in this case. Third is title of the list, what you define in above \newcommand.
+\newlistof{tasks}{tsk}{\listtaskname} % First bracket is \listof{what's in here}, second is the document that will be created, NameOfYourDoc.tsk in this case. Third is title of the list, what you define in above \newcommand.
 %
 \newcommand{\tasks}[1]{% How to set a counter for. 
 \refstepcounter{tasks} %increase the counter
