@@ -64,11 +64,11 @@
 \newcommand{\notes}[1]{
   \refstepcounter{notes}%
   \par\noindent\textbf{Note \thenotes:~#1}%
-  \addcontentsline{atk}{notes}{\protect\numberline{\thenotes}#1}\par%
+  \addcontentsline{nte}{notes}{\protect\numberline{\thenotes}#1}\par%
 } 
 \setlength{\cftnotesindent}{1.5em} 
 \setlength{\cftnotesnumwidth}{2.3em} 
-\renewcommand{\cftatktitlefont}{\bfseries\Large} 
+\renewcommand{\cftntetitlefont}{\bfseries\Large} 
 
 \newenvironment{note}[1][]{%
   \makeboxtitle{\notes{#1}}{OliveGreen}

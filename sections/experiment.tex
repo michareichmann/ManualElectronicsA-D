@@ -467,42 +467,61 @@ Remember, that you can adjust the cutoff temperature by adjusting \mintinline{ar
 \end{task}
 % PID END --------------------------------------------------------
 %
-\subsection{Advanced tasks}
+% ATASKS BEGIN ---------------------------------------------------
+\subsection{Fit heating \& cooling (Advanced)}
 %
 \begin{note}[Advanced tasks]
   All of the following tasks are optional. They can be used to replace some of the other tasks if agreed on with the assistant.
 \end{note}
 %
-\subsection{Fit heating/cooling(Advanced)}
-Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Take special care on correlation of input uncertainties in the fit and explain in the report why this is an issue here and what effect it would have to neglect correlations. Also look at the uncertainties and correlations of the fitted parameters.
-Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
-
-\subsection{Bi-directional communication with the computer (Advanced)}\label{sec:bi}
-Until now we only read values from the device, but we can also write commands from the computer to the Arduino using the serial interface.
+Now we want to investigate the functional behaviour of the heating and cooling. For this purpose it is best to set the two temperature set-points far from each other, while still being in achievable range.\par
+%
+\begin{atask}[Fit of heating \& cooling]
+  Find a suitable function to describe the data and perform a fit of the model to the data. Show the fit parameters (with uncertainties!) and repeat this for several heating and cooling cycles. 
+\end{atask}
+%
+Always when you fit a model to data, it is important to check if the fit makes sense. In this case it is important to examine if there is a correlation of the input uncertainties.
+%
+\begin{atask}[Interpreting the fit]
+  Explain why the correlation of the input uncertainties poses an issues for this experiment. Also look at the uncertainties and correlations of the fitted parameters. Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why!
+\end{atask}
+%
+% ----------------------------------------------------------------
+\subsection{Bi-directional communication (Advanced)}\label{sec:bi}
+So far we only read values from the Arduino. However, it is also possible to send commands from the computer to the Arduino using the serial interface. The is usually done via \ac{SCPI} \cite{scpi}, which defines a standard for syntax and commands to use in controlling programmable test and measurement devices.\par 
+%
+Sending the string \mintinline[style=default]{python}{'SET:THResh 32'} to the serial interface, is a \ac{SCPI} example to set the threshold to 32. This string then must be read and parsed by the Arduino. \par
+%
+\begin{atask}[Bi-directional communication]
+  Implement a way to set the threshold via serial commands, instead of using the potentiometer. Write a python script to perform the measurements from above section by sending \ac{SCPI} to the Arduino.
+\end{atask}
+%
+% ----------------------------------------------------------------
+\subsection{Using other components (Advanced)}
+There are also many other components available, that can be used to extend your Arduino project. There are for example:
+%
 \begin{itemize}
-	\item instead of using the potentiometer to set the threshold, implement a way to set the threshold via serial commands
-	\item one can use the SCPI protocol as a reference, e.g. set the threshold to 32 degrees with the command "SET:THR 32"
-	\item which other commands are necessary to run the measurements from above section without hardcoding the measurement programme (e.g. number of steps, seconds per step etc.)?
-	\item write a Python script to perform the measurements from above section via sending SCPI style commands to the Arduino
+  \item ultra-sonic distance sensor
+  \item electric current sensor
+  \item infrared LEDs and sensor
+  \item electromagnet
+  \item piezoelectric vibration sensor
+  \item 96x96 pixels OLED display 
+  \item \ldots
 \end{itemize}
-
-
-\subsection{Use of other components (Advanced)}
-There is also a bunch of other components available which can be used to extend your Arduino project. Among them:
-\begin{itemize}
-	\item ultra-sonic distance sensor
-	\item electric current sensor
-	\item infrared leds and sensor
-	\item electro magnet
-	\item Piezzo vibration sensor
-	\item 96x96 pixels OLED display
-	\item Servo motor
-	\item ...
-\end{itemize}
-
-Ask the assistants for more information if you are interested in using them. For example you could use the distance sensor and servo motor to keep an object at a fixed position relative to another moving one.
-
-
-\subsection{I2C protocol debugging (Advanced)}
-Many of the Grove components communicate via I2C bus protocol. Using a digital oscilloscope, it is possible to look at the I2C signal and manually decode it on the scope. Use the Grove RBG LCD display, initialise it and periodically write text to the display and set the colour. Spy on the communication, find out the the device IDs of the 2 devices connected to the bus. What do they correspond to? Compare with the library of the Grove display. Record a short communication of a few bytes and decode it.
+%
+\begin{atask}[Building your own \ac{PID} setup]
+  Build an experiment similar to the temperature control, which also uses a \ac{PID} controller. For example you could use the distance sensor and servo motor to build a vehicle that keeps a fixed distance to another object.
+\end{atask}
+%
+If you are interested in building your own \ac{PID} controller system, please first consult the assistant. This task may replace a large fraction of the official tasks above.
+%
+% ----------------------------------------------------------------
+\subsection{I\textsuperscript{2}C protocol debugging (Advanced)}
+Many of the Grove components communicate via \ac{I2C} bus protocol. Using an oscilloscope, it is possible to directly look at the \ac{I2C} signal and manually decode it.
+%
+\begin{atask}[\ac{I2C} decoding]
+  Use the Grove RBG LCD display, initialise it, periodically write text to the display and set the background colour. Spy on the communication, find out the the IDs of the 2 devices connected to the bus. What do they correspond to? Compare with the library of the Grove display. Record a communication of a few bytes and decode it.
+\end{atask}
+% ATASKS END -------------------------------------------------
 
