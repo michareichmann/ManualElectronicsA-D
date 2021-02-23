@@ -12,6 +12,7 @@
 \manualnr{88}
 \version{2.0.0}
 
+\bibliography{backmatter/refs}
 
 \makeindex
 \begin{document}
@@ -37,9 +38,10 @@
 \null\addcontentsline{toc}{section}{\listataskname}
 
 \input{acros}
-\newpage
-\bibliographystyle{plain}
-\bibliography{backmatter/refs}
+\cleardoublepage
+\addcontentsline{toc}{section}{\bibname}
+\printbibliography
+% \bibliographystyle{plain}
 %\includepdf[pages=-]{LM358.pdf}
 %\includepdf[pages=-]{BC547.pdf}
 

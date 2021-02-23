@@ -11,5 +11,7 @@
 *.lof
 *.lot
 *.tsk
+*.bcf
+*.xml
 _*
 *.synctex.gz
