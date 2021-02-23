@@ -222,7 +222,7 @@ Also digital filters can be designed to give low-pass characteristics. Assuming 
   x_i - y_i = \tau\dfrac{y_i - y_{i-1}}{\Delta t}
 \end{equation}
 %
-where $v_{\z{in}}$ is represented by the sequence $(x_0, x_1, \ldots, x_n)$ and $v_{\z{out}}$ represented by $(y_0, y_1, \ldots, y_n)$. By rearranging the terms an equation for the current output can be derived:
+where $v_{\z{in}}$ is represented by the sequence $(x_0, x_1, \ldots, x_n)$ and $v_{\z{out}}$ is represented by the sequence $(y_0, y_1, \ldots, y_n)$. By rearranging the terms an equation for the current output can be derived:
 %
 \begin{equation}
   y_i = \underbrace{x_i\left(\dfrac{\Delta t}{\tau + \Delta t}\right)}_{\z{input}} + \underbrace{y_{i-1}\left(\dfrac{\tau}{\tau + \Delta t}\right)}_{\z{previous output}}

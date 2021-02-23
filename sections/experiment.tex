@@ -89,7 +89,7 @@ void loop() {
 \end{minted}
 %
 That's it. All the methods and constants used in this script are already defined and do not have to be imported explicitly. There is a long list of such predefined constants. Make sure to not redefine them when adding new constants or variables!
-We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct port and choose \fpath{Arduino/Genuino Uno} as board type if it is not already selected.\newline
+We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct port and choose \textbf{Arduino/Genuino Uno} as board type if it is not already selected.
 %
 \begin{task}[Uploading the first sketch]
   First compile the code and then upload it to the Arduino. If everything is working, create a git repository in your sketch folder and commit your first sketch!
@@ -163,7 +163,7 @@ if (now > lastPid + INTERVAL_MICROS_PID) {
 and then use the constant (\mintinline{arduino}{INTERVAL_MICROS_PID}) in the \mintinline{arduino}{if} clause. This makes the code easier to read. Macros with \mintinline{arduino}{#define} do not use space for variables (in contrast to a declaration with \mintinline{arduino}{int ...}), which reduces the memory footprint of your program. Keep in mind that the total RAM is only \SI{2}{\kilo\byte}, which corresponds to only around 500 32-bit integers that you can store! Note, that part of this memory is already used by libraries. Using constants instead of hard-coded numbers is especially important for pin numbers.\par
 %
 \subsubsection{Code documentation}
-Add a short description on the functionality of your program at the top of the code. Include the date and author name. Also comment any non-trivial steps in your code. (Remember: it is in general better to write code in a self-explaining way, such that no comments are necessary. Sometimes though, comments are unavoidable.) \newline
+Add a short description on the functionality of your program at the top of the code. Include the date and author name. Also comment any non-trivial steps in your code. (Remember: it is in general better to write code in a self-explanatory way, such that no comments are necessary. Sometimes though, comments are unavoidable.)
 %
 \begin{task}[Code documentation]
   Always add reasonable documentation to your code, so that it is easy for another person to understand each step of it!
