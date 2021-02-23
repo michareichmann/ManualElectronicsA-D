@@ -22,6 +22,7 @@ The full setup is contained in the box shown in \ar{fig:box}. You will find this
   In addition you should bring a lab book (or any other form of notepad) to note down everything what you do and measure (immediately after the execution). Please write clearly and meticulously since it will greatly help you to find mistakes and to write your report! 
 \end{note}
 %
+\newpage
 \begin{note}[Tidy return]
   If you finish your experiment, please return the setup as shown in \ar{fig:box}, \ar{fig:items} and \ar{fig:grv}. If anything broke during the experiment, please inform the assistant, so that it can be replaced.
 \end{note}
@@ -248,8 +249,7 @@ You can test if you have installed the \mintinline[style=default]{python}{pyseri
   
   port_name = '<arduino_portname>'  # the name of the port is shown in the IDE
   arduino = Serial(portname)  # open serial port of the Arduino
-  
-  line = arduino.readline()   # read a single line of the serial output
+  line = arduino.readline()   # read a single line from the serial output
   
   def save_line(file_name):  
     """ writes a single temperature measurement to the next line of the file [file_name] ."""
