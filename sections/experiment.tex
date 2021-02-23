@@ -235,7 +235,7 @@ student@host:~$ conda install -c anaconda pyserial
 %
 \noindent If you are using \textbf{pip}:
 \begin{minted}{console}
-student@host:~$ sudo pip install pyserial
+student@host:~$ pip install pyserial
 \end{minted}
 %
 You can test if you have installed the \mintinline[style=default]{python}{pyserial} package correctly by typing \mintinline[style=default]{python}{import serial} into a python shell. If this works, you can start writing you python code. An outline of what the code should do is below (python3):
@@ -465,27 +465,14 @@ Remember, that you can adjust the cutoff temperature by adjusting \mintinline{ar
 \begin{task}[Optimising the \ac{PID} parameters]
   Now optimise the three parameters reasonably well to have fast convergence and low fluctuations after a certain time and plot the temperature versus time. Also detune the parameters to produce slower convergence and/or overshooting/oscillations and show both curves in a single plot.
 \end{task}
-%
-\noindent\begin{minipage}{\textwidth}
-\begin{lstlisting}[language=Arduino]
-temperature = (1-LOWPASS_ALPHA) * temperature + LOWPASS_ALPHA * temperature_current;
-\end{lstlisting}
-\end{minipage}
-
-where \code{temperature\_current} is the actual reading from the sensor and \code{temperature} (which has to be properly initialized once to be the sensor reading!) the output of the filter. \code{\var{LOWPASS\_ALPHA}} and the interval between two measurements $\Delta t$ control the cut-off frequency of the lowpass filter. Set it to a reasonable value which suppresses the noise and is still fast enough for the timescale of temperature changes we expect (order of few degrees per second). It can also be computed analytically:
-
-
 % PID END --------------------------------------------------------
 %
 \subsection{Advanced tasks}
-
-\fbox{
-  \parbox{0.9\textwidth}{
-    \textbf{All of the following tasks are optional. They can be used to replace some of the other tasks if agreed on with the assistant.}
-  }
-}
-
-
+%
+\begin{note}[Advanced tasks]
+  All of the following tasks are optional. They can be used to replace some of the other tasks if agreed on with the assistant.
+\end{note}
+%
 \subsection{Fit heating/cooling(Advanced)}
 Take the two-point controller and set the two setpoints far from each other, but still in achievable range. For heating and cooling process, find a suitable function to describe the data and perform a fit of the model to data. List the fit parameters (with uncertainties!) and repeat this for several cycles. Take special care on correlation of input uncertainties in the fit and explain in the report why this is an issue here and what effect it would have to neglect correlations. Also look at the uncertainties and correlations of the fitted parameters.
 Are the uncertainties obtained by repeating the experiment consistent with the uncertainties from the fit? If not discuss why.
