@@ -18,11 +18,11 @@ The full setup is contained in the box shown in \ar{fig:box}. You will find this
   \ac{NTC} thermistor & B57164-K104-J & \href{https://eu.mouser.com/datasheet/2/400/NTC_Leaded_disks_K164-1317145.pdf}{Link}\\
 }[Item manuals.][tab:man]
 %
+\newpage
 \begin{note}[Lab notes]
   In addition you should bring a lab book (or any other form of notepad) to note down everything what you do and measure (immediately after the execution). Please write clearly and meticulously since it will greatly help you to find mistakes and to write your report! 
 \end{note}
 %
-\newpage
 \begin{note}[Tidy return]
   If you finish your experiment, please return the setup as shown in \ar{fig:box}, \ar{fig:items} and \ar{fig:grv}. If anything broke during the experiment, please inform the assistant, so that it can be replaced.
 \end{note}
@@ -91,6 +91,7 @@ void loop() {
 That's it. All the methods and constants used in this script are already defined and do not have to be imported explicitly. There is a long list of such predefined constants. Make sure to not redefine them when adding new constants or variables!
 We are now ready to test the communication of the Arduino board with the computer and test if flashing the code works. Make sure to select the correct port and choose \textbf{Arduino/Genuino Uno} as board type if it is not already selected.
 %
+\newpage
 \begin{task}[Uploading the first sketch]
   First compile the code and then upload it to the Arduino. If everything is working, create a git repository in your sketch folder and commit your first sketch!
 \end{task}
@@ -165,9 +166,9 @@ and then use the constant (\mintinline{arduino}{INTERVAL_MICROS_PID}) in the \mi
 \subsubsection{Code documentation}
 Add a short description on the functionality of your program at the top of the code. Include the date and author name. Also comment any non-trivial steps in your code. (Remember: it is in general better to write code in a self-explanatory way, such that no comments are necessary. Sometimes though, comments are unavoidable.)
 %
-\begin{task}[Code documentation]
+\begin{note}[Code documentation]
   Always add reasonable documentation to your code, so that it is easy for another person to understand each step of it!
-\end{task}
+\end{note}
 % TIPS END ------------------------------------------------------
 %
 % T-GROVE BEGIN -------------------------------------------------
