@@ -1,44 +1,25 @@
-\def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill \kern \z@}
-
-\newcommand{\cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{+}}  \nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\textbf{+}}~}
+% ABBREVIATIONS
 \newcommand{\z}{\text}
-\newcommand{\terminal}[1]{\colorbox{black}{\textcolor{white}{{\fontfamily{phv}\selectfont \scriptsize{#1}}}}}
-\newcommand{\plugin}[1]{\textit{\flq#1\frq}}
-\newcommand{\ra}{$\rightarrow$ }
 \newcommand{\ar}{\autoref}
-\newcommand{\good}[1]{{\usebeamercolor[fg]{title}{\textbf{#1}}}}
-\newcommand{\bad}[1]{\textcolor{RedOrange}{\textbf{#1}}}
-\newcommand{\dead}[1]{\textcolor{NavyBlue}{\textbf{#1}}}
-\newcommand{\cmark}{\good{\ding{51}}}
-\newcommand{\xmark}{\bad{\ding{55}}}
-\newcommand{\itemfill}{\setlength{\itemsep}{\fill}}
-\newcommand{\orderof}[1]{$\mathcal{O}\left(#1\right)$}
+\newcommand{\eg}{e.\,g.~}
 
-%\newcommand{\code}[1]{{\footnotesize\dejavu #1}}
+% UTILS
+\newcommand{\cpp}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{+}}  \nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\textbf{+}}~}
 \newcommand{\code}[1]{{\footnotesize #1}}
 \newcommand{\fpath}[1]{\mintinline{control}{#1}}
-\newcommand{\eg}{e.\,g.~}
 \newcommand{\mdfsetblack}{\mdfsetup{backgroundcolor=black!75, linecolor=black}}
 \newcommand{\mdfsetgrey}{\mdfsetup{backgroundcolor=gray!5, linecolor=black!10}}
 
-\newcommand{\var}[1]{\textcolor{JungleGreen}{#1}}
-\newcommand{\meth}[1]{\textcolor{RedOrange}{#1}}
-\newcommand{\incl}[1]{\textcolor{YellowGreen!70!RawSienna!100}{#1}}
-\newcommand{\str}[1]{\textcolor{MidnightBlue!60!black!100}{#1}}
-\newcommand{\tline}[1]{\noalign{\hrule height #1pt}}
-\newcommand{\fatwhite}[1]{\multicolumn{1}{c}{\textcolor{white}{\textbf{#1}}}}
-\renewcommand\tabularxcolumn[1]{m{#1}}
-\newcommand{\alternatecolors}{\rowcolors{2}{YellowOrange!10}{ProcessBlue!10}}
-\newcommand{\missfig}[1][.5]{\begin{center} \missingfigure[figheight=#1\textheight,figwidth=#1\textheight, figcolor=white]{}\end{center}}
-% \newcommand{\caplab}[2]{\ifthenelse{\equal{#1}{nocap}}{}{\caption{#1}}\ifthenelse{\equal{#2}{nolab}}{}{\label{#2}}}
-\NewDocumentCommand{\caplab}{O{} O{} O{}}{\ifthenelse{\equal{#1}{\empty}}{}{\ifthenelse{\equal{#3}{\empty}}{\caption{#1}}{\caption[#3]{#1}}}\ifthenelse{\equal{#2}{\empty}}{}{\label{#2}}}
+% DOCUMENT COMMANDS
+\NewDocumentCommand{\caplab}{
+  O{} O{} O{}}{\ifthenelse{\equal{#1}{\empty}}{}{\ifthenelse{\equal{#3}{\empty}}{\caption{#1}}{\caption[#3]{#1}}}\ifthenelse{\equal{#2}{\empty}}{}{\label{#2}}}
 \newcommand{\pic}[3]{\ifthenelse{\equal{#1}{r}}{\includegraphics[height={#2\linewidth}, angle=-90]{#3}}{\includegraphics[width={#2\linewidth}]{#3}}}
 %SUBFIG
 \DeclareDocumentCommand{\subfig}{O{.45} O{0} m m O{} O{}}
 	{\begin{subfigure}{#1\linewidth}\vspace*{#2\textheight}\centering\includegraphics[height={#3\textheight}]{#4}\caplab[#5][#6]\end{subfigure}}
 %SUBFIGS
 \DeclareDocumentCommand{\subfigs}{O{fig} m m O{} O{} O{}}{\begin{figure}[ht!]\centering\ifthenelse{\equal{#1}{fig}}{}{#1\hspace*{.05\linewidth}}#2\hspace*{.05\linewidth}#3\caplab[#4][#5][#6]\end{figure}}
-%FIG
+% FIG
 \DeclareDocumentCommand{\fig}{O{n} m m O{} O{} O{}}{\begin{figure}[ht!]\centering\pic{#1}{#2}{#3}\caplab[#4][#5][#6]\end{figure}}
 % WRAPFIG
 \DeclareDocumentCommand{\wrapfig}{O{l} m m O{} O{} O{}}{
